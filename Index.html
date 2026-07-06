@@ -1,0 +1,957 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>the ceed diaries</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Caveat:wght@500;600;700&family=Nunito:ital,wght@0,400;0,500;0,600;0,700;0,800;1,500&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+/* ============================= TOKENS ============================= */
+:root{
+  --paper:#FBF5EC;
+  --paper-deep:#F3E9DA;
+  --card:#FFFDF9;
+  --rose:#D9738C;
+  --rose-soft:#F4C9D3;
+  --rose-pale:#FBE4E9;
+  --lav:#8E79C9;
+  --lav-soft:#DCD3F0;
+  --lav-pale:#EFE9FA;
+  --sage:#5C9E82;
+  --sage-soft:#C9E3D3;
+  --sage-pale:#E6F3EA;
+  --gold:#DB9A3F;
+  --gold-soft:#F2DBAF;
+  --gold-pale:#FBEEDA;
+  --ink:#4A3B45;
+  --ink-soft:#8A7B84;
+  --line:#E9DECF;
+  --shadow: 0 8px 24px -8px rgba(74,59,69,0.18);
+  --shadow-lg: 0 20px 45px -15px rgba(74,59,69,0.28);
+}
+*{box-sizing:border-box;}
+html,body{margin:0;padding:0;}
+body{
+  background:
+    radial-gradient(circle at 1px 1px, rgba(74,59,69,0.045) 1px, transparent 0) 0 0/16px 16px,
+    linear-gradient(180deg, var(--paper), var(--paper-deep) 900px, var(--paper) 1800px);
+  font-family:'Nunito', sans-serif;
+  color:var(--ink);
+  min-height:100vh;
+  -webkit-font-smoothing:antialiased;
+}
+h1,h2,h3,.hand{font-family:'Caveat', cursive; font-weight:700;}
+.mono{font-family:'Space Mono', monospace;}
+::selection{background:var(--rose-soft);}
+::-webkit-scrollbar{width:10px;height:10px;}
+::-webkit-scrollbar-thumb{background:var(--rose-soft);border-radius:10px;}
+::-webkit-scrollbar-track{background:transparent;}
+button{font-family:'Nunito',sans-serif; cursor:pointer;}
+a{color:var(--rose); }
+:focus-visible{outline:3px solid var(--lav); outline-offset:2px; border-radius:6px;}
+
+/* ============================= LAYOUT ============================= */
+#app{display:flex; min-height:100vh;}
+
+/* ---- sidebar: notebook tab index ---- */
+#sidebar{
+  width:230px; flex:none; position:sticky; top:0; height:100vh;
+  padding:26px 0 26px 18px;
+  display:flex; flex-direction:column; gap:6px;
+}
+.brand{
+  padding:4px 16px 22px 6px;
+}
+.brand .hand{font-size:30px; color:var(--rose); line-height:1;}
+.brand .sub{font-size:12px; color:var(--ink-soft); letter-spacing:.06em; text-transform:uppercase; margin-top:2px; font-family:'Space Mono',monospace;}
+
+.navtab{
+  display:flex; align-items:center; gap:10px;
+  padding:11px 16px; margin-right:0;
+  border-radius:14px 0 0 14px;
+  background:transparent; border:none;
+  font-size:15.5px; color:var(--ink-soft); font-weight:700;
+  text-align:left; position:relative;
+  transition:transform .18s ease, background .18s ease, color .18s ease, box-shadow .18s ease;
+}
+.navtab:hover{background:rgba(217,115,140,0.08); color:var(--ink); transform:translateX(2px);}
+.navtab.active{
+  background:var(--card); color:var(--ink);
+  box-shadow: -2px 4px 14px rgba(74,59,69,0.14);
+  transform:translateX(8px);
+}
+.navtab.active::after{
+  content:""; position:absolute; right:-1px; top:0; bottom:0; width:5px;
+  background:var(--tab-color, var(--rose)); border-radius:6px 0 0 6px;
+}
+.navtab .ico{font-size:18px;}
+.sidebar-foot{margin-top:auto; padding:14px 16px 0 6px; font-size:11.5px; color:var(--ink-soft); font-family:'Space Mono',monospace;}
+
+/* ---- main ---- */
+#main{flex:1; padding:30px 40px 80px; max-width:1180px;}
+.pagehead{margin-bottom:22px; display:flex; align-items:baseline; justify-content:space-between; gap:16px; flex-wrap:wrap;}
+.pagehead h1{font-size:40px; color:var(--ink); margin:0 0 2px;}
+.pagehead p{margin:0; color:var(--ink-soft); font-size:14.5px;}
+.view{animation:riseIn .38s ease both;}
+@keyframes riseIn{from{opacity:0; transform:translateY(10px);} to{opacity:1; transform:translateY(0);}}
+
+/* ============================= CARD / SCRAPBOOK BITS ============================= */
+.card{
+  background:var(--card); border-radius:18px; padding:20px 22px;
+  box-shadow:var(--shadow); border:1px solid var(--line);
+  position:relative;
+}
+.card.tilt-l{transform:rotate(-0.6deg);}
+.card.tilt-r{transform:rotate(0.6deg);}
+.card:hover{box-shadow:var(--shadow-lg);}
+
+.tape{
+  position:absolute; height:26px; width:90px; top:-13px; left:50%; transform:translateX(-50%) rotate(-2deg);
+  background:repeating-linear-gradient(45deg, rgba(255,255,255,.35) 0 6px, rgba(255,255,255,.12) 6px 12px), var(--tape-color, var(--gold-soft));
+  opacity:.88; border-radius:2px; box-shadow:0 2px 4px rgba(0,0,0,.08);
+}
+.tape.left{left:18px; transform:rotate(-4deg);}
+.tape.right{left:auto; right:18px; transform:rotate(4deg);}
+
+.sticker{
+  display:inline-flex; align-items:center; justify-content:center;
+  width:34px; height:34px; border-radius:50%; font-size:17px;
+  background:var(--sticker-bg, var(--rose-pale)); box-shadow:0 2px 6px rgba(74,59,69,.15);
+  transform:rotate(-6deg);
+}
+
+.grid{display:grid; gap:18px;}
+.grid.cols-2{grid-template-columns:1fr 1fr;}
+.grid.cols-3{grid-template-columns:repeat(3,1fr);}
+.grid.cols-4{grid-template-columns:repeat(4,1fr);}
+@media(max-width:1000px){.grid.cols-2,.grid.cols-3,.grid.cols-4{grid-template-columns:1fr 1fr;}}
+
+.badge{
+  display:inline-flex; align-items:center; gap:6px; font-size:12px; font-weight:800;
+  padding:4px 11px; border-radius:99px; font-family:'Space Mono',monospace;
+  background:var(--pale, var(--rose-pale)); color:var(--deep,var(--rose));
+}
+
+.btn{
+  border:none; border-radius:99px; padding:9px 18px; font-weight:800; font-size:13.5px;
+  background:var(--rose); color:#fff; box-shadow:0 4px 12px -4px rgba(217,115,140,.6);
+  transition:transform .15s ease, box-shadow .15s ease;
+}
+.btn:hover{transform:translateY(-2px); box-shadow:0 8px 18px -6px rgba(217,115,140,.7);}
+.btn.ghost{background:transparent; color:var(--ink); border:2px solid var(--line); box-shadow:none;}
+.btn.ghost:hover{border-color:var(--rose-soft); transform:translateY(-2px);}
+.btn.sage{background:var(--sage); box-shadow:0 4px 12px -4px rgba(92,158,130,.6);}
+.btn.lav{background:var(--lav); box-shadow:0 4px 12px -4px rgba(142,121,201,.6);}
+.btn.sm{padding:6px 13px; font-size:12px;}
+
+input[type=text], input[type=date], input[type=number], input[type=url], textarea, select{
+  font-family:'Nunito',sans-serif; border:2px solid var(--line); background:#fff;
+  border-radius:12px; padding:9px 12px; font-size:14px; color:var(--ink); width:100%;
+}
+input:focus, textarea:focus, select:focus{border-color:var(--rose-soft);}
+textarea{resize:vertical; min-height:70px;}
+label.field{display:block; font-size:12px; font-weight:800; color:var(--ink-soft); margin-bottom:5px; font-family:'Space Mono',monospace; text-transform:uppercase; letter-spacing:.04em;}
+
+hr.tear{
+  border:none; height:10px; margin:16px 0;
+  background: repeating-linear-gradient(-90deg, transparent 0 6px, var(--line) 6px 8px);
+  mask-image: linear-gradient(90deg,#000,#000);
+}
+
+/* checklist item */
+.item{
+  display:flex; align-items:flex-start; gap:10px; padding:9px 4px; border-radius:10px;
+  transition:background .15s ease;
+}
+.item:hover{background:rgba(217,115,140,.06);}
+.chk{
+  width:21px; height:21px; border-radius:7px; border:2.5px solid var(--rose-soft); flex:none; margin-top:1px;
+  display:flex; align-items:center; justify-content:center; background:#fff; transition:all .15s ease;
+}
+.chk.done{background:var(--rose); border-color:var(--rose);}
+.chk.done::after{content:"✓"; color:#fff; font-size:13px; font-weight:800;}
+.item-text{flex:1; font-size:14.5px; line-height:1.4;}
+.item-text.done{color:var(--ink-soft); text-decoration:line-through; text-decoration-color:var(--rose-soft);}
+.dots{display:flex; gap:3px; flex:none;}
+.dot{width:9px; height:9px; border-radius:50%; background:#e8ddd0; border:none; padding:0; transition:background .12s;}
+.dot.on{background:var(--gold);}
+
+/* progress ring */
+.ring{width:74px; height:74px; border-radius:50%; display:flex; align-items:center; justify-content:center; position:relative;
+  background:conic-gradient(var(--ring-color,var(--rose)) calc(var(--p,0)*1%), #EFE4D6 0);}
+.ring::before{content:""; position:absolute; inset:7px; background:var(--card); border-radius:50%;}
+.ring span{position:relative; font-family:'Space Mono',monospace; font-weight:700; font-size:14px;}
+
+.progressbar{height:10px; border-radius:99px; background:#EFE4D6; overflow:hidden;}
+.progressbar > i{display:block; height:100%; border-radius:99px; background:var(--bar,var(--rose)); transition:width .5s cubic-bezier(.22,1,.36,1);}
+
+/* empty state */
+.empty{border:2.5px dashed var(--line); border-radius:16px; padding:34px 20px; text-align:center; color:var(--ink-soft);}
+.empty .hand{font-size:24px; color:var(--ink); display:block; margin-bottom:4px;}
+
+/* polaroid */
+.polaroid{background:#fff; padding:10px 10px 34px; border-radius:6px; box-shadow:var(--shadow); position:relative;}
+.polaroid img{width:100%; height:150px; object-fit:cover; border-radius:2px; display:block; background:var(--paper-deep);}
+.polaroid figcaption{position:absolute; bottom:8px; left:12px; right:12px; font-family:'Caveat',cursive; font-size:17px; color:var(--ink); white-space:nowrap; overflow:hidden; text-overflow:ellipsis;}
+
+/* heatmap */
+.heatgrid{display:grid; grid-template-columns:repeat(auto-fill,minmax(15px,1fr)); gap:4px;}
+.heatcell{aspect-ratio:1; border-radius:4px; background:#EFE4D6;}
+
+/* toast */
+#toast{position:fixed; bottom:26px; left:50%; transform:translateX(-50%) translateY(20px); opacity:0;
+  background:var(--ink); color:#fff; padding:10px 20px; border-radius:99px; font-size:13.5px; font-weight:700;
+  box-shadow:var(--shadow-lg); transition:all .3s ease; z-index:999; pointer-events:none;}
+#toast.show{opacity:1; transform:translateX(-50%) translateY(0);}
+
+.subtle{color:var(--ink-soft); font-size:13px;}
+.two-col{display:grid; grid-template-columns:1.3fr 1fr; gap:18px;}
+@media(max-width:1000px){.two-col{grid-template-columns:1fr;}}
+.flexrow{display:flex; align-items:center; gap:10px; justify-content:space-between;}
+
+.tag{display:inline-block; font-size:11px; font-weight:800; padding:3px 9px; border-radius:99px; background:var(--lav-pale); color:var(--lav); font-family:'Space Mono',monospace; margin-right:5px;}
+
+.iconbtn{background:none; border:none; color:var(--ink-soft); font-size:16px; padding:4px 6px; border-radius:8px;}
+.iconbtn:hover{background:rgba(74,59,69,.08); color:var(--ink);}
+
+@media(max-width:820px){
+  #app{flex-direction:column;}
+  #sidebar{position:relative; height:auto; width:100%; flex-direction:row; overflow-x:auto; padding:14px 14px 10px;}
+  .brand{display:none;}
+  .navtab{border-radius:12px; flex:none;}
+  .navtab.active{transform:none;}
+  #main{padding:20px;}
+}
+</style>
+</head>
+<body>
+<div id="app">
+  <nav id="sidebar"></nav>
+  <main id="main"></main>
+</div>
+<div id="toast"></div>
+
+<script>
+/* =====================================================================
+   DATA — seeded from the CEED Master Roadmap
+===================================================================== */
+const PART_A = [
+ {id:'vis', emoji:'🧩', color:'rose', title:'Visualization & Spatial Ability', items:[
+   "Mental rotation of 2D shapes and 3D solids","Folding/unfolding nets of cubes, boxes, and polyhedra",
+   "Identifying rotated, mirrored, or pixelated versions of a reference image","Isometric view identification from orthographic views",
+   "Orthographic view identification from isometric/3D views","Water reflection and mirror image reasoning",
+   "Pattern completion (visual sequences, missing tile/piece)","Cubes and dice problems (painted faces, opposite faces)",
+   "Paper folding and cutting (predict the unfolded pattern)","Assembling/disassembling views of 3D objects (exploded view)",
+   "Shadow and projection reasoning","Counting hidden shapes/lines/triangles in a composite figure"]},
+ {id:'obs', emoji:'👀', color:'lav', title:'Observation & Design Sensitivity', items:[
+   "Detecting concealed/non-obvious properties in everyday objects","Form vs. function analysis of products",
+   "Classification of objects/images by shared attribute","Odd-one-out reasoning","Analysis, inference & prediction from a visual scenario",
+   "Basic principles of design: balance, proportion, rhythm, hierarchy, unity, contrast","Evolution of everyday objects/materials across time",
+   "Ergonomics basics — fit between object, user, context","Aesthetics and technical drawing sensitivity"]},
+ {id:'prac', emoji:'⚙️', color:'sage', title:'Practical & Scientific Knowledge', items:[
+   "How everyday mechanisms work: levers, hinges, gears, pulleys, joints","Basic mechanics/physics relevant to product function",
+   "Material properties: wood, metal, plastic, glass, textile, composites","Manufacturing basics: molding, casting, joinery, 3D printing",
+   "Photography terminology: aperture, exposure, framing","Printing terminology: CMYK vs RGB, DPI, paper types",
+   "Audio-video terminology: resolutions, aspect ratios, frame rate","Basic biomechanics (human movement)"]},
+ {id:'env', emoji:'🌍', color:'gold', title:'Environment & Society', items:[
+   "Environmental awareness: sustainability, recycling, circular design","Social and cultural connections to design (regional crafts, vernacular)",
+   "Accessibility and inclusive/universal design principles","Current design-relevant social issues (mobility, waste, public health)",
+   "Awareness of major design-for-social-impact projects"]},
+ {id:'reason', emoji:'🧠', color:'rose', title:'Analytical & Logical Reasoning', items:[
+   "Verbal reasoning: analogy, classification, series completion","Non-verbal reasoning: figure series, matrix completion, pattern logic",
+   "Syllogisms and basic deductive reasoning","Blood relations, direction sense, simple puzzles","Coding-decoding problems",
+   "Sequential/step-by-step logic puzzles","Statement-conclusion / statement-assumption reasoning"]},
+ {id:'maths', emoji:'🔢', color:'lav', title:'Mathematics / Quantitative Aptitude', items:[
+   "Number systems: factors, multiples, LCM & HCF","Ratio & proportion","Percentages","Profit & loss (basic)",
+   "Simple & compound interest (basic awareness)","Averages","Time, speed & distance","Time & work",
+   "Permutations & combinations (basic)","Basic probability","Mensuration: area & perimeter (2D)",
+   "Mensuration: surface area & volume (3D)","Geometry basics: angles, triangles, circles, polygons",
+   "Estimation problems (real-world quantity)","Simple data interpretation"]},
+ {id:'eng', emoji:'📖', color:'sage', title:'English / Language', items:[
+   "Reading comprehension (inference-based)","Vocabulary: synonyms","Vocabulary: antonyms","Idioms and phrases",
+   "One-word substitution","Sentence correction (grammar errors)","Sentence completion / fill in the blank",
+   "Para-jumbles","Basic grammar: tenses, articles, prepositions, subject-verb agreement","Analogies (word relationships)"]},
+ {id:'ga', emoji:'🏛️', color:'gold', title:'GA / Design & Art Knowledge', items:[
+   "Famous designers (Indian & global) and landmark work","Iconic/innovative products and their design story",
+   "Major design movements (Bauhaus, Art Deco, Modernism, Memphis)","Design terminology (typography, colour theory, hierarchy)",
+   "Notable Indian & international design institutions","Current affairs with design relevance",
+   "Notable global personalities — tech, sports, fine arts","Design disciplines: product, graphic, animation, UX, textile, transport",
+   "Basic art history touchpoints","Contemporary design/tech trends (AI, sustainable materials)"]},
+ {id:'creat', emoji:'💡', color:'rose', title:'Creativity & Design Methods', items:[
+   "Divergent/lateral thinking style questions","Design process: research → ideation → prototyping → testing",
+   "Identifying the \"most creative\"/\"most unconventional\" option","Recognizing design-thinking principles in a scenario"]},
+];
+const PART_B = [
+ {id:'draw', emoji:'✏️', color:'lav', title:'Drawing', items:[
+   "Freehand sketching of objects in proportion","Freehand sketching of people/figures","Freehand sketching of scenes/environments",
+   "Memory drawing (no reference)","Line quality control","Shading & rendering basics","Composition within a given frame/panel",
+   "One-point and two-point perspective"]},
+ {id:'ideacreat', emoji:'💡', color:'sage', title:'Creativity', items:[
+   "Idea generation under stated constraints","Generating multiple diverse solutions","Originality under time pressure",
+   "Adapting an idea across different contexts/users"]},
+ {id:'comm', emoji:'💬', color:'gold', title:'Communication', items:[
+   "Visual storytelling (4–6 panel sequential narrative)","Explaining a concept through sketch + short text",
+   "Written design-rationale","Clarity/legibility under time pressure"]},
+ {id:'prob', emoji:'🔍', color:'rose', title:'Problem Identification', items:[
+   "Understanding user needs & contextual constraints","Spotting flaws/opportunities in a scenario or object",
+   "Applying appropriate materials/mechanisms","Social-relevance & environmental-sensitivity framing"]},
+ {id:'opt', emoji:'🎯', color:'lav', title:'Optional Specialisation Track', items:[
+   "Product Design — physical product ideation, form, mechanism, materials",
+   "Animation — sequential/motion thinking, character/story prompts",
+   "Visual Communication — graphic/typographic problem solving, information design",
+   "Interaction Design — screen/system/service flows, user journeys"]},
+];
+
+const ROADMAP = [
+ {wk:1, range:"Jul 7–13", phase:"Foundation", color:'rose', topics:"Diagnostic full paper; set up trackers; start daily sketching; download official brochure/PYQs"},
+ {wk:2, range:"Jul 14–20", phase:"Foundation", color:'rose', topics:"Confidence-map every topic (1–5 self rating); daily sketching continues"},
+ {wk:3, range:"Jul 21–27", phase:"Foundation", color:'rose', topics:"Maths intro: number systems, LCM/HCF, ratio & proportion, percentages, averages"},
+ {wk:4, range:"Jul 28–31", phase:"Foundation", color:'rose', topics:"Maths cont'd: profit/loss, SI/CI, time-speed-distance, time-and-work"},
+ {wk:5, range:"Aug 1–7", phase:"Part A Deep Dive", color:'lav', topics:"Visualization & spatial ability — rotation, folding, isometric/orthographic, cubes & dice, shadow/projection"},
+ {wk:6, range:"Aug 8–14", phase:"Part A Deep Dive", color:'lav', topics:"Observation & design sensitivity; Maths: permutations & combinations, basic probability"},
+ {wk:7, range:"Aug 15–21", phase:"Part A Deep Dive", color:'lav', topics:"Practical & scientific knowledge; Maths: mensuration, geometry basics, estimation"},
+ {wk:8, range:"Aug 22–31", phase:"Part A Deep Dive", color:'lav', topics:"Reasoning; Environment & Society; English full sweep; 1 full Part-A-only timed mock"},
+ {wk:9, range:"Sep 1–7", phase:"Part B Deep Dive", color:'sage', topics:"Drawing fundamentals; GA: famous designers & design movements"},
+ {wk:10, range:"Sep 8–14", phase:"Part B Deep Dive", color:'sage', topics:"Idea generation under constraints (Creativity); GA: iconic products, terminology"},
+ {wk:11, range:"Sep 15–21", phase:"Part B Deep Dive", color:'sage', topics:"Visual storytelling + design-rationale (Communication); decide optional track"},
+ {wk:12, range:"Sep 22–30", phase:"Part B Deep Dive", color:'sage', topics:"Problem identification + optional-track practice; 1 full Part-B-only timed mock"},
+ {wk:13, range:"Oct 1–7", phase:"Integration & PYQs", color:'gold', topics:"2 full past papers, real timing; log every mistake by exact topic"},
+ {wk:14, range:"Oct 8–14", phase:"Integration & PYQs", color:'gold', topics:"2–3 more past papers; re-drill Maths/English/GA sub-topics that came up wrong"},
+ {wk:15, range:"Oct 15–21", phase:"Integration & PYQs", color:'gold', topics:"2–3 more past papers; re-attempt hardest Part B prompts; retry optional track"},
+ {wk:16, range:"Oct 22–31", phase:"Integration & PYQs", color:'gold', topics:"Finish 10+ full papers; mid-roadmap review against the full checklist"},
+ {wk:17, range:"Nov 1–7", phase:"Full Mocks", color:'rose', topics:"Full 3-hr mock #1; targeted fixing of weakest 2 checklist items"},
+ {wk:18, range:"Nov 8–14", phase:"Full Mocks", color:'rose', topics:"Full 3-hr mock #2; daily drilling of single weakest area"},
+ {wk:19, range:"Nov 15–21", phase:"Full Mocks", color:'rose', topics:"Full 3-hr mock #3; re-test previously weak topics"},
+ {wk:20, range:"Nov 22–30", phase:"Full Mocks", color:'rose', topics:"Full 3-hr mock #4 (final); compile personal cheat sheet"},
+];
+const PHASES = ["Foundation","Part A Deep Dive","Part B Deep Dive","Integration & PYQs","Full Mocks"];
+const PHASE_COLOR = {"Foundation":'rose',"Part A Deep Dive":'lav',"Part B Deep Dive":'sage',"Integration & PYQs":'gold',"Full Mocks":'rose'};
+
+const RHYTHM = [
+ {day:"Mon", emoji:"✏️", act:"Part A topic drill + Object/Product sketch study", time:"45–75 min"},
+ {day:"Tue", emoji:"🧍", act:"Figure/People gesture sketch + light review", time:"45–60 min"},
+ {day:"Wed", emoji:"🏙️", act:"Idea generation / storytelling prompt + Scene sketch", time:"45–75 min"},
+ {day:"Thu", emoji:"🧩", act:"Part A drill + GA reading + Memory drawing", time:"45–75 min"},
+ {day:"Fri", emoji:"🌈", act:"Shading/rendering or idea sketch + design-rationale writing", time:"45–60 min"},
+ {day:"Sat", emoji:"⏱️", act:"Longer block — PYQ set / timed mixed mock", time:"90–120 min"},
+ {day:"Sun", emoji:"🌞", act:"Review mistakes vs. checklist; warm-up sketch; rest", time:"30–45 min"},
+];
+const GA_FACTS = [
+ "Dieter Rams' 10 principles of good design still shape product design curricula worldwide.",
+ "The Bauhaus (1919–1933) fused craft and industry — its 'form follows function' ethos underpins most modern product design.",
+ "CMYK is subtractive (print), RGB is additive (screens) — a favourite CEED practical-knowledge trap.",
+ "Ergonomics studies the fit between people, products, and context — central to most CEED observation questions.",
+ "Memphis Design (1980s Italy) rebelled against minimalism with bold colour and playful geometric form.",
+ "A cone's volume is exactly one-third of a cylinder with the same base and height — a quick mensuration shortcut.",
+ "Isometric projection keeps all three axes at 120° to each other — no vanishing points, unlike perspective drawing.",
+ "The Eameses pioneered plywood moulding techniques that changed 20th-century furniture manufacturing.",
+ "Circular design aims to eliminate waste by keeping materials in use — a recurring 'Environment & Society' theme.",
+ "Braun's product design language under Rams directly influenced Apple's design philosophy decades later.",
+];
+
+const DEFAULT_RESOURCES = [
+ {id:cid(), title:"Official CEED Brochure & Sample Papers", url:"https://www.ceed.iitb.ac.in", category:"Official", note:"Check every year for the latest sample papers and mark distribution."},
+ {id:cid(), title:"NID / NATA visualization drill sets", url:"", category:"Practice", note:"Good supplementary spatial-reasoning practice."},
+];
+
+/* =====================================================================
+   STORAGE HELPERS
+===================================================================== */
+function cid(){ return Math.random().toString(36).slice(2,10)+Date.now().toString(36); }
+async function sGet(key, fallback){
+  try{ const r = await window.storage.get(key); return r ? JSON.parse(r.value) : fallback; }
+  catch(e){ return fallback; }
+}
+async function sSet(key, value){
+  try{ await window.storage.set(key, JSON.stringify(value)); }catch(e){ console.error('storage set failed', key, e); }
+}
+function toast(msg){
+  const t = document.getElementById('toast'); t.textContent = msg; t.classList.add('show');
+  clearTimeout(window.__toastT); window.__toastT = setTimeout(()=>t.classList.remove('show'), 1900);
+}
+function dayKey(d){ const x = d||new Date(); return x.toISOString().slice(0,10); }
+function fmtDate(iso){ const d = new Date(iso+"T00:00:00"); return d.toLocaleDateString(undefined,{month:'short',day:'numeric',year:'numeric'}); }
+function esc(s){ return (s||'').replace(/[&<>"']/g, c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
+
+/* =====================================================================
+   APP STATE
+===================================================================== */
+const STATE = { section:'dashboard', subjects:null, roadmap:null, planner:null, habits:null, sketchIndex:null, pyq:null, resources:null, mocks:null, journal:null };
+
+async function loadAll(){
+  STATE.subjects = await sGet('subjects', null);
+  if(!STATE.subjects){
+    STATE.subjects = {};
+    [...PART_A, ...PART_B].forEach(s=>{
+      STATE.subjects[s.id] = { items: s.items.map(t=>({id:cid(), text:t, done:false, conf:0})) };
+    });
+    await sSet('subjects', STATE.subjects);
+  }
+  STATE.roadmap = await sGet('roadmap', null);
+  if(!STATE.roadmap){
+    STATE.roadmap = {}; ROADMAP.forEach(w=> STATE.roadmap[w.wk] = {done:false, notes:""});
+    await sSet('roadmap', STATE.roadmap);
+  }
+  STATE.planner = await sGet('planner', {byDate:{}});
+  STATE.habits = await sGet('habits', null);
+  if(!STATE.habits){
+    STATE.habits = { list:[
+      {id:cid(), name:"Daily sketch", emoji:"✏️"},
+      {id:cid(), name:"GA / current affairs read", emoji:"🏛️"},
+      {id:cid(), name:"Maths / reasoning drill", emoji:"🔢"},
+      {id:cid(), name:"Revision review", emoji:"🎯"},
+    ], log:{} };
+    await sSet('habits', STATE.habits);
+  }
+  STATE.sketchIndex = await sGet('sketchbook-index', []);
+  STATE.pyq = await sGet('pyq', []);
+  STATE.resources = await sGet('resources', null);
+  if(!STATE.resources){ STATE.resources = DEFAULT_RESOURCES; await sSet('resources', STATE.resources); }
+  STATE.mocks = await sGet('mocks', []);
+  STATE.journal = await sGet('journal', []);
+}
+
+/* =====================================================================
+   SIDEBAR
+===================================================================== */
+const NAV = [
+ {id:'dashboard', label:'Dashboard', ico:'🏡', color:'rose'},
+ {id:'subjects', label:'Subjects', ico:'📚', color:'lav'},
+ {id:'roadmap', label:'Roadmap', ico:'🗺️', color:'sage'},
+ {id:'planner', label:'Planner', ico:'📅', color:'gold'},
+ {id:'habits', label:'Habits', ico:'🔥', color:'rose'},
+ {id:'sketchbook', label:'Sketchbook', ico:'🖼️', color:'lav'},
+ {id:'pyq', label:'Past Papers', ico:'📄', color:'sage'},
+ {id:'resources', label:'Resources', ico:'🔖', color:'gold'},
+ {id:'mocks', label:'Mock Tracker', ico:'🧪', color:'rose'},
+ {id:'revision', label:'Revision', ico:'🎯', color:'lav'},
+ {id:'journal', label:'Journal', ico:'📓', color:'sage'},
+];
+function renderSidebar(){
+  const el = document.getElementById('sidebar');
+  el.innerHTML = `
+    <div class="brand"><div class="hand">the ceed diaries</div><div class="sub">Palak's prep notebook</div></div>
+    ${NAV.map(n=>`<button class="navtab ${STATE.section===n.id?'active':''}" style="--tab-color:var(--${n.color})" data-nav="${n.id}">
+      <span class="ico">${n.ico}</span>${n.label}</button>`).join('')}
+    <div class="sidebar-foot">JUL 07 → NOV 30, 2026<br>21 weeks · one shot ✨</div>
+  `;
+  el.querySelectorAll('[data-nav]').forEach(b=> b.addEventListener('click', ()=>{ STATE.section=b.dataset.nav; renderSidebar(); renderMain(); }));
+}
+
+/* =====================================================================
+   SHARED WIDGETS
+===================================================================== */
+function ring(pct, color){ return `<div class="ring" style="--p:${pct}; --ring-color:var(--${color})"><span>${pct}%</span></div>`; }
+function pct(items){ if(!items.length) return 0; return Math.round(100*items.filter(i=>i.done).length/items.length); }
+
+function itemRow(item, onToggle, onConf){
+  return `<div class="item">
+    <button class="chk ${item.done?'done':''}" data-toggle="${item.id}"></button>
+    <div class="item-text ${item.done?'done':''}">${esc(item.text)}</div>
+    <div class="dots">${[1,2,3,4,5].map(n=>`<button class="dot ${item.conf>=n?'on':''}" data-conf="${item.id}" data-n="${n}" title="confidence ${n}/5"></button>`).join('')}</div>
+  </div>`;
+}
+function wireItemRows(container, subjectId){
+  container.querySelectorAll('[data-toggle]').forEach(b=>{
+    b.addEventListener('click', async ()=>{
+      const it = STATE.subjects[subjectId].items.find(i=>i.id===b.dataset.toggle);
+      it.done = !it.done; await sSet('subjects', STATE.subjects); renderMain();
+    });
+  });
+  container.querySelectorAll('[data-conf]').forEach(b=>{
+    b.addEventListener('click', async ()=>{
+      const it = STATE.subjects[subjectId].items.find(i=>i.id===b.dataset.conf);
+      const n = +b.dataset.n; it.conf = (it.conf===n)? n-1 : n;
+      await sSet('subjects', STATE.subjects); renderMain();
+    });
+  });
+}
+
+/* =====================================================================
+   VIEW: DASHBOARD
+===================================================================== */
+function computeCurrentWeek(){
+  const start = new Date("2026-07-07T00:00:00");
+  const today = new Date();
+  let diffDays = Math.floor((today-start)/86400000);
+  if(diffDays < 0) diffDays = 0;
+  let wk = Math.floor(diffDays/7)+1;
+  if(wk > 20) wk = 20; if(wk < 1) wk = 1;
+  return {wk, dayNum: diffDays+1};
+}
+function viewDashboard(){
+  const {wk, dayNum} = computeCurrentWeek();
+  const wkData = ROADMAP.find(w=>w.wk===wk);
+  const allA = PART_A.map(s=>STATE.subjects[s.id].items).flat();
+  const allB = PART_B.map(s=>STATE.subjects[s.id].items).flat();
+  const roadDone = Object.values(STATE.roadmap).filter(r=>r.done).length;
+  const today = dayKey();
+  const habitLog = STATE.habits.log[today] || {};
+  const fact = GA_FACTS[new Date().getDate()%GA_FACTS.length];
+  const journalStreak = (()=>{ let s=0; for(let i=0;i<400;i++){ const d=new Date(); d.setDate(d.getDate()-i); const k=dayKey(d); if((STATE.habits.log[k]||{})['__any']) s++; else break;} return s; })();
+
+  return `<div class="view">
+    <div class="pagehead">
+      <div><h1>hi Palak 🌸</h1><p>Day ${dayNum} of your roadmap · currently in <b>${wkData.phase}</b> · Week ${wk} (${wkData.range})</p></div>
+      <div class="badge" style="--pale:var(--${wkData.color}-pale); --deep:var(--${wkData.color})">🗓️ Week ${wk} of 20</div>
+    </div>
+
+    <div class="grid cols-4" style="margin-bottom:18px;">
+      <div class="card tilt-l"><div class="tape" style="--tape-color:var(--rose-soft)"></div>
+        <div class="subtle">Part A progress</div>
+        <div class="flexrow" style="margin-top:8px;">${ring(pct(allA),'rose')}<div style="text-align:right;"><div class="hand" style="font-size:26px;">${allA.filter(i=>i.done).length}/${allA.length}</div><div class="subtle">sub-topics done</div></div></div>
+      </div>
+      <div class="card tilt-r"><div class="tape" style="--tape-color:var(--lav-soft)"></div>
+        <div class="subtle">Part B progress</div>
+        <div class="flexrow" style="margin-top:8px;">${ring(pct(allB),'lav')}<div style="text-align:right;"><div class="hand" style="font-size:26px;">${allB.filter(i=>i.done).length}/${allB.length}</div><div class="subtle">sub-topics done</div></div></div>
+      </div>
+      <div class="card tilt-l"><div class="tape" style="--tape-color:var(--sage-soft)"></div>
+        <div class="subtle">Roadmap weeks</div>
+        <div class="flexrow" style="margin-top:8px;">${ring(Math.round(100*roadDone/20),'sage')}<div style="text-align:right;"><div class="hand" style="font-size:26px;">${roadDone}/20</div><div class="subtle">weeks wrapped</div></div></div>
+      </div>
+      <div class="card tilt-r"><div class="tape" style="--tape-color:var(--gold-soft)"></div>
+        <div class="subtle">Mock tests logged</div>
+        <div class="flexrow" style="margin-top:8px;">${ring(Math.min(100,STATE.mocks.length*25),'gold')}<div style="text-align:right;"><div class="hand" style="font-size:26px;">${STATE.mocks.length}</div><div class="subtle">of 4 planned</div></div></div>
+      </div>
+    </div>
+
+    <div class="two-col">
+      <div class="card">
+        <div class="flexrow"><h2 style="margin:0 0 8px; font-size:24px;">🔥 today's habits</h2><span class="subtle">${today}</span></div>
+        ${STATE.habits.list.map(h=>`<div class="item"><button class="chk ${habitLog[h.id]?'done':''}" data-habit="${h.id}"></button><div class="item-text ${habitLog[h.id]?'done':''}">${h.emoji} ${esc(h.name)}</div></div>`).join('')}
+        <hr class="tear">
+        <div class="subtle" style="margin-bottom:6px;">this week's rhythm</div>
+        ${RHYTHM.map(r=>`<span class="tag">${r.emoji} ${r.day}</span>`).join(' ')}
+      </div>
+      <div class="card" style="background:linear-gradient(160deg,var(--gold-pale),var(--card) 70%);">
+        <div class="sticker" style="--sticker-bg:var(--gold-soft); position:absolute; top:-14px; right:16px;">💡</div>
+        <h2 style="margin:0 0 8px; font-size:22px;">GA fact of the day</h2>
+        <p style="font-size:14.5px; line-height:1.55;">${fact}</p>
+        <hr class="tear">
+        <div class="subtle">This week's focus</div>
+        <p class="hand" style="font-size:20px; margin:4px 0 0; color:var(--ink);">${esc(wkData.topics)}</p>
+      </div>
+    </div>
+
+    <div class="card" style="margin-top:18px;">
+      <h2 style="margin:0 0 10px; font-size:22px;">🎯 quick jump</h2>
+      <div style="display:flex; gap:10px; flex-wrap:wrap;">
+        <button class="btn" data-goto="planner">Open today's planner</button>
+        <button class="btn lav" data-goto="sketchbook">Upload today's sketch</button>
+        <button class="btn sage" data-goto="revision">Confidence check-in</button>
+        <button class="btn ghost" data-goto="journal">Write in journal</button>
+      </div>
+    </div>
+  </div>`;
+}
+function wireDashboard(root){
+  root.querySelectorAll('[data-habit]').forEach(b=> b.addEventListener('click', async ()=>{
+    const today = dayKey(); STATE.habits.log[today] = STATE.habits.log[today]||{};
+    STATE.habits.log[today][b.dataset.habit] = !STATE.habits.log[today][b.dataset.habit];
+    STATE.habits.log[today]['__any'] = STATE.habits.list.some(h=>STATE.habits.log[today][h.id]);
+    await sSet('habits', STATE.habits); renderMain();
+  }));
+  root.querySelectorAll('[data-goto]').forEach(b=> b.addEventListener('click', ()=>{ STATE.section=b.dataset.goto; renderSidebar(); renderMain(); }));
+}
+
+/* =====================================================================
+   VIEW: SUBJECTS
+===================================================================== */
+function subjectCard(s, idx){
+  const data = STATE.subjects[s.id];
+  const p = pct(data.items);
+  return `<div class="card ${idx%2?'tilt-r':'tilt-l'}">
+    <div class="tape left" style="--tape-color:var(--${s.color}-soft)"></div>
+    <div class="flexrow"><h3 style="margin:6px 0 2px; font-size:21px;">${s.emoji} ${s.title}</h3><span class="badge" style="--pale:var(--${s.color}-pale); --deep:var(--${s.color})">${p}%</span></div>
+    <div class="progressbar" style="margin:8px 0 12px;"><i style="width:${p}%; --bar:var(--${s.color})"></i></div>
+    <div data-list="${s.id}">${data.items.map(i=>itemRow(i)).join('')}</div>
+  </div>`;
+}
+function viewSubjects(){
+  return `<div class="view">
+    <div class="pagehead"><div><h1>subjects 📚</h1><p>Every Part A & Part B sub-topic from your roadmap. Tap to mark done, tap the dots to rate confidence 1–5.</p></div></div>
+    <h2 style="font-size:22px; margin:18px 0 10px;">Part A</h2>
+    <div class="grid cols-2">${PART_A.map((s,i)=>subjectCard(s,i)).join('')}</div>
+    <h2 style="font-size:22px; margin:26px 0 10px;">Part B</h2>
+    <div class="grid cols-2">${PART_B.map((s,i)=>subjectCard(s,i)).join('')}</div>
+  </div>`;
+}
+function wireSubjects(root){
+  [...PART_A, ...PART_B].forEach(s=> wireItemRows(root.querySelector(`[data-list="${s.id}"]`)||root, s.id));
+}
+
+/* =====================================================================
+   VIEW: ROADMAP
+===================================================================== */
+function viewRoadmap(){
+  const {wk:curWk} = computeCurrentWeek();
+  return `<div class="view">
+    <div class="pagehead"><div><h1>roadmap 🗺️</h1><p>Your 20-week plan, Jul 7 → Nov 30 2026. Check off each week as you finish it.</p></div></div>
+    ${PHASES.map(phase=>{
+      const weeks = ROADMAP.filter(w=>w.phase===phase); const color = PHASE_COLOR[phase];
+      return `<h2 style="font-size:21px; margin:22px 0 10px; color:var(--${color});">${phase}</h2>
+      <div class="grid cols-2">${weeks.map(w=>{
+        const st = STATE.roadmap[w.wk];
+        return `<div class="card ${w.wk%2?'tilt-l':'tilt-r'} ${curWk===w.wk?'':''}" style="${curWk===w.wk?'outline:2.5px dashed var(--'+color+'-soft); outline-offset:3px;':''}">
+          <div class="flexrow">
+            <div class="flexrow" style="gap:8px;"><button class="chk ${st.done?'done':''}" data-wkdone="${w.wk}"></button><b class="hand" style="font-size:22px;">Week ${w.wk}</b></div>
+            <span class="subtle mono">${w.range}</span>
+          </div>
+          <p style="font-size:14px; margin:8px 0 0;">${esc(w.topics)}</p>
+          ${curWk===w.wk?`<span class="badge" style="--pale:var(--${color}-pale); --deep:var(--${color}); margin-top:8px;">📍 you are here</span>`:''}
+        </div>`;
+      }).join('')}</div>`;
+    }).join('')}
+  </div>`;
+}
+function wireRoadmap(root){
+  root.querySelectorAll('[data-wkdone]').forEach(b=> b.addEventListener('click', async ()=>{
+    const w = STATE.roadmap[b.dataset.wkdone]; w.done = !w.done; await sSet('roadmap', STATE.roadmap); renderMain();
+  }));
+}
+
+/* =====================================================================
+   VIEW: PLANNER
+===================================================================== */
+function weekDates(offsetWeeks){
+  const start = new Date("2026-07-07T00:00:00");
+  const monday = new Date(start); monday.setDate(monday.getDate() + offsetWeeks*7);
+  return [...Array(7)].map((_,i)=>{ const d=new Date(monday); d.setDate(d.getDate()+i); return d; });
+}
+let plannerOffset = null;
+function viewPlanner(){
+  if(plannerOffset===null){ plannerOffset = computeCurrentWeek().wk - 1; }
+  const dates = weekDates(plannerOffset);
+  const wkNum = plannerOffset+1;
+  const wkData = ROADMAP.find(w=>w.wk===Math.min(20,Math.max(1,wkNum)));
+  return `<div class="view">
+    <div class="pagehead">
+      <div><h1>planner 📅</h1><p>Week ${wkNum} · ${wkData?wkData.topics:''}</p></div>
+      <div style="display:flex; gap:8px;"><button class="btn ghost sm" id="prevWk">← prev</button><button class="btn ghost sm" id="todayWk">today</button><button class="btn ghost sm" id="nextWk">next →</button></div>
+    </div>
+    <div class="grid cols-4">
+      ${dates.map((d,i)=>{
+        const key = dayKey(d); const r = RHYTHM[i];
+        const tasks = (STATE.planner.byDate[key]||[]);
+        const isToday = key===dayKey();
+        return `<div class="card ${i%2?'tilt-r':'tilt-l'}" style="${isToday?'outline:2.5px dashed var(--rose-soft); outline-offset:3px;':''}">
+          <div class="tape" style="--tape-color:var(--gold-soft)"></div>
+          <div class="hand" style="font-size:22px;">${r.emoji} ${d.toLocaleDateString(undefined,{weekday:'long', month:'short', day:'numeric'})}</div>
+          <div class="subtle" style="margin-bottom:8px;">${esc(r.act)} · ${r.time}</div>
+          <div data-tasks="${key}">${tasks.map(t=>`<div class="item"><button class="chk ${t.done?'done':''}" data-tdone="${key}|${t.id}"></button><div class="item-text ${t.done?'done':''}" style="font-size:13.5px;">${esc(t.text)}</div><button class="iconbtn" data-tdel="${key}|${t.id}">✕</button></div>`).join('')}</div>
+          <div style="display:flex; gap:6px; margin-top:8px;"><input type="text" placeholder="add a task…" data-taskinput="${key}" style="font-size:13px; padding:6px 10px;"><button class="btn sm" data-taskadd="${key}">+</button></div>
+        </div>`;
+      }).join('')}
+    </div>
+  </div>`;
+}
+function wirePlanner(root){
+  root.querySelector('#prevWk')?.addEventListener('click', ()=>{ plannerOffset=Math.max(0,plannerOffset-1); renderMain(); });
+  root.querySelector('#nextWk')?.addEventListener('click', ()=>{ plannerOffset=Math.min(19,plannerOffset+1); renderMain(); });
+  root.querySelector('#todayWk')?.addEventListener('click', ()=>{ plannerOffset=computeCurrentWeek().wk-1; renderMain(); });
+  const addTask = async (key)=>{
+    const inp = root.querySelector(`[data-taskinput="${key}"]`); const v = inp.value.trim(); if(!v) return;
+    STATE.planner.byDate[key] = STATE.planner.byDate[key]||[]; STATE.planner.byDate[key].push({id:cid(), text:v, done:false});
+    await sSet('planner', STATE.planner); renderMain();
+  };
+  root.querySelectorAll('[data-taskadd]').forEach(b=> b.addEventListener('click', ()=>addTask(b.dataset.taskadd)));
+  root.querySelectorAll('[data-taskinput]').forEach(inp=> inp.addEventListener('keydown', e=>{ if(e.key==='Enter') addTask(inp.dataset.taskinput); }));
+  root.querySelectorAll('[data-tdone]').forEach(b=> b.addEventListener('click', async ()=>{
+    const [key,id] = b.dataset.tdone.split('|'); const t = STATE.planner.byDate[key].find(x=>x.id===id); t.done=!t.done;
+    await sSet('planner', STATE.planner); renderMain();
+  }));
+  root.querySelectorAll('[data-tdel]').forEach(b=> b.addEventListener('click', async ()=>{
+    const [key,id] = b.dataset.tdel.split('|'); STATE.planner.byDate[key] = STATE.planner.byDate[key].filter(x=>x.id!==id);
+    await sSet('planner', STATE.planner); renderMain();
+  }));
+}
+
+/* =====================================================================
+   VIEW: HABITS
+===================================================================== */
+function viewHabits(){
+  const days = [...Array(70)].map((_,i)=>{ const d=new Date(); d.setDate(d.getDate()-(69-i)); return d; });
+  return `<div class="view">
+    <div class="pagehead"><div><h1>habits 🔥</h1><p>Small daily reps win CEED. Track your streaks here.</p></div></div>
+    <div class="card">
+      <div class="flexrow"><h2 style="margin:0; font-size:20px;">add a habit</h2></div>
+      <div style="display:flex; gap:8px; margin-top:10px;"><input type="text" id="habitEmoji" placeholder="emoji" style="max-width:70px;"><input type="text" id="habitName" placeholder="habit name"><button class="btn sm" id="addHabit">add</button></div>
+    </div>
+    <div class="grid cols-2" style="margin-top:16px;">
+      ${STATE.habits.list.map((h,i)=>{
+        const streak = (()=>{ let s=0; for(let k=0;k<365;k++){ const d=new Date(); d.setDate(d.getDate()-k); if((STATE.habits.log[dayKey(d)]||{})[h.id]) s++; else break; } return s; })();
+        return `<div class="card ${i%2?'tilt-r':'tilt-l'}">
+          <div class="flexrow"><h3 style="margin:0; font-size:19px;">${h.emoji} ${esc(h.name)}</h3><span class="badge">🔥 ${streak}d streak</span></div>
+          <div class="heatgrid" style="margin-top:12px;">${days.map(d=>{ const on = (STATE.habits.log[dayKey(d)]||{})[h.id]; return `<div class="heatcell" style="background:${on?'var(--'+ (['rose','lav','sage','gold'][i%4]) +')':'#EFE4D6'}" title="${dayKey(d)}"></div>`; }).join('')}</div>
+        </div>`;
+      }).join('')}
+    </div>
+  </div>`;
+}
+function wireHabits(root){
+  root.querySelector('#addHabit')?.addEventListener('click', async ()=>{
+    const emoji = root.querySelector('#habitEmoji').value.trim()||'⭐'; const name = root.querySelector('#habitName').value.trim();
+    if(!name) return; STATE.habits.list.push({id:cid(), name, emoji}); await sSet('habits', STATE.habits); renderMain();
+  });
+}
+
+/* =====================================================================
+   VIEW: SKETCHBOOK
+===================================================================== */
+function resizeImage(file){
+  return new Promise((resolve)=>{
+    const img = new Image(); const reader = new FileReader();
+    reader.onload = e=>{ img.onload = ()=>{
+      const maxW = 800; const scale = Math.min(1, maxW/img.width);
+      const canvas = document.createElement('canvas'); canvas.width = img.width*scale; canvas.height = img.height*scale;
+      canvas.getContext('2d').drawImage(img,0,0,canvas.width,canvas.height);
+      resolve(canvas.toDataURL('image/jpeg', 0.78));
+    }; img.src = e.target.result; };
+    reader.readAsDataURL(file);
+  });
+}
+function viewSketchbook(){
+  return `<div class="view">
+    <div class="pagehead"><div><h1>sketchbook 🖼️</h1><p>Your daily sketch practice, tagged by the 7-day rotation.</p></div>
+      <label class="btn">+ upload sketch<input type="file" accept="image/*" id="skFile" style="display:none;"></label>
+    </div>
+    <div class="card" id="skForm" style="display:none; margin-bottom:16px;">
+      <div class="grid cols-3">
+        <div><label class="field">caption</label><input type="text" id="skCaption" placeholder="e.g. isometric cube study"></div>
+        <div><label class="field">day type</label><select id="skDay">${RHYTHM.map(r=>`<option>${r.day} — ${r.act.split(' + ').pop()}</option>`).join('')}</select></div>
+        <div><label class="field">date</label><input type="date" id="skDate" value="${dayKey()}"></div>
+      </div>
+      <div style="margin-top:10px; display:flex; gap:8px;"><button class="btn" id="skSave">save to sketchbook</button><button class="btn ghost" id="skCancel">cancel</button></div>
+    </div>
+    ${STATE.sketchIndex.length? `<div class="grid cols-4" id="skGrid">${STATE.sketchIndex.slice().reverse().map(s=>`
+      <figure class="polaroid" style="transform:rotate(${(s.id.charCodeAt(0)%5)-2}deg);">
+        <img src="${s.thumb}" loading="lazy">
+        <figcaption>${esc(s.caption||'untitled')}</figcaption>
+        <button class="iconbtn" data-skdel="${s.id}" style="position:absolute; top:2px; right:2px;">✕</button>
+      </figure>`).join('')}</div>`
+      : `<div class="empty"><span class="hand">no sketches yet</span>Upload today's practice sketch to start your visual streak 🌸</div>`}
+  </div>`;
+}
+let pendingImg = null;
+function wireSketchbook(root){
+  const fileInp = root.querySelector('#skFile');
+  fileInp?.addEventListener('change', async ()=>{
+    if(!fileInp.files[0]) return;
+    pendingImg = await resizeImage(fileInp.files[0]);
+    root.querySelector('#skForm').style.display = 'block';
+  });
+  root.querySelector('#skCancel')?.addEventListener('click', ()=>{ pendingImg=null; root.querySelector('#skForm').style.display='none'; });
+  root.querySelector('#skSave')?.addEventListener('click', async ()=>{
+    if(!pendingImg){ toast('choose an image first'); return; }
+    const id = cid();
+    const entry = {id, caption: root.querySelector('#skCaption').value.trim(), day: root.querySelector('#skDay').value, date: root.querySelector('#skDate').value, thumb: pendingImg};
+    STATE.sketchIndex.push({id, caption:entry.caption, thumb:entry.thumb, date:entry.date});
+    await sSet('sketchbook-index', STATE.sketchIndex);
+    pendingImg=null; toast('sketch saved 🎨'); renderMain();
+  });
+  root.querySelectorAll('[data-skdel]').forEach(b=> b.addEventListener('click', async ()=>{
+    STATE.sketchIndex = STATE.sketchIndex.filter(s=>s.id!==b.dataset.skdel); await sSet('sketchbook-index', STATE.sketchIndex); renderMain();
+  }));
+}
+
+/* =====================================================================
+   VIEW: PYQ TRACKER
+===================================================================== */
+function viewPyq(){
+  return `<div class="view">
+    <div class="pagehead"><div><h1>past papers 📄</h1><p>Log every attempt and the exact topics you lost marks on.</p></div></div>
+    <div class="card" style="margin-bottom:16px;">
+      <div class="grid cols-4">
+        <div><label class="field">paper</label><input type="text" id="pyqName" placeholder="CEED 2023"></div>
+        <div><label class="field">date attempted</label><input type="date" id="pyqDate" value="${dayKey()}"></div>
+        <div><label class="field">score</label><input type="number" id="pyqScore" placeholder="e.g. 62"></div>
+        <div><label class="field">out of</label><input type="number" id="pyqMax" placeholder="100"></div>
+      </div>
+      <div style="margin-top:10px;"><label class="field">topics you lost marks on</label><textarea id="pyqMistakes" placeholder="e.g. mensuration — surface area; paper folding; para-jumbles"></textarea></div>
+      <button class="btn" id="pyqAdd" style="margin-top:10px;">log this paper</button>
+    </div>
+    ${STATE.pyq.length? STATE.pyq.slice().reverse().map(p=>`
+      <div class="card tilt-l" style="margin-bottom:12px;">
+        <div class="flexrow"><h3 style="margin:0; font-size:19px;">${esc(p.name)}</h3><span class="badge">${p.score}/${p.max}</span></div>
+        <div class="subtle" style="margin:4px 0 8px;">${fmtDate(p.date)}</div>
+        <p style="font-size:14px;">${esc(p.mistakes)}</p>
+        <button class="iconbtn" data-pyqdel="${p.id}">delete entry ✕</button>
+      </div>`).join('') : `<div class="empty"><span class="hand">no papers logged yet</span>Your Week 13 plan calls for 2 full past papers — log them here.</div>`}
+  </div>`;
+}
+function wirePyq(root){
+  root.querySelector('#pyqAdd')?.addEventListener('click', async ()=>{
+    const name = root.querySelector('#pyqName').value.trim(); if(!name){toast('add a paper name'); return;}
+    STATE.pyq.push({id:cid(), name, date:root.querySelector('#pyqDate').value, score:root.querySelector('#pyqScore').value||'?', max:root.querySelector('#pyqMax').value||'?', mistakes:root.querySelector('#pyqMistakes').value.trim()});
+    await sSet('pyq', STATE.pyq); renderMain();
+  });
+  root.querySelectorAll('[data-pyqdel]').forEach(b=> b.addEventListener('click', async ()=>{
+    STATE.pyq = STATE.pyq.filter(p=>p.id!==b.dataset.pyqdel); await sSet('pyq', STATE.pyq); renderMain();
+  }));
+}
+
+/* =====================================================================
+   VIEW: RESOURCES
+===================================================================== */
+function viewResources(){
+  const cats = [...new Set(STATE.resources.map(r=>r.category||'General'))];
+  return `<div class="view">
+    <div class="pagehead"><div><h1>resources 🔖</h1><p>Links, references, and notes worth keeping.</p></div></div>
+    <div class="card" style="margin-bottom:16px;">
+      <div class="grid cols-4">
+        <div><label class="field">title</label><input type="text" id="resTitle"></div>
+        <div><label class="field">url (optional)</label><input type="url" id="resUrl"></div>
+        <div><label class="field">category</label><input type="text" id="resCat" placeholder="Official / Practice / GA…"></div>
+        <div style="display:flex; align-items:flex-end;"><button class="btn" id="resAdd" style="width:100%;">+ add</button></div>
+      </div>
+      <div style="margin-top:8px;"><label class="field">note</label><input type="text" id="resNote"></div>
+    </div>
+    ${cats.map(cat=>`<h2 style="font-size:20px; margin:16px 0 8px;">${esc(cat)}</h2>
+      <div class="grid cols-2">${STATE.resources.filter(r=>(r.category||'General')===cat).map(r=>`
+        <div class="card">
+          <div class="flexrow"><h3 style="margin:0; font-size:17px;">🔖 ${r.url?`<a href="${esc(r.url)}" target="_blank" rel="noopener">${esc(r.title)}</a>`:esc(r.title)}</h3><button class="iconbtn" data-resdel="${r.id}">✕</button></div>
+          <p class="subtle" style="margin:6px 0 0;">${esc(r.note||'')}</p>
+        </div>`).join('')}</div>`).join('')}
+  </div>`;
+}
+function wireResources(root){
+  root.querySelector('#resAdd')?.addEventListener('click', async ()=>{
+    const title = root.querySelector('#resTitle').value.trim(); if(!title){toast('add a title'); return;}
+    STATE.resources.push({id:cid(), title, url:root.querySelector('#resUrl').value.trim(), category:root.querySelector('#resCat').value.trim()||'General', note:root.querySelector('#resNote').value.trim()});
+    await sSet('resources', STATE.resources); renderMain();
+  });
+  root.querySelectorAll('[data-resdel]').forEach(b=> b.addEventListener('click', async ()=>{
+    STATE.resources = STATE.resources.filter(r=>r.id!==b.dataset.resdel); await sSet('resources', STATE.resources); renderMain();
+  }));
+}
+
+/* =====================================================================
+   VIEW: MOCK TRACKER
+===================================================================== */
+function viewMocks(){
+  return `<div class="view">
+    <div class="pagehead"><div><h1>mock tracker 🧪</h1><p>Phase 5 calls for 4 full 3-hour mocks — track your scores and weak spots here.</p></div></div>
+    <div class="card" style="margin-bottom:16px;">
+      <div class="grid cols-4">
+        <div><label class="field">mock name</label><input type="text" id="mkName" placeholder="Full Mock #1"></div>
+        <div><label class="field">date</label><input type="date" id="mkDate" value="${dayKey()}"></div>
+        <div><label class="field">Part A score</label><input type="number" id="mkA"></div>
+        <div><label class="field">Part B score</label><input type="number" id="mkB"></div>
+      </div>
+      <div style="margin-top:8px;"><label class="field">weakest areas</label><textarea id="mkWeak" placeholder="e.g. time-speed-distance, visual storytelling pacing"></textarea></div>
+      <button class="btn" id="mkAdd" style="margin-top:10px;">log mock</button>
+    </div>
+    ${STATE.mocks.length? `<div class="grid cols-2">${STATE.mocks.slice().reverse().map(m=>`
+      <div class="card tilt-r">
+        <div class="flexrow"><h3 style="margin:0; font-size:19px;">🧪 ${esc(m.name)}</h3><button class="iconbtn" data-mkdel="${m.id}">✕</button></div>
+        <div class="subtle">${fmtDate(m.date)}</div>
+        <div style="display:flex; gap:16px; margin:8px 0;"><div><div class="mono" style="font-weight:700;">${m.a}</div><div class="subtle">Part A</div></div><div><div class="mono" style="font-weight:700;">${m.b}</div><div class="subtle">Part B</div></div></div>
+        <p style="font-size:14px;">${esc(m.weak)}</p>
+      </div>`).join('')}</div>` : `<div class="empty"><span class="hand">no mocks logged yet</span>Your first full mock is scheduled for Week 17.</div>`}
+  </div>`;
+}
+function wireMocks(root){
+  root.querySelector('#mkAdd')?.addEventListener('click', async ()=>{
+    const name = root.querySelector('#mkName').value.trim(); if(!name){toast('name this mock'); return;}
+    STATE.mocks.push({id:cid(), name, date:root.querySelector('#mkDate').value, a:root.querySelector('#mkA').value||'?', b:root.querySelector('#mkB').value||'?', weak:root.querySelector('#mkWeak').value.trim()});
+    await sSet('mocks', STATE.mocks); renderMain();
+  });
+  root.querySelectorAll('[data-mkdel]').forEach(b=> b.addEventListener('click', async ()=>{
+    STATE.mocks = STATE.mocks.filter(m=>m.id!==b.dataset.mkdel); await sSet('mocks', STATE.mocks); renderMain();
+  }));
+}
+
+/* =====================================================================
+   VIEW: REVISION (confidence heatmap)
+===================================================================== */
+function viewRevision(){
+  const all = [...PART_A, ...PART_B].map(s=>({s, items:STATE.subjects[s.id].items}));
+  const weakest = all.map(g=>g.items.map(i=>({...i, subj:g.s.title, emoji:g.s.emoji}))).flat().filter(i=>i.conf>0 && i.conf<=2);
+  return `<div class="view">
+    <div class="pagehead"><div><h1>revision 🎯</h1><p>Confidence heatmap across every topic — darker means shakier. Revisit red zones first.</p></div></div>
+    ${all.map(g=>`<div class="card" style="margin-bottom:14px;">
+      <h3 style="margin:0 0 10px; font-size:18px;">${g.s.emoji} ${g.s.title}</h3>
+      <div style="display:flex; flex-wrap:wrap; gap:6px;">${g.items.map(i=>{
+        const c = i.conf||0; const colors=['#EFE4D6','#F6D9C4','#F0B8A8','#E88C93','#D9738C'];
+        return `<span title="${esc(i.text)} — confidence ${c}/5" style="background:${colors[Math.max(0,c-1)]}; ${c===0?'background:#EFE4D6;':''} padding:6px 10px; border-radius:8px; font-size:12.5px; max-width:220px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;">${esc(i.text)}</span>`;
+      }).join('')}</div>
+    </div>`).join('')}
+    <div class="card" style="background:var(--rose-pale);">
+      <h3 style="margin:0 0 8px; font-size:18px;">⚠️ needs the most work (confidence ≤2)</h3>
+      ${weakest.length? weakest.map(i=>`<div style="font-size:14px; margin-bottom:4px;">${i.emoji} <b>${esc(i.subj)}</b> — ${esc(i.text)}</div>`).join('') : `<div class="subtle">Rate your confidence on the Subjects page to populate this list.</div>`}
+    </div>
+  </div>`;
+}
+
+/* =====================================================================
+   VIEW: JOURNAL
+===================================================================== */
+const MOODS = ['😊','😌','😩','😤','🥲','🤩','😴'];
+function viewJournal(){
+  return `<div class="view">
+    <div class="pagehead"><div><h1>journal 📓</h1><p>A private page for how prep is actually going.</p></div></div>
+    <div class="card" style="margin-bottom:16px;">
+      <div class="flexrow"><label class="field" style="margin:0;">how's today feeling?</label>
+        <div style="display:flex; gap:6px;">${MOODS.map(m=>`<button class="iconbtn" data-mood="${m}" style="font-size:20px;">${m}</button>`).join('')}</div>
+      </div>
+      <textarea id="jEntry" placeholder="write freely — a win, a worry, a weird sketch idea…" style="margin-top:10px; min-height:100px;"></textarea>
+      <button class="btn" id="jSave" style="margin-top:10px;">save entry</button>
+    </div>
+    ${STATE.journal.length? STATE.journal.slice().reverse().map(j=>`
+      <div class="card tilt-l" style="margin-bottom:12px;">
+        <div class="flexrow"><span class="hand" style="font-size:22px;">${j.mood||'📝'} ${fmtDate(j.date)}</span><button class="iconbtn" data-jdel="${j.id}">✕</button></div>
+        <p style="font-size:14.5px; white-space:pre-wrap; margin-top:6px;">${esc(j.text)}</p>
+      </div>`).join('') : `<div class="empty"><span class="hand">blank page</span>Your first entry starts the streak.</div>`}
+  </div>`;
+}
+let selectedMood = '😊';
+function wireJournal(root){
+  root.querySelectorAll('[data-mood]').forEach(b=> b.addEventListener('click', ()=>{ selectedMood=b.dataset.mood; root.querySelectorAll('[data-mood]').forEach(x=>x.style.background=''); b.style.background='var(--rose-pale)'; }));
+  root.querySelector('#jSave')?.addEventListener('click', async ()=>{
+    const text = root.querySelector('#jEntry').value.trim(); if(!text){toast('write something first'); return;}
+    STATE.journal.push({id:cid(), date:dayKey(), mood:selectedMood, text});
+    const today=dayKey(); STATE.habits.log[today]=STATE.habits.log[today]||{}; STATE.habits.log[today]['__any']=true;
+    await sSet('journal', STATE.journal); await sSet('habits', STATE.habits);
+    toast('entry saved 📓'); renderMain();
+  });
+  root.querySelectorAll('[data-jdel]').forEach(b=> b.addEventListener('click', async ()=>{
+    STATE.journal = STATE.journal.filter(j=>j.id!==b.dataset.jdel); await sSet('journal', STATE.journal); renderMain();
+  }));
+}
+
+/* =====================================================================
+   ROUTER
+===================================================================== */
+const VIEWS = {
+  dashboard:{render:viewDashboard, wire:wireDashboard},
+  subjects:{render:viewSubjects, wire:wireSubjects},
+  roadmap:{render:viewRoadmap, wire:wireRoadmap},
+  planner:{render:viewPlanner, wire:wirePlanner},
+  habits:{render:viewHabits, wire:wireHabits},
+  sketchbook:{render:viewSketchbook, wire:wireSketchbook},
+  pyq:{render:viewPyq, wire:wirePyq},
+  resources:{render:viewResources, wire:wireResources},
+  mocks:{render:viewMocks, wire:wireMocks},
+  revision:{render:viewRevision, wire:()=>{}},
+  journal:{render:viewJournal, wire:wireJournal},
+};
+function renderMain(){
+  const root = document.getElementById('main');
+  const v = VIEWS[STATE.section];
+  root.innerHTML = v.render();
+  v.wire(root);
+}
+
+/* =====================================================================
+   INIT
+===================================================================== */
+(async function init(){
+  document.getElementById('main').innerHTML = `<div class="view"><div class="empty"><span class="hand">opening your notebook…</span></div></div>`;
+  await loadAll();
+  renderSidebar();
+  renderMain();
+})();
+</script>
+</body>
+</html>
