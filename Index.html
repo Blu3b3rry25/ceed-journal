@@ -3,955 +3,1005 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>the ceed diaries</title>
+<title>Palak's CEED Journal 🌸</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Caveat:wght@500;600;700&family=Nunito:ital,wght@0,400;0,500;0,600;0,700;0,800;1,500&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Caveat:wght@500;600;700&family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;0,9..144,700;1,9..144,500&family=Nunito:ital,wght@0,400;0,500;0,600;0,700;0,800;1,500&display=swap" rel="stylesheet">
 <style>
-/* ============================= TOKENS ============================= */
 :root{
-  --paper:#FBF5EC;
-  --paper-deep:#F3E9DA;
-  --card:#FFFDF9;
-  --rose:#D9738C;
-  --rose-soft:#F4C9D3;
-  --rose-pale:#FBE4E9;
-  --lav:#8E79C9;
-  --lav-soft:#DCD3F0;
-  --lav-pale:#EFE9FA;
-  --sage:#5C9E82;
-  --sage-soft:#C9E3D3;
-  --sage-pale:#E6F3EA;
-  --gold:#DB9A3F;
-  --gold-soft:#F2DBAF;
-  --gold-pale:#FBEEDA;
-  --ink:#4A3B45;
-  --ink-soft:#8A7B84;
-  --line:#E9DECF;
-  --shadow: 0 8px 24px -8px rgba(74,59,69,0.18);
-  --shadow-lg: 0 20px 45px -15px rgba(74,59,69,0.28);
+  --paper:#FDF3D7;
+  --paper-alt:#FCDCE9;
+  --paper-deep:#F9C3D9;
+  --ink:#7A4A55;
+  --ink-soft:#B07A87;
+  --ink-faint:#D6AEB6;
+  --rose:#F6AFC7;
+  --rose-deep:#EC6D9C;
+  --sage:#BFE3C9;
+  --sage-deep:#5FAE7B;
+  --lav:#E3C6E8;
+  --lav-deep:#B47FC2;
+  --gold:#F3B94E;
+  --sky:#AEE0E8;
+  --line:#F3B6CB;
+  --pink-bg-1:#FBC7DB;
+  --pink-bg-2:#FBE3EE;
+  --shadow: 0 8px 22px -6px rgba(236,109,156,0.25);
+  --shadow-lift: 0 18px 40px -10px rgba(236,109,156,0.35);
+  --radius: 24px;
 }
 *{box-sizing:border-box;}
-html,body{margin:0;padding:0;}
+::selection{background:var(--rose); color:var(--ink);}
 body{
-  background:
-    radial-gradient(circle at 1px 1px, rgba(74,59,69,0.045) 1px, transparent 0) 0 0/16px 16px,
-    linear-gradient(180deg, var(--paper), var(--paper-deep) 900px, var(--paper) 1800px);
-  font-family:'Nunito', sans-serif;
+  margin:0;
+  font-family:'Nunito',sans-serif;
+  font-size:14px;
   color:var(--ink);
+  background:
+    radial-gradient(circle at 8% 8%, rgba(255,255,255,0.5), transparent 35%),
+    radial-gradient(circle at 95% 90%, rgba(255,255,255,0.35), transparent 40%),
+    linear-gradient(160deg, var(--pink-bg-1), var(--pink-bg-2) 60%, #FCEFD9 100%);
   min-height:100vh;
-  -webkit-font-smoothing:antialiased;
 }
-h1,h2,h3,.hand{font-family:'Caveat', cursive; font-weight:700;}
-.mono{font-family:'Space Mono', monospace;}
-::selection{background:var(--rose-soft);}
-::-webkit-scrollbar{width:10px;height:10px;}
-::-webkit-scrollbar-thumb{background:var(--rose-soft);border-radius:10px;}
-::-webkit-scrollbar-track{background:transparent;}
-button{font-family:'Nunito',sans-serif; cursor:pointer;}
-a{color:var(--rose); }
-:focus-visible{outline:3px solid var(--lav); outline-offset:2px; border-radius:6px;}
+body::before{
+  content:"";
+  position:fixed; inset:0; pointer-events:none; z-index:0; opacity:0.6;
+  background-image:
+    radial-gradient(rgba(255,255,255,0.5) 1.5px, transparent 1.5px);
+  background-size:16px 16px;
+}
+h1,h2,h3,.hand{font-family:'Caveat',cursive; font-weight:700;}
+.serif{font-family:'Fraunces',serif;}
+a{color:inherit;}
+button{font-family:inherit;}
 
-/* ============================= LAYOUT ============================= */
-#app{display:flex; min-height:100vh;}
+/* ---------- layout shell ---------- */
+.app{display:flex; min-height:100vh; position:relative; z-index:1;}
 
-/* ---- sidebar: notebook tab index ---- */
-#sidebar{
-  width:230px; flex:none; position:sticky; top:0; height:100vh;
-  padding:26px 0 26px 18px;
-  display:flex; flex-direction:column; gap:6px;
+/* spine tab nav */
+.spine{
+  width:96px;
+  background:linear-gradient(180deg, #F6A9C8, #F3C6DD 55%, #F8D9BE);
+  display:flex; flex-direction:column; align-items:center;
+  padding:22px 0 18px;
+  position:sticky; top:0; height:100vh; overflow-y:auto;
+  z-index:20;
+  box-shadow:4px 0 18px rgba(236,109,156,0.2);
+  border-right:3px dashed rgba(255,255,255,0.6);
 }
-.brand{
-  padding:4px 16px 22px 6px;
+.spine::-webkit-scrollbar{width:0;}
+.spine .brand{
+  color:#7A2E52; text-align:center; font-size:1.5rem; line-height:1.05;
+  margin-bottom:18px; padding:0 6px;
 }
-.brand .hand{font-size:30px; color:var(--rose); line-height:1;}
-.brand .sub{font-size:12px; color:var(--ink-soft); letter-spacing:.06em; text-transform:uppercase; margin-top:2px; font-family:'Space Mono',monospace;}
-
-.navtab{
-  display:flex; align-items:center; gap:10px;
-  padding:11px 16px; margin-right:0;
-  border-radius:14px 0 0 14px;
-  background:transparent; border:none;
-  font-size:15.5px; color:var(--ink-soft); font-weight:700;
-  text-align:left; position:relative;
-  transition:transform .18s ease, background .18s ease, color .18s ease, box-shadow .18s ease;
-}
-.navtab:hover{background:rgba(217,115,140,0.08); color:var(--ink); transform:translateX(2px);}
-.navtab.active{
-  background:var(--card); color:var(--ink);
-  box-shadow: -2px 4px 14px rgba(74,59,69,0.14);
-  transform:translateX(8px);
-}
-.navtab.active::after{
-  content:""; position:absolute; right:-1px; top:0; bottom:0; width:5px;
-  background:var(--tab-color, var(--rose)); border-radius:6px 0 0 6px;
-}
-.navtab .ico{font-size:18px;}
-.sidebar-foot{margin-top:auto; padding:14px 16px 0 6px; font-size:11.5px; color:var(--ink-soft); font-family:'Space Mono',monospace;}
-
-/* ---- main ---- */
-#main{flex:1; padding:30px 40px 80px; max-width:1180px;}
-.pagehead{margin-bottom:22px; display:flex; align-items:baseline; justify-content:space-between; gap:16px; flex-wrap:wrap;}
-.pagehead h1{font-size:40px; color:var(--ink); margin:0 0 2px;}
-.pagehead p{margin:0; color:var(--ink-soft); font-size:14.5px;}
-.view{animation:riseIn .38s ease both;}
-@keyframes riseIn{from{opacity:0; transform:translateY(10px);} to{opacity:1; transform:translateY(0);}}
-
-/* ============================= CARD / SCRAPBOOK BITS ============================= */
-.card{
-  background:var(--card); border-radius:18px; padding:20px 22px;
-  box-shadow:var(--shadow); border:1px solid var(--line);
+.spine .brand small{display:block; font-family:'Nunito'; font-size:0.55rem; letter-spacing:1.5px; color:#B84A7C; text-transform:uppercase; margin-top:2px;}
+.tab{
+  width:74px;
+  border:none; background:rgba(255,255,255,0.4); color:#8C4468;
+  padding:10px 4px; margin:4px 0; cursor:pointer;
+  display:flex; flex-direction:column; align-items:center; gap:3px;
+  font-size:0.6rem; font-weight:800; letter-spacing:0.2px;
+  border-radius:18px;
+  transition:.2s;
   position:relative;
 }
-.card.tilt-l{transform:rotate(-0.6deg);}
-.card.tilt-r{transform:rotate(0.6deg);}
-.card:hover{box-shadow:var(--shadow-lg);}
-
-.tape{
-  position:absolute; height:26px; width:90px; top:-13px; left:50%; transform:translateX(-50%) rotate(-2deg);
-  background:repeating-linear-gradient(45deg, rgba(255,255,255,.35) 0 6px, rgba(255,255,255,.12) 6px 12px), var(--tape-color, var(--gold-soft));
-  opacity:.88; border-radius:2px; box-shadow:0 2px 4px rgba(0,0,0,.08);
+.tab .ic{font-size:1.35rem;}
+.tab:hover{background:rgba(255,255,255,0.7); color:#7A2E52; transform:translateY(-1px);}
+.tab.active{
+  background:#FFFDF6; color:#D6497E;
+  box-shadow:0 6px 14px rgba(0,0,0,0.12);
 }
-.tape.left{left:18px; transform:rotate(-4deg);}
-.tape.right{left:auto; right:18px; transform:rotate(4deg);}
+.tab.active .ic{transform:scale(1.12);}
 
-.sticker{
-  display:inline-flex; align-items:center; justify-content:center;
-  width:34px; height:34px; border-radius:50%; font-size:17px;
-  background:var(--sticker-bg, var(--rose-pale)); box-shadow:0 2px 6px rgba(74,59,69,.15);
-  transform:rotate(-6deg);
+.main{flex:1; min-width:0; position:relative;}
+.topbar{
+  position:sticky; top:0; z-index:10;
+  background:rgba(255,253,246,0.9); backdrop-filter:blur(6px);
+  border-bottom:3px dashed var(--line);
+  padding:16px 34px; display:flex; align-items:center; justify-content:space-between; gap:16px; flex-wrap:wrap;
+}
+.topbar h1{margin:0; font-size:1.7rem; color:var(--ink);}
+.topbar .sub{font-size:0.74rem; color:var(--ink-soft); margin-top:-4px;}
+.streak-pill{
+  background:linear-gradient(135deg,#FFF6DE,#FCE1EE); border:2px solid #fff; border-radius:999px;
+  padding:8px 18px; font-weight:800; font-size:0.85rem; box-shadow:var(--shadow);
+  display:flex; align-items:center; gap:6px; color:#B84A7C;
+}
+.content{padding:28px 34px 90px;}
+@media(max-width:760px){
+  .spine{width:64px;} .tab{font-size:0.52rem;} .tab .ic{font-size:1.15rem;}
+  .topbar,.content{padding-left:16px; padding-right:16px;}
+  .topbar h1{font-size:1.6rem;}
 }
 
+.page{display:none; animation:fadeUp .35s ease;}
+.page.active{display:block;}
+@keyframes fadeUp{from{opacity:0; transform:translateY(8px);} to{opacity:1; transform:translateY(0);}}
+
+/* ---------- reusable bits ---------- */
+.card{
+  background:var(--paper-alt); border:2px solid #fff; border-radius:var(--radius);
+  box-shadow:var(--shadow); padding:22px; position:relative;
+}
+.card::after{
+  content:""; position:absolute; bottom:0; right:0; width:22px; height:22px;
+  background:linear-gradient(135deg, transparent 50%, rgba(255,255,255,0.75) 50%);
+  border-radius:0 0 var(--radius) 0;
+}
+.card.curl::after{
+  content:""; position:absolute; bottom:0; right:0; width:26px; height:26px;
+  background:linear-gradient(135deg, transparent 50%, rgba(255,255,255,0.75) 50%);
+  border-radius:0 0 var(--radius) 0;
+}
+.washi{
+  position:absolute; height:26px; width:110px;
+  background:repeating-linear-gradient(45deg, var(--w1,#F6D9CE), var(--w1,#F6D9CE) 8px, var(--w2,#F0BFAF) 8px, var(--w2,#F0BFAF) 16px);
+  opacity:0.85; box-shadow:0 2px 4px rgba(0,0,0,0.08);
+  transform:rotate(-4deg);
+}
+.section-title{display:flex; align-items:baseline; gap:10px; margin:0 0 16px;}
+.section-title h2{margin:0; font-size:1.5rem;}
+.section-title .count{font-family:'Nunito'; font-size:0.78rem; color:var(--ink-soft); background:var(--paper-alt); padding:3px 10px; border-radius:999px;}
 .grid{display:grid; gap:18px;}
+.grid .card:nth-child(3n+1){background:#FCDCE9; transform:rotate(-0.6deg);}
+.grid .card:nth-child(3n+2){background:#F9C3D9; transform:rotate(0.5deg);}
+.grid .card:nth-child(3n+3){background:#F6AFC9; transform:rotate(-0.3deg);}
+.grid .card:hover{transform:rotate(0deg) translateY(-2px); transition:.2s;}
 .grid.cols-2{grid-template-columns:1fr 1fr;}
 .grid.cols-3{grid-template-columns:repeat(3,1fr);}
 .grid.cols-4{grid-template-columns:repeat(4,1fr);}
-@media(max-width:1000px){.grid.cols-2,.grid.cols-3,.grid.cols-4{grid-template-columns:1fr 1fr;}}
+@media(max-width:900px){.grid.cols-2,.grid.cols-3,.grid.cols-4{grid-template-columns:1fr;}}
 
-.badge{
-  display:inline-flex; align-items:center; gap:6px; font-size:12px; font-weight:800;
-  padding:4px 11px; border-radius:99px; font-family:'Space Mono',monospace;
-  background:var(--pale, var(--rose-pale)); color:var(--deep,var(--rose));
+.sticker{
+  display:inline-flex; align-items:center; gap:5px;
+  font-size:0.72rem; font-weight:800; padding:4px 11px; border-radius:999px;
+  box-shadow:0 2px 5px rgba(0,0,0,0.1);
 }
+.sticker.rose{background:var(--rose); color:#7A3B2A;}
+.sticker.sage{background:var(--sage); color:#2F3E24;}
+.sticker.lav{background:var(--lav); color:#3A2E63;}
+.sticker.gold{background:var(--gold); color:#4A3300;}
+.sticker.sky{background:var(--sky); color:#1F4652;}
 
 .btn{
-  border:none; border-radius:99px; padding:9px 18px; font-weight:800; font-size:13.5px;
-  background:var(--rose); color:#fff; box-shadow:0 4px 12px -4px rgba(217,115,140,.6);
-  transition:transform .15s ease, box-shadow .15s ease;
+  border:none; border-radius:999px; padding:10px 18px; font-weight:800; cursor:pointer;
+  font-size:0.85rem; transition:.15s; box-shadow:0 3px 0 rgba(214,73,126,0.25);
 }
-.btn:hover{transform:translateY(-2px); box-shadow:0 8px 18px -6px rgba(217,115,140,.7);}
-.btn.ghost{background:transparent; color:var(--ink); border:2px solid var(--line); box-shadow:none;}
-.btn.ghost:hover{border-color:var(--rose-soft); transform:translateY(-2px);}
-.btn.sage{background:var(--sage); box-shadow:0 4px 12px -4px rgba(92,158,130,.6);}
-.btn.lav{background:var(--lav); box-shadow:0 4px 12px -4px rgba(142,121,201,.6);}
-.btn.sm{padding:6px 13px; font-size:12px;}
+.btn:active{transform:translateY(2px); box-shadow:0 1px 0 rgba(214,73,126,0.25);}
+.btn.primary{background:var(--rose-deep); color:#fff;}
+.btn.ghost{background:#fff; color:var(--ink); box-shadow:0 3px 0 var(--line);}
+.btn.sage{background:var(--sage-deep); color:#fff;}
+.btn.sm{padding:6px 12px; font-size:0.72rem;}
 
-input[type=text], input[type=date], input[type=number], input[type=url], textarea, select{
-  font-family:'Nunito',sans-serif; border:2px solid var(--line); background:#fff;
-  border-radius:12px; padding:9px 12px; font-size:14px; color:var(--ink); width:100%;
+.progress-track{background:#fff; border-radius:999px; height:14px; overflow:hidden; border:1px solid var(--line);}
+.progress-fill{height:100%; border-radius:999px; background:linear-gradient(90deg, var(--rose-deep), var(--gold)); transition:width .4s ease;}
+
+textarea, input[type=text], input[type=date], input[type=number], select{
+  font-family:'Nunito'; border:1.5px solid var(--line); background:var(--paper-alt);
+  border-radius:12px; padding:9px 12px; color:var(--ink); font-size:0.9rem; width:100%;
 }
-input:focus, textarea:focus, select:focus{border-color:var(--rose-soft);}
-textarea{resize:vertical; min-height:70px;}
-label.field{display:block; font-size:12px; font-weight:800; color:var(--ink-soft); margin-bottom:5px; font-family:'Space Mono',monospace; text-transform:uppercase; letter-spacing:.04em;}
+textarea:focus, input:focus, select:focus{outline:2px solid var(--rose-deep); outline-offset:1px;}
+label.small{font-size:0.72rem; font-weight:800; color:var(--ink-soft); text-transform:uppercase; letter-spacing:0.5px; display:block; margin-bottom:5px;}
 
-hr.tear{
-  border:none; height:10px; margin:16px 0;
-  background: repeating-linear-gradient(-90deg, transparent 0 6px, var(--line) 6px 8px);
-  mask-image: linear-gradient(90deg,#000,#000);
+.checkline{display:flex; align-items:flex-start; gap:10px; padding:8px 4px; border-bottom:1px dashed var(--line); font-size:0.9rem;}
+.checkline:last-child{border-bottom:none;}
+.checkline input[type=checkbox]{width:19px; height:19px; margin-top:2px; accent-color:var(--sage-deep); cursor:pointer; flex-shrink:0;}
+.checkline.done label{text-decoration:line-through; color:var(--ink-faint);}
+
+.tape-divider{height:2px; background:repeating-linear-gradient(90deg, var(--line) 0 8px, transparent 8px 14px); margin:18px 0;}
+
+.tabbar{display:flex; gap:8px; flex-wrap:wrap; margin-bottom:18px;}
+.tabbar button{
+  background:var(--paper-alt); border:1.5px solid var(--line); border-radius:12px;
+  padding:8px 16px; font-weight:800; font-size:0.82rem; cursor:pointer; color:var(--ink-soft);
 }
+.tabbar button.active{background:var(--ink); color:var(--paper); border-color:var(--ink);}
 
-/* checklist item */
-.item{
-  display:flex; align-items:flex-start; gap:10px; padding:9px 4px; border-radius:10px;
-  transition:background .15s ease;
+.empty-note{text-align:center; padding:34px 20px; color:var(--ink-soft); font-size:0.9rem;}
+.empty-note .hand{font-size:1.6rem; display:block; color:var(--ink);}
+
+::-webkit-scrollbar{width:9px; height:9px;}
+::-webkit-scrollbar-thumb{background:var(--line); border-radius:8px;}
+
+.modal-bg{position:fixed; inset:0; background:rgba(74,60,48,0.35); backdrop-filter:blur(2px); z-index:100; display:none; align-items:center; justify-content:center; padding:20px;}
+.modal-bg.open{display:flex;}
+.modal{background:var(--paper); border-radius:22px; padding:26px; max-width:480px; width:100%; box-shadow:var(--shadow-lift); max-height:88vh; overflow-y:auto;}
+.modal h3{margin:0 0 4px;}
+.modal .close{position:absolute; top:14px; right:16px;}
+.field{margin-bottom:14px;}
+
+/* dashboard specific */
+.hero-card{
+  background:linear-gradient(135deg, #F8A8C6, #FBC9DC);
+  border:3px solid #fff;
+  border-radius:26px; padding:28px 30px; position:relative; overflow:hidden; box-shadow:var(--shadow-lift); color:#7A2E45;
 }
-.item:hover{background:rgba(217,115,140,.06);}
-.chk{
-  width:21px; height:21px; border-radius:7px; border:2.5px solid var(--rose-soft); flex:none; margin-top:1px;
-  display:flex; align-items:center; justify-content:center; background:#fff; transition:all .15s ease;
-}
-.chk.done{background:var(--rose); border-color:var(--rose);}
-.chk.done::after{content:"✓"; color:#fff; font-size:13px; font-weight:800;}
-.item-text{flex:1; font-size:14.5px; line-height:1.4;}
-.item-text.done{color:var(--ink-soft); text-decoration:line-through; text-decoration-color:var(--rose-soft);}
-.dots{display:flex; gap:3px; flex:none;}
-.dot{width:9px; height:9px; border-radius:50%; background:#e8ddd0; border:none; padding:0; transition:background .12s;}
-.dot.on{background:var(--gold);}
+.hero-card h2{font-size:1.9rem; margin:0 0 4px;}
+.hero-card .quote{font-family:'Fraunces'; font-style:italic; font-size:1.05rem; margin-top:10px; max-width:520px;}
+.mini-stat{background:rgba(255,255,255,0.75); border:2px solid #fff; border-radius:16px; padding:14px 16px; text-align:center;}
+.mini-stat .num{font-family:'Caveat'; font-size:1.7rem; font-weight:700; display:block; line-height:1; color:#D6497E;}
+.mini-stat .lab{font-size:0.68rem; text-transform:uppercase; letter-spacing:0.5px; font-weight:800; color:#B07A87;}
 
-/* progress ring */
-.ring{width:74px; height:74px; border-radius:50%; display:flex; align-items:center; justify-content:center; position:relative;
-  background:conic-gradient(var(--ring-color,var(--rose)) calc(var(--p,0)*1%), #EFE4D6 0);}
-.ring::before{content:""; position:absolute; inset:7px; background:var(--card); border-radius:50%;}
-.ring span{position:relative; font-family:'Space Mono',monospace; font-weight:700; font-size:14px;}
+.day-pill{width:34px;height:34px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:0.72rem;font-weight:800;border:2px solid var(--line); background:var(--paper-alt); color:var(--ink-soft); cursor:pointer;}
+.day-pill.today{border-color:var(--rose-deep); color:var(--rose-deep);}
+.day-pill.filled{background:var(--sage); border-color:var(--sage-deep); color:#233018;}
 
-.progressbar{height:10px; border-radius:99px; background:#EFE4D6; overflow:hidden;}
-.progressbar > i{display:block; height:100%; border-radius:99px; background:var(--bar,var(--rose)); transition:width .5s cubic-bezier(.22,1,.36,1);}
+.subject-card{cursor:pointer;}
+.subject-card .icon{font-size:1.6rem;}
+.subject-card .barwrap{margin-top:10px;}
 
-/* empty state */
-.empty{border:2.5px dashed var(--line); border-radius:16px; padding:34px 20px; text-align:center; color:var(--ink-soft);}
-.empty .hand{font-size:24px; color:var(--ink); display:block; margin-bottom:4px;}
+.gallery{display:grid; grid-template-columns:repeat(auto-fill,minmax(150px,1fr)); gap:14px;}
+.gallery .photo{border-radius:14px; overflow:hidden; border:6px solid #fff; box-shadow:0 6px 16px rgba(0,0,0,0.15); transform:rotate(var(--r,0deg)); transition:.2s;}
+.gallery .photo:hover{transform:rotate(0deg) scale(1.03); z-index:2;}
+.gallery .photo img{width:100%; height:150px; object-fit:cover; display:block;}
+.gallery .photo .cap{font-size:0.68rem; text-align:center; padding:5px; color:var(--ink-soft); font-weight:700;}
 
-/* polaroid */
-.polaroid{background:#fff; padding:10px 10px 34px; border-radius:6px; box-shadow:var(--shadow); position:relative;}
-.polaroid img{width:100%; height:150px; object-fit:cover; border-radius:2px; display:block; background:var(--paper-deep);}
-.polaroid figcaption{position:absolute; bottom:8px; left:12px; right:12px; font-family:'Caveat',cursive; font-size:17px; color:var(--ink); white-space:nowrap; overflow:hidden; text-overflow:ellipsis;}
+.cork{background:#C9A876; background-image: radial-gradient(rgba(0,0,0,0.06) 1px, transparent 1px); background-size:6px 6px; border-radius:22px; padding:24px; box-shadow:inset 0 0 30px rgba(0,0,0,0.25);}
+.pin-card{background:#fffef8; border-radius:4px; padding:16px; box-shadow:0 8px 14px rgba(0,0,0,0.25); position:relative; transform:rotate(var(--r,-2deg));}
+.pin-card::before{content:"📌"; position:absolute; top:-14px; left:50%; transform:translateX(-50%); font-size:1.4rem;}
 
-/* heatmap */
-.heatgrid{display:grid; grid-template-columns:repeat(auto-fill,minmax(15px,1fr)); gap:4px;}
-.heatcell{aspect-ratio:1; border-radius:4px; background:#EFE4D6;}
+table{width:100%; border-collapse:collapse; font-size:0.85rem;}
+th{text-align:left; padding:9px 10px; color:var(--ink-soft); font-size:0.7rem; text-transform:uppercase; letter-spacing:0.4px; border-bottom:2px solid var(--line);}
+td{padding:9px 10px; border-bottom:1px dashed var(--line); vertical-align:top;}
+tr:last-child td{border-bottom:none;}
 
-/* toast */
-#toast{position:fixed; bottom:26px; left:50%; transform:translateX(-50%) translateY(20px); opacity:0;
-  background:var(--ink); color:#fff; padding:10px 20px; border-radius:99px; font-size:13.5px; font-weight:700;
-  box-shadow:var(--shadow-lg); transition:all .3s ease; z-index:999; pointer-events:none;}
-#toast.show{opacity:1; transform:translateX(-50%) translateY(0);}
+.chip-input{display:flex; gap:8px;}
+.week-phase-badge{display:inline-block; font-size:0.65rem; padding:2px 9px; border-radius:8px; font-weight:800;}
 
-.subtle{color:var(--ink-soft); font-size:13px;}
-.two-col{display:grid; grid-template-columns:1.3fr 1fr; gap:18px;}
-@media(max-width:1000px){.two-col{grid-template-columns:1fr;}}
-.flexrow{display:flex; align-items:center; gap:10px; justify-content:space-between;}
-
-.tag{display:inline-block; font-size:11px; font-weight:800; padding:3px 9px; border-radius:99px; background:var(--lav-pale); color:var(--lav); font-family:'Space Mono',monospace; margin-right:5px;}
-
-.iconbtn{background:none; border:none; color:var(--ink-soft); font-size:16px; padding:4px 6px; border-radius:8px;}
-.iconbtn:hover{background:rgba(74,59,69,.08); color:var(--ink);}
-
-@media(max-width:820px){
-  #app{flex-direction:column;}
-  #sidebar{position:relative; height:auto; width:100%; flex-direction:row; overflow-x:auto; padding:14px 14px 10px;}
-  .brand{display:none;}
-  .navtab{border-radius:12px; flex:none;}
-  .navtab.active{transform:none;}
-  #main{padding:20px;}
-}
+@media print{.spine,.topbar,.btn{display:none;}}
 </style>
 </head>
 <body>
-<div id="app">
-  <nav id="sidebar"></nav>
-  <main id="main"></main>
+
+<div class="app">
+  <nav class="spine">
+    <div class="brand hand">🌸<small>Palak's<br>CEED</small></div>
+    <button class="tab active" data-page="dashboard"><span class="ic">🏡</span>Home</button>
+    <button class="tab" data-page="roadmap"><span class="ic">🗓️</span>Roadmap</button>
+    <button class="tab" data-page="subjects"><span class="ic">📚</span>Subjects</button>
+    <button class="tab" data-page="planner"><span class="ic">📝</span>Planner</button>
+    <button class="tab" data-page="habits"><span class="ic">🔥</span>Habits</button>
+    <button class="tab" data-page="sketchbook"><span class="ic">✏️</span>Sketches</button>
+    <button class="tab" data-page="pyq"><span class="ic">📄</span>PYQs</button>
+    <button class="tab" data-page="mocks"><span class="ic">🏆</span>Mocks</button>
+    <button class="tab" data-page="revision"><span class="ic">🔁</span>Revise</button>
+    <button class="tab" data-page="resources"><span class="ic">📌</span>Resources</button>
+    <button class="tab" data-page="journal"><span class="ic">📔</span>Journal</button>
+  </nav>
+
+  <div class="main">
+    <div class="topbar">
+      <div>
+        <h1 class="hand" id="pageTitle">Good morning, Palak 🌷</h1>
+        <div class="sub" id="pageSub">Loading…</div>
+      </div>
+      <div class="streak-pill">🔥 <span id="streakTop">0</span> day sketch streak</div>
+    </div>
+    <div class="content" id="content">
+
+      <!-- DASHBOARD -->
+      <section class="page active" id="page-dashboard">
+        <div class="grid" style="grid-template-columns:1.4fr 1fr; margin-bottom:20px;">
+          <div class="hero-card">
+            <span class="sticker gold" style="margin-bottom:10px;">Countdown</span>
+            <h2 id="countdownNum">— days to CEED</h2>
+            <div id="examMeta" style="font-weight:700;"></div>
+            <div class="quote" id="dailyQuote">"Everything gets a slot — nothing gets skipped."</div>
+          </div>
+          <div class="grid cols-2" style="grid-template-columns:1fr 1fr; align-content:start;">
+            <div class="mini-stat"><span class="num" id="statWeek">Wk 1</span><span class="lab">Current week</span></div>
+            <div class="mini-stat"><span class="num" id="statPhase">Ph 1</span><span class="lab">Phase</span></div>
+            <div class="mini-stat"><span class="num" id="statSketch">0</span><span class="lab">Sketch streak</span></div>
+            <div class="mini-stat"><span class="num" id="statCoverage">0%</span><span class="lab">Roadmap done</span></div>
+          </div>
+        </div>
+
+        <div class="grid cols-2">
+          <div class="card curl">
+            <div class="section-title"><h2>📌 Today's slot</h2></div>
+            <div id="todaySlot"></div>
+          </div>
+          <div class="card curl">
+            <div class="section-title"><h2>✏️ Today's sketch prompt</h2></div>
+            <div id="todaySketch"></div>
+          </div>
+        </div>
+
+        <div class="tape-divider"></div>
+
+        <div class="grid cols-3">
+          <div class="card">
+            <h3 class="serif" style="margin:0 0 10px; font-size:1.05rem;">This week's focus</h3>
+            <div id="weekFocusMini" style="font-size:0.87rem; color:var(--ink-soft);"></div>
+          </div>
+          <div class="card">
+            <h3 class="serif" style="margin:0 0 10px; font-size:1.05rem;">Weakest subjects</h3>
+            <div id="weakSubjects" style="font-size:0.87rem;"></div>
+          </div>
+          <div class="card">
+            <h3 class="serif" style="margin:0 0 10px; font-size:1.05rem;">Latest journal note</h3>
+            <div id="latestJournal" style="font-size:0.87rem; color:var(--ink-soft);"></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ROADMAP -->
+      <section class="page" id="page-roadmap">
+        <div class="section-title"><h2>🗓️ Week-by-Week Roadmap</h2><span class="count">Jul 7 – Nov 30, 2026 · 20 weeks</span></div>
+        <div class="card" style="margin-bottom:18px;">
+          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
+            <strong id="roadmapOverallLabel">Overall progress</strong>
+            <span id="roadmapOverallPct" class="sticker rose">0%</span>
+          </div>
+          <div class="progress-track"><div class="progress-fill" id="roadmapOverallBar" style="width:0%"></div></div>
+        </div>
+        <div id="phaseList"></div>
+      </section>
+
+      <!-- SUBJECTS -->
+      <section class="page" id="page-subjects">
+        <div class="section-title"><h2>📚 Subjects & Topics</h2><span class="count">Part A + Part B checklists</span></div>
+        <div class="tabbar" id="subjectPartTabs">
+          <button class="active" data-part="A">Part A</button>
+          <button data-part="B">Part B</button>
+        </div>
+        <div class="grid cols-3" id="subjectGrid"></div>
+      </section>
+
+      <!-- PLANNER -->
+      <section class="page" id="page-planner">
+        <div class="section-title"><h2>📝 Daily / Weekly Planner</h2><span class="count" id="plannerWeekLabel"></span></div>
+        <div class="grid" style="grid-template-columns:2fr 1fr;">
+          <div class="card">
+            <h3 class="serif" style="margin-top:0;">This week's board</h3>
+            <div id="weekBoard"></div>
+          </div>
+          <div class="card">
+            <h3 class="serif" style="margin-top:0;">Add a task ✚</h3>
+            <div class="field"><label class="small">Task</label><input type="text" id="taskInput" placeholder="e.g. Revise LCM/HCF"></div>
+            <div class="field"><label class="small">Day</label>
+              <select id="taskDay"><option>Mon</option><option>Tue</option><option>Wed</option><option>Thu</option><option>Fri</option><option>Sat</option><option>Sun</option></select>
+            </div>
+            <button class="btn primary" onclick="addTask()">Add to board</button>
+            <div class="tape-divider"></div>
+            <h3 class="serif">Custom to-dos</h3>
+            <div id="customTasks"></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- HABITS -->
+      <section class="page" id="page-habits">
+        <div class="section-title"><h2>🔥 Habit Tracker</h2><span class="count">Daily sketch + study rhythm</span></div>
+        <div class="grid cols-2">
+          <div class="card">
+            <h3 class="serif" style="margin-top:0;">Daily sketching</h3>
+            <div id="sketchHeatmap" style="display:grid; grid-template-columns:repeat(7,1fr); gap:8px;"></div>
+            <p style="font-size:0.78rem; color:var(--ink-soft); margin-top:12px;">Tap a day to mark today's sketch as done. Streak: <strong id="sketchStreakNum">0</strong> days.</p>
+          </div>
+          <div class="card">
+            <h3 class="serif" style="margin-top:0;">Study habits</h3>
+            <div id="habitList"></div>
+            <div style="margin-top:10px; display:flex; gap:8px;">
+              <input type="text" id="newHabit" placeholder="Add a new habit (e.g. GA reading)">
+              <button class="btn sage sm" onclick="addHabit()">Add</button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- SKETCHBOOK -->
+      <section class="page" id="page-sketchbook">
+        <div class="section-title"><h2>✏️ Sketchbook</h2><span class="count" id="sketchCount">0 sketches</span></div>
+        <div class="card" style="margin-bottom:18px;">
+          <div style="display:flex; gap:12px; flex-wrap:wrap; align-items:flex-end;">
+            <div class="field" style="flex:1; min-width:180px; margin-bottom:0;"><label class="small">Upload sketch photo</label><input type="file" id="sketchFile" accept="image/*"></div>
+            <div class="field" style="min-width:160px; margin-bottom:0;"><label class="small">Tag / topic</label><input type="text" id="sketchTag" placeholder="e.g. Wk1 Mon – cube study"></div>
+            <button class="btn primary" onclick="addSketch()">Pin to sketchbook</button>
+          </div>
+        </div>
+        <div class="gallery" id="sketchGallery"></div>
+      </section>
+
+      <!-- PYQ -->
+      <section class="page" id="page-pyq">
+        <div class="section-title"><h2>📄 Previous Year Papers</h2><span class="count">Log every attempt by topic</span></div>
+        <div class="card" style="margin-bottom:18px;">
+          <div class="grid cols-4" style="align-items:end;">
+            <div class="field" style="margin:0;"><label class="small">Year / Set</label><input type="text" id="pyqYear" placeholder="CEED 2023"></div>
+            <div class="field" style="margin:0;"><label class="small">Section</label><input type="text" id="pyqSection" placeholder="Part A – Reasoning"></div>
+            <div class="field" style="margin:0;"><label class="small">Score / Total</label><input type="text" id="pyqScore" placeholder="18/25"></div>
+            <button class="btn primary" onclick="addPYQ()">Log paper</button>
+          </div>
+          <div class="field" style="margin-top:8px;"><label class="small">Mistakes / topics to revise</label><input type="text" id="pyqNotes" placeholder="Weak in mensuration & para-jumbles"></div>
+        </div>
+        <div class="card"><table><thead><tr><th>Paper</th><th>Section</th><th>Score</th><th>Notes</th><th></th></tr></thead><tbody id="pyqTable"></tbody></table></div>
+      </section>
+
+      <!-- MOCKS -->
+      <section class="page" id="page-mocks">
+        <div class="section-title"><h2>🏆 Mock Test Tracker</h2><span class="count">4 full mocks, Nov Wk17–20</span></div>
+        <div class="card" style="margin-bottom:18px;">
+          <div class="grid cols-4" style="align-items:end;">
+            <div class="field" style="margin:0;"><label class="small">Mock name</label><input type="text" id="mockName" placeholder="Full Mock #1"></div>
+            <div class="field" style="margin:0;"><label class="small">Date</label><input type="date" id="mockDate"></div>
+            <div class="field" style="margin:0;"><label class="small">Score</label><input type="text" id="mockScore" placeholder="62/100"></div>
+            <button class="btn primary" onclick="addMock()">Save mock</button>
+          </div>
+          <div class="field" style="margin-top:8px;"><label class="small">Weakest area this time</label><input type="text" id="mockWeak" placeholder="e.g. Part B Communication"></div>
+        </div>
+        <div id="mockList" class="grid cols-3"></div>
+      </section>
+
+      <!-- REVISION -->
+      <section class="page" id="page-revision">
+        <div class="section-title"><h2>🔁 Revision & Cheat Sheet</h2><span class="count">Flashcards + weak-topic list</span></div>
+        <div class="grid cols-2">
+          <div class="card">
+            <h3 class="serif" style="margin-top:0;">Weak topics to revisit</h3>
+            <div id="weakTopicList"></div>
+            <p style="font-size:0.78rem; color:var(--ink-soft);">Tick a topic as ⚠️ weak from any Subjects card and it'll show here automatically.</p>
+          </div>
+          <div class="card">
+            <h3 class="serif" style="margin-top:0;">Cheat-sheet cards</h3>
+            <div class="field"><label class="small">Front (formula / fact)</label><input type="text" id="cardFront" placeholder="Speed = Distance / Time"></div>
+            <div class="field"><label class="small">Back (note)</label><input type="text" id="cardBack" placeholder="Convert km/hr to m/s: ×5/18"></div>
+            <button class="btn primary" onclick="addFlashcard()">Add card</button>
+            <div class="tape-divider"></div>
+            <div id="flashcardList" class="grid cols-2"></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- RESOURCES -->
+      <section class="page" id="page-resources">
+        <div class="section-title"><h2>📌 Resources Board</h2><span class="count">Links, designers, movements</span></div>
+        <div class="card" style="margin-bottom:18px;">
+          <div class="grid cols-3" style="align-items:end;">
+            <div class="field" style="margin:0;"><label class="small">Title</label><input type="text" id="resTitle" placeholder="Bauhaus overview"></div>
+            <div class="field" style="margin:0;"><label class="small">Link (optional)</label><input type="text" id="resLink" placeholder="https://..."></div>
+            <button class="btn primary" onclick="addResource()">Pin it 📌</button>
+          </div>
+        </div>
+        <div class="cork">
+          <div class="grid cols-3" id="resourceBoard"></div>
+        </div>
+      </section>
+
+      <!-- JOURNAL -->
+      <section class="page" id="page-journal">
+        <div class="section-title"><h2>📔 Personal Journal</h2><span class="count">Free write, mood & gratitude</span></div>
+        <div class="grid cols-2">
+          <div class="card">
+            <h3 class="serif" style="margin-top:0;">New entry</h3>
+            <div class="field"><label class="small">Mood today</label>
+              <div id="moodPicker" style="display:flex; gap:8px; font-size:1.5rem;"></div>
+            </div>
+            <div class="field"><label class="small">Write freely</label><textarea id="journalText" rows="6" placeholder="How did today's prep feel?"></textarea></div>
+            <button class="btn primary" onclick="addJournal()">Save entry</button>
+          </div>
+          <div class="card">
+            <h3 class="serif" style="margin-top:0;">Past entries</h3>
+            <div id="journalEntries" style="max-height:420px; overflow-y:auto;"></div>
+          </div>
+        </div>
+      </section>
+
+    </div>
+  </div>
 </div>
-<div id="toast"></div>
+
+<div class="modal-bg" id="topicModalBg"><div class="modal" id="topicModal"></div></div>
 
 <script>
-/* =====================================================================
-   DATA — seeded from the CEED Master Roadmap
-===================================================================== */
-const PART_A = [
- {id:'vis', emoji:'🧩', color:'rose', title:'Visualization & Spatial Ability', items:[
-   "Mental rotation of 2D shapes and 3D solids","Folding/unfolding nets of cubes, boxes, and polyhedra",
-   "Identifying rotated, mirrored, or pixelated versions of a reference image","Isometric view identification from orthographic views",
-   "Orthographic view identification from isometric/3D views","Water reflection and mirror image reasoning",
-   "Pattern completion (visual sequences, missing tile/piece)","Cubes and dice problems (painted faces, opposite faces)",
-   "Paper folding and cutting (predict the unfolded pattern)","Assembling/disassembling views of 3D objects (exploded view)",
-   "Shadow and projection reasoning","Counting hidden shapes/lines/triangles in a composite figure"]},
- {id:'obs', emoji:'👀', color:'lav', title:'Observation & Design Sensitivity', items:[
-   "Detecting concealed/non-obvious properties in everyday objects","Form vs. function analysis of products",
-   "Classification of objects/images by shared attribute","Odd-one-out reasoning","Analysis, inference & prediction from a visual scenario",
-   "Basic principles of design: balance, proportion, rhythm, hierarchy, unity, contrast","Evolution of everyday objects/materials across time",
-   "Ergonomics basics — fit between object, user, context","Aesthetics and technical drawing sensitivity"]},
- {id:'prac', emoji:'⚙️', color:'sage', title:'Practical & Scientific Knowledge', items:[
-   "How everyday mechanisms work: levers, hinges, gears, pulleys, joints","Basic mechanics/physics relevant to product function",
-   "Material properties: wood, metal, plastic, glass, textile, composites","Manufacturing basics: molding, casting, joinery, 3D printing",
-   "Photography terminology: aperture, exposure, framing","Printing terminology: CMYK vs RGB, DPI, paper types",
-   "Audio-video terminology: resolutions, aspect ratios, frame rate","Basic biomechanics (human movement)"]},
- {id:'env', emoji:'🌍', color:'gold', title:'Environment & Society', items:[
-   "Environmental awareness: sustainability, recycling, circular design","Social and cultural connections to design (regional crafts, vernacular)",
-   "Accessibility and inclusive/universal design principles","Current design-relevant social issues (mobility, waste, public health)",
-   "Awareness of major design-for-social-impact projects"]},
- {id:'reason', emoji:'🧠', color:'rose', title:'Analytical & Logical Reasoning', items:[
-   "Verbal reasoning: analogy, classification, series completion","Non-verbal reasoning: figure series, matrix completion, pattern logic",
-   "Syllogisms and basic deductive reasoning","Blood relations, direction sense, simple puzzles","Coding-decoding problems",
-   "Sequential/step-by-step logic puzzles","Statement-conclusion / statement-assumption reasoning"]},
- {id:'maths', emoji:'🔢', color:'lav', title:'Mathematics / Quantitative Aptitude', items:[
-   "Number systems: factors, multiples, LCM & HCF","Ratio & proportion","Percentages","Profit & loss (basic)",
-   "Simple & compound interest (basic awareness)","Averages","Time, speed & distance","Time & work",
-   "Permutations & combinations (basic)","Basic probability","Mensuration: area & perimeter (2D)",
-   "Mensuration: surface area & volume (3D)","Geometry basics: angles, triangles, circles, polygons",
-   "Estimation problems (real-world quantity)","Simple data interpretation"]},
- {id:'eng', emoji:'📖', color:'sage', title:'English / Language', items:[
-   "Reading comprehension (inference-based)","Vocabulary: synonyms","Vocabulary: antonyms","Idioms and phrases",
-   "One-word substitution","Sentence correction (grammar errors)","Sentence completion / fill in the blank",
-   "Para-jumbles","Basic grammar: tenses, articles, prepositions, subject-verb agreement","Analogies (word relationships)"]},
- {id:'ga', emoji:'🏛️', color:'gold', title:'GA / Design & Art Knowledge', items:[
-   "Famous designers (Indian & global) and landmark work","Iconic/innovative products and their design story",
-   "Major design movements (Bauhaus, Art Deco, Modernism, Memphis)","Design terminology (typography, colour theory, hierarchy)",
-   "Notable Indian & international design institutions","Current affairs with design relevance",
-   "Notable global personalities — tech, sports, fine arts","Design disciplines: product, graphic, animation, UX, textile, transport",
-   "Basic art history touchpoints","Contemporary design/tech trends (AI, sustainable materials)"]},
- {id:'creat', emoji:'💡', color:'rose', title:'Creativity & Design Methods', items:[
-   "Divergent/lateral thinking style questions","Design process: research → ideation → prototyping → testing",
-   "Identifying the \"most creative\"/\"most unconventional\" option","Recognizing design-thinking principles in a scenario"]},
-];
-const PART_B = [
- {id:'draw', emoji:'✏️', color:'lav', title:'Drawing', items:[
-   "Freehand sketching of objects in proportion","Freehand sketching of people/figures","Freehand sketching of scenes/environments",
-   "Memory drawing (no reference)","Line quality control","Shading & rendering basics","Composition within a given frame/panel",
-   "One-point and two-point perspective"]},
- {id:'ideacreat', emoji:'💡', color:'sage', title:'Creativity', items:[
-   "Idea generation under stated constraints","Generating multiple diverse solutions","Originality under time pressure",
-   "Adapting an idea across different contexts/users"]},
- {id:'comm', emoji:'💬', color:'gold', title:'Communication', items:[
-   "Visual storytelling (4–6 panel sequential narrative)","Explaining a concept through sketch + short text",
-   "Written design-rationale","Clarity/legibility under time pressure"]},
- {id:'prob', emoji:'🔍', color:'rose', title:'Problem Identification', items:[
-   "Understanding user needs & contextual constraints","Spotting flaws/opportunities in a scenario or object",
-   "Applying appropriate materials/mechanisms","Social-relevance & environmental-sensitivity framing"]},
- {id:'opt', emoji:'🎯', color:'lav', title:'Optional Specialisation Track', items:[
-   "Product Design — physical product ideation, form, mechanism, materials",
-   "Animation — sequential/motion thinking, character/story prompts",
-   "Visual Communication — graphic/typographic problem solving, information design",
-   "Interaction Design — screen/system/service flows, user journeys"]},
+/* ===================== DATA MODEL ===================== */
+const EXAM_START = new Date('2026-07-07');
+const CEED_DATE = new Date('2027-01-10'); // typical mid-Jan CEED sitting, placeholder estimate
+
+const PHASES = [
+ {id:1,name:'Foundation',range:'Jul 7 – Jul 31',weeks:[1,2,3,4],color:'rose'},
+ {id:2,name:'Part A Deep Dive',range:'Aug 1 – Aug 31',weeks:[5,6,7,8],color:'sage'},
+ {id:3,name:'Part B + GA Deep Dive',range:'Sep 1 – Sep 30',weeks:[9,10,11,12],color:'lav'},
+ {id:4,name:'Integration & PYQs',range:'Oct 1 – Oct 31',weeks:[13,14,15,16],color:'gold'},
+ {id:5,name:'Full Mocks & Fixing',range:'Nov 1 – Nov 30',weeks:[17,18,19,20],color:'sky'},
 ];
 
-const ROADMAP = [
- {wk:1, range:"Jul 7–13", phase:"Foundation", color:'rose', topics:"Diagnostic full paper; set up trackers; start daily sketching; download official brochure/PYQs"},
- {wk:2, range:"Jul 14–20", phase:"Foundation", color:'rose', topics:"Confidence-map every topic (1–5 self rating); daily sketching continues"},
- {wk:3, range:"Jul 21–27", phase:"Foundation", color:'rose', topics:"Maths intro: number systems, LCM/HCF, ratio & proportion, percentages, averages"},
- {wk:4, range:"Jul 28–31", phase:"Foundation", color:'rose', topics:"Maths cont'd: profit/loss, SI/CI, time-speed-distance, time-and-work"},
- {wk:5, range:"Aug 1–7", phase:"Part A Deep Dive", color:'lav', topics:"Visualization & spatial ability — rotation, folding, isometric/orthographic, cubes & dice, shadow/projection"},
- {wk:6, range:"Aug 8–14", phase:"Part A Deep Dive", color:'lav', topics:"Observation & design sensitivity; Maths: permutations & combinations, basic probability"},
- {wk:7, range:"Aug 15–21", phase:"Part A Deep Dive", color:'lav', topics:"Practical & scientific knowledge; Maths: mensuration, geometry basics, estimation"},
- {wk:8, range:"Aug 22–31", phase:"Part A Deep Dive", color:'lav', topics:"Reasoning; Environment & Society; English full sweep; 1 full Part-A-only timed mock"},
- {wk:9, range:"Sep 1–7", phase:"Part B Deep Dive", color:'sage', topics:"Drawing fundamentals; GA: famous designers & design movements"},
- {wk:10, range:"Sep 8–14", phase:"Part B Deep Dive", color:'sage', topics:"Idea generation under constraints (Creativity); GA: iconic products, terminology"},
- {wk:11, range:"Sep 15–21", phase:"Part B Deep Dive", color:'sage', topics:"Visual storytelling + design-rationale (Communication); decide optional track"},
- {wk:12, range:"Sep 22–30", phase:"Part B Deep Dive", color:'sage', topics:"Problem identification + optional-track practice; 1 full Part-B-only timed mock"},
- {wk:13, range:"Oct 1–7", phase:"Integration & PYQs", color:'gold', topics:"2 full past papers, real timing; log every mistake by exact topic"},
- {wk:14, range:"Oct 8–14", phase:"Integration & PYQs", color:'gold', topics:"2–3 more past papers; re-drill Maths/English/GA sub-topics that came up wrong"},
- {wk:15, range:"Oct 15–21", phase:"Integration & PYQs", color:'gold', topics:"2–3 more past papers; re-attempt hardest Part B prompts; retry optional track"},
- {wk:16, range:"Oct 22–31", phase:"Integration & PYQs", color:'gold', topics:"Finish 10+ full papers; mid-roadmap review against the full checklist"},
- {wk:17, range:"Nov 1–7", phase:"Full Mocks", color:'rose', topics:"Full 3-hr mock #1; targeted fixing of weakest 2 checklist items"},
- {wk:18, range:"Nov 8–14", phase:"Full Mocks", color:'rose', topics:"Full 3-hr mock #2; daily drilling of single weakest area"},
- {wk:19, range:"Nov 15–21", phase:"Full Mocks", color:'rose', topics:"Full 3-hr mock #3; re-test previously weak topics"},
- {wk:20, range:"Nov 22–30", phase:"Full Mocks", color:'rose', topics:"Full 3-hr mock #4 (final); compile personal cheat sheet"},
+const WEEKS = [
+ {n:1,dates:'Jul 7–13',topics:"Diagnostic full paper; set up trackers; start daily sketching; download official brochure/PYQs"},
+ {n:2,dates:'Jul 14–20',topics:"Confidence-map every topic in Section 1 & 2 (1–5 self rating); daily sketching continues"},
+ {n:3,dates:'Jul 21–27',topics:"Maths intro: number systems, LCM/HCF, ratio & proportion, percentages, averages — 20 min/day drill"},
+ {n:4,dates:'Jul 28–31',topics:"Maths cont'd: profit/loss, SI/CI basics, time-speed-distance, time-and-work; short self-test"},
+ {n:5,dates:'Aug 1–7',topics:"Visualization & spatial ability — rotation, folding, isometric/orthographic, cubes & dice, shadow/projection"},
+ {n:6,dates:'Aug 8–14',topics:"Observation & design sensitivity — form/function, classification, design principles, ergonomics; Maths: P&C, basic probability"},
+ {n:7,dates:'Aug 15–21',topics:"Practical & scientific knowledge — materials, mechanisms, AV/printing/photography terms; Maths: mensuration, geometry, estimation"},
+ {n:8,dates:'Aug 22–31',topics:"Analytical/logical reasoning; Environment & Society; English: comprehension, synonyms/antonyms, idioms, one-word sub, grammar, para-jumbles; 1 full Part-A-only timed mock"},
+ {n:9,dates:'Sep 1–7',topics:"Drawing fundamentals — proportion, line quality, shading, perspective, memory drawing; GA: famous designers & design movements"},
+ {n:10,dates:'Sep 8–14',topics:"Idea generation under constraints (Part B Creativity); GA: iconic products, terminology, design disciplines overview"},
+ {n:11,dates:'Sep 15–21',topics:"Visual storytelling + written design-rationale (Part B Communication); GA: current affairs, contemporary trends; decide optional track"},
+ {n:12,dates:'Sep 22–30',topics:"Problem identification + chosen optional-track practice; Creativity & Design Methods; 1 full Part-B-only timed mock"},
+ {n:13,dates:'Oct 1–7',topics:"2 full past papers (Part A+B, real timing); log every mistake by exact topic"},
+ {n:14,dates:'Oct 8–14',topics:"2–3 more past papers; re-drill any Maths/English/GA sub-topics that came up wrong"},
+ {n:15,dates:'Oct 15–21',topics:"2–3 more past papers; re-attempt hardest Part B prompts from September; try optional track again"},
+ {n:16,dates:'Oct 22–31',topics:"Finish 10+ full papers solved total; mid-roadmap review against the full checklist"},
+ {n:17,dates:'Nov 1–7',topics:"Full 3-hr mock #1; targeted fixing of weakest 2 checklist items from October"},
+ {n:18,dates:'Nov 8–14',topics:"Full 3-hr mock #2; daily drilling of single weakest area"},
+ {n:19,dates:'Nov 15–21',topics:"Full 3-hr mock #3; re-test previously weak topics to confirm they're fixed"},
+ {n:20,dates:'Nov 22–30',topics:"Full 3-hr mock #4 (final); compile personal cheat sheet (formulas, shortcuts, sketch warm-ups, GA facts)"},
 ];
-const PHASES = ["Foundation","Part A Deep Dive","Part B Deep Dive","Integration & PYQs","Full Mocks"];
-const PHASE_COLOR = {"Foundation":'rose',"Part A Deep Dive":'lav',"Part B Deep Dive":'sage',"Integration & PYQs":'gold',"Full Mocks":'rose'};
+function phaseForWeek(w){return PHASES.find(p=>p.weeks.includes(w));}
 
-const RHYTHM = [
- {day:"Mon", emoji:"✏️", act:"Part A topic drill + Object/Product sketch study", time:"45–75 min"},
- {day:"Tue", emoji:"🧍", act:"Figure/People gesture sketch + light review", time:"45–60 min"},
- {day:"Wed", emoji:"🏙️", act:"Idea generation / storytelling prompt + Scene sketch", time:"45–75 min"},
- {day:"Thu", emoji:"🧩", act:"Part A drill + GA reading + Memory drawing", time:"45–75 min"},
- {day:"Fri", emoji:"🌈", act:"Shading/rendering or idea sketch + design-rationale writing", time:"45–60 min"},
- {day:"Sat", emoji:"⏱️", act:"Longer block — PYQ set / timed mixed mock", time:"90–120 min"},
- {day:"Sun", emoji:"🌞", act:"Review mistakes vs. checklist; warm-up sketch; rest", time:"30–45 min"},
-];
-const GA_FACTS = [
- "Dieter Rams' 10 principles of good design still shape product design curricula worldwide.",
- "The Bauhaus (1919–1933) fused craft and industry — its 'form follows function' ethos underpins most modern product design.",
- "CMYK is subtractive (print), RGB is additive (screens) — a favourite CEED practical-knowledge trap.",
- "Ergonomics studies the fit between people, products, and context — central to most CEED observation questions.",
- "Memphis Design (1980s Italy) rebelled against minimalism with bold colour and playful geometric form.",
- "A cone's volume is exactly one-third of a cylinder with the same base and height — a quick mensuration shortcut.",
- "Isometric projection keeps all three axes at 120° to each other — no vanishing points, unlike perspective drawing.",
- "The Eameses pioneered plywood moulding techniques that changed 20th-century furniture manufacturing.",
- "Circular design aims to eliminate waste by keeping materials in use — a recurring 'Environment & Society' theme.",
- "Braun's product design language under Rams directly influenced Apple's design philosophy decades later.",
-];
-
-const DEFAULT_RESOURCES = [
- {id:cid(), title:"Official CEED Brochure & Sample Papers", url:"https://www.ceed.iitb.ac.in", category:"Official", note:"Check every year for the latest sample papers and mark distribution."},
- {id:cid(), title:"NID / NATA visualization drill sets", url:"", category:"Practice", note:"Good supplementary spatial-reasoning practice."},
-];
-
-/* =====================================================================
-   STORAGE HELPERS
-===================================================================== */
-function cid(){ return Math.random().toString(36).slice(2,10)+Date.now().toString(36); }
-async function sGet(key, fallback){
-  try{ const r = await window.storage.get(key); return r ? JSON.parse(r.value) : fallback; }
-  catch(e){ return fallback; }
-}
-async function sSet(key, value){
-  try{ await window.storage.set(key, JSON.stringify(value)); }catch(e){ console.error('storage set failed', key, e); }
-}
-function toast(msg){
-  const t = document.getElementById('toast'); t.textContent = msg; t.classList.add('show');
-  clearTimeout(window.__toastT); window.__toastT = setTimeout(()=>t.classList.remove('show'), 1900);
-}
-function dayKey(d){ const x = d||new Date(); return x.toISOString().slice(0,10); }
-function fmtDate(iso){ const d = new Date(iso+"T00:00:00"); return d.toLocaleDateString(undefined,{month:'short',day:'numeric',year:'numeric'}); }
-function esc(s){ return (s||'').replace(/[&<>"']/g, c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
-
-/* =====================================================================
-   APP STATE
-===================================================================== */
-const STATE = { section:'dashboard', subjects:null, roadmap:null, planner:null, habits:null, sketchIndex:null, pyq:null, resources:null, mocks:null, journal:null };
-
-async function loadAll(){
-  STATE.subjects = await sGet('subjects', null);
-  if(!STATE.subjects){
-    STATE.subjects = {};
-    [...PART_A, ...PART_B].forEach(s=>{
-      STATE.subjects[s.id] = { items: s.items.map(t=>({id:cid(), text:t, done:false, conf:0})) };
-    });
-    await sSet('subjects', STATE.subjects);
-  }
-  STATE.roadmap = await sGet('roadmap', null);
-  if(!STATE.roadmap){
-    STATE.roadmap = {}; ROADMAP.forEach(w=> STATE.roadmap[w.wk] = {done:false, notes:""});
-    await sSet('roadmap', STATE.roadmap);
-  }
-  STATE.planner = await sGet('planner', {byDate:{}});
-  STATE.habits = await sGet('habits', null);
-  if(!STATE.habits){
-    STATE.habits = { list:[
-      {id:cid(), name:"Daily sketch", emoji:"✏️"},
-      {id:cid(), name:"GA / current affairs read", emoji:"🏛️"},
-      {id:cid(), name:"Maths / reasoning drill", emoji:"🔢"},
-      {id:cid(), name:"Revision review", emoji:"🎯"},
-    ], log:{} };
-    await sSet('habits', STATE.habits);
-  }
-  STATE.sketchIndex = await sGet('sketchbook-index', []);
-  STATE.pyq = await sGet('pyq', []);
-  STATE.resources = await sGet('resources', null);
-  if(!STATE.resources){ STATE.resources = DEFAULT_RESOURCES; await sSet('resources', STATE.resources); }
-  STATE.mocks = await sGet('mocks', []);
-  STATE.journal = await sGet('journal', []);
-}
-
-/* =====================================================================
-   SIDEBAR
-===================================================================== */
-const NAV = [
- {id:'dashboard', label:'Dashboard', ico:'🏡', color:'rose'},
- {id:'subjects', label:'Subjects', ico:'📚', color:'lav'},
- {id:'roadmap', label:'Roadmap', ico:'🗺️', color:'sage'},
- {id:'planner', label:'Planner', ico:'📅', color:'gold'},
- {id:'habits', label:'Habits', ico:'🔥', color:'rose'},
- {id:'sketchbook', label:'Sketchbook', ico:'🖼️', color:'lav'},
- {id:'pyq', label:'Past Papers', ico:'📄', color:'sage'},
- {id:'resources', label:'Resources', ico:'🔖', color:'gold'},
- {id:'mocks', label:'Mock Tracker', ico:'🧪', color:'rose'},
- {id:'revision', label:'Revision', ico:'🎯', color:'lav'},
- {id:'journal', label:'Journal', ico:'📓', color:'sage'},
-];
-function renderSidebar(){
-  const el = document.getElementById('sidebar');
-  el.innerHTML = `
-    <div class="brand"><div class="hand">the ceed diaries</div><div class="sub">Palak's prep notebook</div></div>
-    ${NAV.map(n=>`<button class="navtab ${STATE.section===n.id?'active':''}" style="--tab-color:var(--${n.color})" data-nav="${n.id}">
-      <span class="ico">${n.ico}</span>${n.label}</button>`).join('')}
-    <div class="sidebar-foot">JUL 07 → NOV 30, 2026<br>21 weeks · one shot ✨</div>
-  `;
-  el.querySelectorAll('[data-nav]').forEach(b=> b.addEventListener('click', ()=>{ STATE.section=b.dataset.nav; renderSidebar(); renderMain(); }));
-}
-
-/* =====================================================================
-   SHARED WIDGETS
-===================================================================== */
-function ring(pct, color){ return `<div class="ring" style="--p:${pct}; --ring-color:var(--${color})"><span>${pct}%</span></div>`; }
-function pct(items){ if(!items.length) return 0; return Math.round(100*items.filter(i=>i.done).length/items.length); }
-
-function itemRow(item, onToggle, onConf){
-  return `<div class="item">
-    <button class="chk ${item.done?'done':''}" data-toggle="${item.id}"></button>
-    <div class="item-text ${item.done?'done':''}">${esc(item.text)}</div>
-    <div class="dots">${[1,2,3,4,5].map(n=>`<button class="dot ${item.conf>=n?'on':''}" data-conf="${item.id}" data-n="${n}" title="confidence ${n}/5"></button>`).join('')}</div>
-  </div>`;
-}
-function wireItemRows(container, subjectId){
-  container.querySelectorAll('[data-toggle]').forEach(b=>{
-    b.addEventListener('click', async ()=>{
-      const it = STATE.subjects[subjectId].items.find(i=>i.id===b.dataset.toggle);
-      it.done = !it.done; await sSet('subjects', STATE.subjects); renderMain();
-    });
-  });
-  container.querySelectorAll('[data-conf]').forEach(b=>{
-    b.addEventListener('click', async ()=>{
-      const it = STATE.subjects[subjectId].items.find(i=>i.id===b.dataset.conf);
-      const n = +b.dataset.n; it.conf = (it.conf===n)? n-1 : n;
-      await sSet('subjects', STATE.subjects); renderMain();
-    });
-  });
-}
-
-/* =====================================================================
-   VIEW: DASHBOARD
-===================================================================== */
-function computeCurrentWeek(){
-  const start = new Date("2026-07-07T00:00:00");
-  const today = new Date();
-  let diffDays = Math.floor((today-start)/86400000);
-  if(diffDays < 0) diffDays = 0;
-  let wk = Math.floor(diffDays/7)+1;
-  if(wk > 20) wk = 20; if(wk < 1) wk = 1;
-  return {wk, dayNum: diffDays+1};
-}
-function viewDashboard(){
-  const {wk, dayNum} = computeCurrentWeek();
-  const wkData = ROADMAP.find(w=>w.wk===wk);
-  const allA = PART_A.map(s=>STATE.subjects[s.id].items).flat();
-  const allB = PART_B.map(s=>STATE.subjects[s.id].items).flat();
-  const roadDone = Object.values(STATE.roadmap).filter(r=>r.done).length;
-  const today = dayKey();
-  const habitLog = STATE.habits.log[today] || {};
-  const fact = GA_FACTS[new Date().getDate()%GA_FACTS.length];
-  const journalStreak = (()=>{ let s=0; for(let i=0;i<400;i++){ const d=new Date(); d.setDate(d.getDate()-i); const k=dayKey(d); if((STATE.habits.log[k]||{})['__any']) s++; else break;} return s; })();
-
-  return `<div class="view">
-    <div class="pagehead">
-      <div><h1>hi Palak 🌸</h1><p>Day ${dayNum} of your roadmap · currently in <b>${wkData.phase}</b> · Week ${wk} (${wkData.range})</p></div>
-      <div class="badge" style="--pale:var(--${wkData.color}-pale); --deep:var(--${wkData.color})">🗓️ Week ${wk} of 20</div>
-    </div>
-
-    <div class="grid cols-4" style="margin-bottom:18px;">
-      <div class="card tilt-l"><div class="tape" style="--tape-color:var(--rose-soft)"></div>
-        <div class="subtle">Part A progress</div>
-        <div class="flexrow" style="margin-top:8px;">${ring(pct(allA),'rose')}<div style="text-align:right;"><div class="hand" style="font-size:26px;">${allA.filter(i=>i.done).length}/${allA.length}</div><div class="subtle">sub-topics done</div></div></div>
-      </div>
-      <div class="card tilt-r"><div class="tape" style="--tape-color:var(--lav-soft)"></div>
-        <div class="subtle">Part B progress</div>
-        <div class="flexrow" style="margin-top:8px;">${ring(pct(allB),'lav')}<div style="text-align:right;"><div class="hand" style="font-size:26px;">${allB.filter(i=>i.done).length}/${allB.length}</div><div class="subtle">sub-topics done</div></div></div>
-      </div>
-      <div class="card tilt-l"><div class="tape" style="--tape-color:var(--sage-soft)"></div>
-        <div class="subtle">Roadmap weeks</div>
-        <div class="flexrow" style="margin-top:8px;">${ring(Math.round(100*roadDone/20),'sage')}<div style="text-align:right;"><div class="hand" style="font-size:26px;">${roadDone}/20</div><div class="subtle">weeks wrapped</div></div></div>
-      </div>
-      <div class="card tilt-r"><div class="tape" style="--tape-color:var(--gold-soft)"></div>
-        <div class="subtle">Mock tests logged</div>
-        <div class="flexrow" style="margin-top:8px;">${ring(Math.min(100,STATE.mocks.length*25),'gold')}<div style="text-align:right;"><div class="hand" style="font-size:26px;">${STATE.mocks.length}</div><div class="subtle">of 4 planned</div></div></div>
-      </div>
-    </div>
-
-    <div class="two-col">
-      <div class="card">
-        <div class="flexrow"><h2 style="margin:0 0 8px; font-size:24px;">🔥 today's habits</h2><span class="subtle">${today}</span></div>
-        ${STATE.habits.list.map(h=>`<div class="item"><button class="chk ${habitLog[h.id]?'done':''}" data-habit="${h.id}"></button><div class="item-text ${habitLog[h.id]?'done':''}">${h.emoji} ${esc(h.name)}</div></div>`).join('')}
-        <hr class="tear">
-        <div class="subtle" style="margin-bottom:6px;">this week's rhythm</div>
-        ${RHYTHM.map(r=>`<span class="tag">${r.emoji} ${r.day}</span>`).join(' ')}
-      </div>
-      <div class="card" style="background:linear-gradient(160deg,var(--gold-pale),var(--card) 70%);">
-        <div class="sticker" style="--sticker-bg:var(--gold-soft); position:absolute; top:-14px; right:16px;">💡</div>
-        <h2 style="margin:0 0 8px; font-size:22px;">GA fact of the day</h2>
-        <p style="font-size:14.5px; line-height:1.55;">${fact}</p>
-        <hr class="tear">
-        <div class="subtle">This week's focus</div>
-        <p class="hand" style="font-size:20px; margin:4px 0 0; color:var(--ink);">${esc(wkData.topics)}</p>
-      </div>
-    </div>
-
-    <div class="card" style="margin-top:18px;">
-      <h2 style="margin:0 0 10px; font-size:22px;">🎯 quick jump</h2>
-      <div style="display:flex; gap:10px; flex-wrap:wrap;">
-        <button class="btn" data-goto="planner">Open today's planner</button>
-        <button class="btn lav" data-goto="sketchbook">Upload today's sketch</button>
-        <button class="btn sage" data-goto="revision">Confidence check-in</button>
-        <button class="btn ghost" data-goto="journal">Write in journal</button>
-      </div>
-    </div>
-  </div>`;
-}
-function wireDashboard(root){
-  root.querySelectorAll('[data-habit]').forEach(b=> b.addEventListener('click', async ()=>{
-    const today = dayKey(); STATE.habits.log[today] = STATE.habits.log[today]||{};
-    STATE.habits.log[today][b.dataset.habit] = !STATE.habits.log[today][b.dataset.habit];
-    STATE.habits.log[today]['__any'] = STATE.habits.list.some(h=>STATE.habits.log[today][h.id]);
-    await sSet('habits', STATE.habits); renderMain();
-  }));
-  root.querySelectorAll('[data-goto]').forEach(b=> b.addEventListener('click', ()=>{ STATE.section=b.dataset.goto; renderSidebar(); renderMain(); }));
-}
-
-/* =====================================================================
-   VIEW: SUBJECTS
-===================================================================== */
-function subjectCard(s, idx){
-  const data = STATE.subjects[s.id];
-  const p = pct(data.items);
-  return `<div class="card ${idx%2?'tilt-r':'tilt-l'}">
-    <div class="tape left" style="--tape-color:var(--${s.color}-soft)"></div>
-    <div class="flexrow"><h3 style="margin:6px 0 2px; font-size:21px;">${s.emoji} ${s.title}</h3><span class="badge" style="--pale:var(--${s.color}-pale); --deep:var(--${s.color})">${p}%</span></div>
-    <div class="progressbar" style="margin:8px 0 12px;"><i style="width:${p}%; --bar:var(--${s.color})"></i></div>
-    <div data-list="${s.id}">${data.items.map(i=>itemRow(i)).join('')}</div>
-  </div>`;
-}
-function viewSubjects(){
-  return `<div class="view">
-    <div class="pagehead"><div><h1>subjects 📚</h1><p>Every Part A & Part B sub-topic from your roadmap. Tap to mark done, tap the dots to rate confidence 1–5.</p></div></div>
-    <h2 style="font-size:22px; margin:18px 0 10px;">Part A</h2>
-    <div class="grid cols-2">${PART_A.map((s,i)=>subjectCard(s,i)).join('')}</div>
-    <h2 style="font-size:22px; margin:26px 0 10px;">Part B</h2>
-    <div class="grid cols-2">${PART_B.map((s,i)=>subjectCard(s,i)).join('')}</div>
-  </div>`;
-}
-function wireSubjects(root){
-  [...PART_A, ...PART_B].forEach(s=> wireItemRows(root.querySelector(`[data-list="${s.id}"]`)||root, s.id));
-}
-
-/* =====================================================================
-   VIEW: ROADMAP
-===================================================================== */
-function viewRoadmap(){
-  const {wk:curWk} = computeCurrentWeek();
-  return `<div class="view">
-    <div class="pagehead"><div><h1>roadmap 🗺️</h1><p>Your 20-week plan, Jul 7 → Nov 30 2026. Check off each week as you finish it.</p></div></div>
-    ${PHASES.map(phase=>{
-      const weeks = ROADMAP.filter(w=>w.phase===phase); const color = PHASE_COLOR[phase];
-      return `<h2 style="font-size:21px; margin:22px 0 10px; color:var(--${color});">${phase}</h2>
-      <div class="grid cols-2">${weeks.map(w=>{
-        const st = STATE.roadmap[w.wk];
-        return `<div class="card ${w.wk%2?'tilt-l':'tilt-r'} ${curWk===w.wk?'':''}" style="${curWk===w.wk?'outline:2.5px dashed var(--'+color+'-soft); outline-offset:3px;':''}">
-          <div class="flexrow">
-            <div class="flexrow" style="gap:8px;"><button class="chk ${st.done?'done':''}" data-wkdone="${w.wk}"></button><b class="hand" style="font-size:22px;">Week ${w.wk}</b></div>
-            <span class="subtle mono">${w.range}</span>
-          </div>
-          <p style="font-size:14px; margin:8px 0 0;">${esc(w.topics)}</p>
-          ${curWk===w.wk?`<span class="badge" style="--pale:var(--${color}-pale); --deep:var(--${color}); margin-top:8px;">📍 you are here</span>`:''}
-        </div>`;
-      }).join('')}</div>`;
-    }).join('')}
-  </div>`;
-}
-function wireRoadmap(root){
-  root.querySelectorAll('[data-wkdone]').forEach(b=> b.addEventListener('click', async ()=>{
-    const w = STATE.roadmap[b.dataset.wkdone]; w.done = !w.done; await sSet('roadmap', STATE.roadmap); renderMain();
-  }));
-}
-
-/* =====================================================================
-   VIEW: PLANNER
-===================================================================== */
-function weekDates(offsetWeeks){
-  const start = new Date("2026-07-07T00:00:00");
-  const monday = new Date(start); monday.setDate(monday.getDate() + offsetWeeks*7);
-  return [...Array(7)].map((_,i)=>{ const d=new Date(monday); d.setDate(d.getDate()+i); return d; });
-}
-let plannerOffset = null;
-function viewPlanner(){
-  if(plannerOffset===null){ plannerOffset = computeCurrentWeek().wk - 1; }
-  const dates = weekDates(plannerOffset);
-  const wkNum = plannerOffset+1;
-  const wkData = ROADMAP.find(w=>w.wk===Math.min(20,Math.max(1,wkNum)));
-  return `<div class="view">
-    <div class="pagehead">
-      <div><h1>planner 📅</h1><p>Week ${wkNum} · ${wkData?wkData.topics:''}</p></div>
-      <div style="display:flex; gap:8px;"><button class="btn ghost sm" id="prevWk">← prev</button><button class="btn ghost sm" id="todayWk">today</button><button class="btn ghost sm" id="nextWk">next →</button></div>
-    </div>
-    <div class="grid cols-4">
-      ${dates.map((d,i)=>{
-        const key = dayKey(d); const r = RHYTHM[i];
-        const tasks = (STATE.planner.byDate[key]||[]);
-        const isToday = key===dayKey();
-        return `<div class="card ${i%2?'tilt-r':'tilt-l'}" style="${isToday?'outline:2.5px dashed var(--rose-soft); outline-offset:3px;':''}">
-          <div class="tape" style="--tape-color:var(--gold-soft)"></div>
-          <div class="hand" style="font-size:22px;">${r.emoji} ${d.toLocaleDateString(undefined,{weekday:'long', month:'short', day:'numeric'})}</div>
-          <div class="subtle" style="margin-bottom:8px;">${esc(r.act)} · ${r.time}</div>
-          <div data-tasks="${key}">${tasks.map(t=>`<div class="item"><button class="chk ${t.done?'done':''}" data-tdone="${key}|${t.id}"></button><div class="item-text ${t.done?'done':''}" style="font-size:13.5px;">${esc(t.text)}</div><button class="iconbtn" data-tdel="${key}|${t.id}">✕</button></div>`).join('')}</div>
-          <div style="display:flex; gap:6px; margin-top:8px;"><input type="text" placeholder="add a task…" data-taskinput="${key}" style="font-size:13px; padding:6px 10px;"><button class="btn sm" data-taskadd="${key}">+</button></div>
-        </div>`;
-      }).join('')}
-    </div>
-  </div>`;
-}
-function wirePlanner(root){
-  root.querySelector('#prevWk')?.addEventListener('click', ()=>{ plannerOffset=Math.max(0,plannerOffset-1); renderMain(); });
-  root.querySelector('#nextWk')?.addEventListener('click', ()=>{ plannerOffset=Math.min(19,plannerOffset+1); renderMain(); });
-  root.querySelector('#todayWk')?.addEventListener('click', ()=>{ plannerOffset=computeCurrentWeek().wk-1; renderMain(); });
-  const addTask = async (key)=>{
-    const inp = root.querySelector(`[data-taskinput="${key}"]`); const v = inp.value.trim(); if(!v) return;
-    STATE.planner.byDate[key] = STATE.planner.byDate[key]||[]; STATE.planner.byDate[key].push({id:cid(), text:v, done:false});
-    await sSet('planner', STATE.planner); renderMain();
-  };
-  root.querySelectorAll('[data-taskadd]').forEach(b=> b.addEventListener('click', ()=>addTask(b.dataset.taskadd)));
-  root.querySelectorAll('[data-taskinput]').forEach(inp=> inp.addEventListener('keydown', e=>{ if(e.key==='Enter') addTask(inp.dataset.taskinput); }));
-  root.querySelectorAll('[data-tdone]').forEach(b=> b.addEventListener('click', async ()=>{
-    const [key,id] = b.dataset.tdone.split('|'); const t = STATE.planner.byDate[key].find(x=>x.id===id); t.done=!t.done;
-    await sSet('planner', STATE.planner); renderMain();
-  }));
-  root.querySelectorAll('[data-tdel]').forEach(b=> b.addEventListener('click', async ()=>{
-    const [key,id] = b.dataset.tdel.split('|'); STATE.planner.byDate[key] = STATE.planner.byDate[key].filter(x=>x.id!==id);
-    await sSet('planner', STATE.planner); renderMain();
-  }));
-}
-
-/* =====================================================================
-   VIEW: HABITS
-===================================================================== */
-function viewHabits(){
-  const days = [...Array(70)].map((_,i)=>{ const d=new Date(); d.setDate(d.getDate()-(69-i)); return d; });
-  return `<div class="view">
-    <div class="pagehead"><div><h1>habits 🔥</h1><p>Small daily reps win CEED. Track your streaks here.</p></div></div>
-    <div class="card">
-      <div class="flexrow"><h2 style="margin:0; font-size:20px;">add a habit</h2></div>
-      <div style="display:flex; gap:8px; margin-top:10px;"><input type="text" id="habitEmoji" placeholder="emoji" style="max-width:70px;"><input type="text" id="habitName" placeholder="habit name"><button class="btn sm" id="addHabit">add</button></div>
-    </div>
-    <div class="grid cols-2" style="margin-top:16px;">
-      ${STATE.habits.list.map((h,i)=>{
-        const streak = (()=>{ let s=0; for(let k=0;k<365;k++){ const d=new Date(); d.setDate(d.getDate()-k); if((STATE.habits.log[dayKey(d)]||{})[h.id]) s++; else break; } return s; })();
-        return `<div class="card ${i%2?'tilt-r':'tilt-l'}">
-          <div class="flexrow"><h3 style="margin:0; font-size:19px;">${h.emoji} ${esc(h.name)}</h3><span class="badge">🔥 ${streak}d streak</span></div>
-          <div class="heatgrid" style="margin-top:12px;">${days.map(d=>{ const on = (STATE.habits.log[dayKey(d)]||{})[h.id]; return `<div class="heatcell" style="background:${on?'var(--'+ (['rose','lav','sage','gold'][i%4]) +')':'#EFE4D6'}" title="${dayKey(d)}"></div>`; }).join('')}</div>
-        </div>`;
-      }).join('')}
-    </div>
-  </div>`;
-}
-function wireHabits(root){
-  root.querySelector('#addHabit')?.addEventListener('click', async ()=>{
-    const emoji = root.querySelector('#habitEmoji').value.trim()||'⭐'; const name = root.querySelector('#habitName').value.trim();
-    if(!name) return; STATE.habits.list.push({id:cid(), name, emoji}); await sSet('habits', STATE.habits); renderMain();
-  });
-}
-
-/* =====================================================================
-   VIEW: SKETCHBOOK
-===================================================================== */
-function resizeImage(file){
-  return new Promise((resolve)=>{
-    const img = new Image(); const reader = new FileReader();
-    reader.onload = e=>{ img.onload = ()=>{
-      const maxW = 800; const scale = Math.min(1, maxW/img.width);
-      const canvas = document.createElement('canvas'); canvas.width = img.width*scale; canvas.height = img.height*scale;
-      canvas.getContext('2d').drawImage(img,0,0,canvas.width,canvas.height);
-      resolve(canvas.toDataURL('image/jpeg', 0.78));
-    }; img.src = e.target.result; };
-    reader.readAsDataURL(file);
-  });
-}
-function viewSketchbook(){
-  return `<div class="view">
-    <div class="pagehead"><div><h1>sketchbook 🖼️</h1><p>Your daily sketch practice, tagged by the 7-day rotation.</p></div>
-      <label class="btn">+ upload sketch<input type="file" accept="image/*" id="skFile" style="display:none;"></label>
-    </div>
-    <div class="card" id="skForm" style="display:none; margin-bottom:16px;">
-      <div class="grid cols-3">
-        <div><label class="field">caption</label><input type="text" id="skCaption" placeholder="e.g. isometric cube study"></div>
-        <div><label class="field">day type</label><select id="skDay">${RHYTHM.map(r=>`<option>${r.day} — ${r.act.split(' + ').pop()}</option>`).join('')}</select></div>
-        <div><label class="field">date</label><input type="date" id="skDate" value="${dayKey()}"></div>
-      </div>
-      <div style="margin-top:10px; display:flex; gap:8px;"><button class="btn" id="skSave">save to sketchbook</button><button class="btn ghost" id="skCancel">cancel</button></div>
-    </div>
-    ${STATE.sketchIndex.length? `<div class="grid cols-4" id="skGrid">${STATE.sketchIndex.slice().reverse().map(s=>`
-      <figure class="polaroid" style="transform:rotate(${(s.id.charCodeAt(0)%5)-2}deg);">
-        <img src="${s.thumb}" loading="lazy">
-        <figcaption>${esc(s.caption||'untitled')}</figcaption>
-        <button class="iconbtn" data-skdel="${s.id}" style="position:absolute; top:2px; right:2px;">✕</button>
-      </figure>`).join('')}</div>`
-      : `<div class="empty"><span class="hand">no sketches yet</span>Upload today's practice sketch to start your visual streak 🌸</div>`}
-  </div>`;
-}
-let pendingImg = null;
-function wireSketchbook(root){
-  const fileInp = root.querySelector('#skFile');
-  fileInp?.addEventListener('change', async ()=>{
-    if(!fileInp.files[0]) return;
-    pendingImg = await resizeImage(fileInp.files[0]);
-    root.querySelector('#skForm').style.display = 'block';
-  });
-  root.querySelector('#skCancel')?.addEventListener('click', ()=>{ pendingImg=null; root.querySelector('#skForm').style.display='none'; });
-  root.querySelector('#skSave')?.addEventListener('click', async ()=>{
-    if(!pendingImg){ toast('choose an image first'); return; }
-    const id = cid();
-    const entry = {id, caption: root.querySelector('#skCaption').value.trim(), day: root.querySelector('#skDay').value, date: root.querySelector('#skDate').value, thumb: pendingImg};
-    STATE.sketchIndex.push({id, caption:entry.caption, thumb:entry.thumb, date:entry.date});
-    await sSet('sketchbook-index', STATE.sketchIndex);
-    pendingImg=null; toast('sketch saved 🎨'); renderMain();
-  });
-  root.querySelectorAll('[data-skdel]').forEach(b=> b.addEventListener('click', async ()=>{
-    STATE.sketchIndex = STATE.sketchIndex.filter(s=>s.id!==b.dataset.skdel); await sSet('sketchbook-index', STATE.sketchIndex); renderMain();
-  }));
-}
-
-/* =====================================================================
-   VIEW: PYQ TRACKER
-===================================================================== */
-function viewPyq(){
-  return `<div class="view">
-    <div class="pagehead"><div><h1>past papers 📄</h1><p>Log every attempt and the exact topics you lost marks on.</p></div></div>
-    <div class="card" style="margin-bottom:16px;">
-      <div class="grid cols-4">
-        <div><label class="field">paper</label><input type="text" id="pyqName" placeholder="CEED 2023"></div>
-        <div><label class="field">date attempted</label><input type="date" id="pyqDate" value="${dayKey()}"></div>
-        <div><label class="field">score</label><input type="number" id="pyqScore" placeholder="e.g. 62"></div>
-        <div><label class="field">out of</label><input type="number" id="pyqMax" placeholder="100"></div>
-      </div>
-      <div style="margin-top:10px;"><label class="field">topics you lost marks on</label><textarea id="pyqMistakes" placeholder="e.g. mensuration — surface area; paper folding; para-jumbles"></textarea></div>
-      <button class="btn" id="pyqAdd" style="margin-top:10px;">log this paper</button>
-    </div>
-    ${STATE.pyq.length? STATE.pyq.slice().reverse().map(p=>`
-      <div class="card tilt-l" style="margin-bottom:12px;">
-        <div class="flexrow"><h3 style="margin:0; font-size:19px;">${esc(p.name)}</h3><span class="badge">${p.score}/${p.max}</span></div>
-        <div class="subtle" style="margin:4px 0 8px;">${fmtDate(p.date)}</div>
-        <p style="font-size:14px;">${esc(p.mistakes)}</p>
-        <button class="iconbtn" data-pyqdel="${p.id}">delete entry ✕</button>
-      </div>`).join('') : `<div class="empty"><span class="hand">no papers logged yet</span>Your Week 13 plan calls for 2 full past papers — log them here.</div>`}
-  </div>`;
-}
-function wirePyq(root){
-  root.querySelector('#pyqAdd')?.addEventListener('click', async ()=>{
-    const name = root.querySelector('#pyqName').value.trim(); if(!name){toast('add a paper name'); return;}
-    STATE.pyq.push({id:cid(), name, date:root.querySelector('#pyqDate').value, score:root.querySelector('#pyqScore').value||'?', max:root.querySelector('#pyqMax').value||'?', mistakes:root.querySelector('#pyqMistakes').value.trim()});
-    await sSet('pyq', STATE.pyq); renderMain();
-  });
-  root.querySelectorAll('[data-pyqdel]').forEach(b=> b.addEventListener('click', async ()=>{
-    STATE.pyq = STATE.pyq.filter(p=>p.id!==b.dataset.pyqdel); await sSet('pyq', STATE.pyq); renderMain();
-  }));
-}
-
-/* =====================================================================
-   VIEW: RESOURCES
-===================================================================== */
-function viewResources(){
-  const cats = [...new Set(STATE.resources.map(r=>r.category||'General'))];
-  return `<div class="view">
-    <div class="pagehead"><div><h1>resources 🔖</h1><p>Links, references, and notes worth keeping.</p></div></div>
-    <div class="card" style="margin-bottom:16px;">
-      <div class="grid cols-4">
-        <div><label class="field">title</label><input type="text" id="resTitle"></div>
-        <div><label class="field">url (optional)</label><input type="url" id="resUrl"></div>
-        <div><label class="field">category</label><input type="text" id="resCat" placeholder="Official / Practice / GA…"></div>
-        <div style="display:flex; align-items:flex-end;"><button class="btn" id="resAdd" style="width:100%;">+ add</button></div>
-      </div>
-      <div style="margin-top:8px;"><label class="field">note</label><input type="text" id="resNote"></div>
-    </div>
-    ${cats.map(cat=>`<h2 style="font-size:20px; margin:16px 0 8px;">${esc(cat)}</h2>
-      <div class="grid cols-2">${STATE.resources.filter(r=>(r.category||'General')===cat).map(r=>`
-        <div class="card">
-          <div class="flexrow"><h3 style="margin:0; font-size:17px;">🔖 ${r.url?`<a href="${esc(r.url)}" target="_blank" rel="noopener">${esc(r.title)}</a>`:esc(r.title)}</h3><button class="iconbtn" data-resdel="${r.id}">✕</button></div>
-          <p class="subtle" style="margin:6px 0 0;">${esc(r.note||'')}</p>
-        </div>`).join('')}</div>`).join('')}
-  </div>`;
-}
-function wireResources(root){
-  root.querySelector('#resAdd')?.addEventListener('click', async ()=>{
-    const title = root.querySelector('#resTitle').value.trim(); if(!title){toast('add a title'); return;}
-    STATE.resources.push({id:cid(), title, url:root.querySelector('#resUrl').value.trim(), category:root.querySelector('#resCat').value.trim()||'General', note:root.querySelector('#resNote').value.trim()});
-    await sSet('resources', STATE.resources); renderMain();
-  });
-  root.querySelectorAll('[data-resdel]').forEach(b=> b.addEventListener('click', async ()=>{
-    STATE.resources = STATE.resources.filter(r=>r.id!==b.dataset.resdel); await sSet('resources', STATE.resources); renderMain();
-  }));
-}
-
-/* =====================================================================
-   VIEW: MOCK TRACKER
-===================================================================== */
-function viewMocks(){
-  return `<div class="view">
-    <div class="pagehead"><div><h1>mock tracker 🧪</h1><p>Phase 5 calls for 4 full 3-hour mocks — track your scores and weak spots here.</p></div></div>
-    <div class="card" style="margin-bottom:16px;">
-      <div class="grid cols-4">
-        <div><label class="field">mock name</label><input type="text" id="mkName" placeholder="Full Mock #1"></div>
-        <div><label class="field">date</label><input type="date" id="mkDate" value="${dayKey()}"></div>
-        <div><label class="field">Part A score</label><input type="number" id="mkA"></div>
-        <div><label class="field">Part B score</label><input type="number" id="mkB"></div>
-      </div>
-      <div style="margin-top:8px;"><label class="field">weakest areas</label><textarea id="mkWeak" placeholder="e.g. time-speed-distance, visual storytelling pacing"></textarea></div>
-      <button class="btn" id="mkAdd" style="margin-top:10px;">log mock</button>
-    </div>
-    ${STATE.mocks.length? `<div class="grid cols-2">${STATE.mocks.slice().reverse().map(m=>`
-      <div class="card tilt-r">
-        <div class="flexrow"><h3 style="margin:0; font-size:19px;">🧪 ${esc(m.name)}</h3><button class="iconbtn" data-mkdel="${m.id}">✕</button></div>
-        <div class="subtle">${fmtDate(m.date)}</div>
-        <div style="display:flex; gap:16px; margin:8px 0;"><div><div class="mono" style="font-weight:700;">${m.a}</div><div class="subtle">Part A</div></div><div><div class="mono" style="font-weight:700;">${m.b}</div><div class="subtle">Part B</div></div></div>
-        <p style="font-size:14px;">${esc(m.weak)}</p>
-      </div>`).join('')}</div>` : `<div class="empty"><span class="hand">no mocks logged yet</span>Your first full mock is scheduled for Week 17.</div>`}
-  </div>`;
-}
-function wireMocks(root){
-  root.querySelector('#mkAdd')?.addEventListener('click', async ()=>{
-    const name = root.querySelector('#mkName').value.trim(); if(!name){toast('name this mock'); return;}
-    STATE.mocks.push({id:cid(), name, date:root.querySelector('#mkDate').value, a:root.querySelector('#mkA').value||'?', b:root.querySelector('#mkB').value||'?', weak:root.querySelector('#mkWeak').value.trim()});
-    await sSet('mocks', STATE.mocks); renderMain();
-  });
-  root.querySelectorAll('[data-mkdel]').forEach(b=> b.addEventListener('click', async ()=>{
-    STATE.mocks = STATE.mocks.filter(m=>m.id!==b.dataset.mkdel); await sSet('mocks', STATE.mocks); renderMain();
-  }));
-}
-
-/* =====================================================================
-   VIEW: REVISION (confidence heatmap)
-===================================================================== */
-function viewRevision(){
-  const all = [...PART_A, ...PART_B].map(s=>({s, items:STATE.subjects[s.id].items}));
-  const weakest = all.map(g=>g.items.map(i=>({...i, subj:g.s.title, emoji:g.s.emoji}))).flat().filter(i=>i.conf>0 && i.conf<=2);
-  return `<div class="view">
-    <div class="pagehead"><div><h1>revision 🎯</h1><p>Confidence heatmap across every topic — darker means shakier. Revisit red zones first.</p></div></div>
-    ${all.map(g=>`<div class="card" style="margin-bottom:14px;">
-      <h3 style="margin:0 0 10px; font-size:18px;">${g.s.emoji} ${g.s.title}</h3>
-      <div style="display:flex; flex-wrap:wrap; gap:6px;">${g.items.map(i=>{
-        const c = i.conf||0; const colors=['#EFE4D6','#F6D9C4','#F0B8A8','#E88C93','#D9738C'];
-        return `<span title="${esc(i.text)} — confidence ${c}/5" style="background:${colors[Math.max(0,c-1)]}; ${c===0?'background:#EFE4D6;':''} padding:6px 10px; border-radius:8px; font-size:12.5px; max-width:220px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;">${esc(i.text)}</span>`;
-      }).join('')}</div>
-    </div>`).join('')}
-    <div class="card" style="background:var(--rose-pale);">
-      <h3 style="margin:0 0 8px; font-size:18px;">⚠️ needs the most work (confidence ≤2)</h3>
-      ${weakest.length? weakest.map(i=>`<div style="font-size:14px; margin-bottom:4px;">${i.emoji} <b>${esc(i.subj)}</b> — ${esc(i.text)}</div>`).join('') : `<div class="subtle">Rate your confidence on the Subjects page to populate this list.</div>`}
-    </div>
-  </div>`;
-}
-
-/* =====================================================================
-   VIEW: JOURNAL
-===================================================================== */
-const MOODS = ['😊','😌','😩','😤','🥲','🤩','😴'];
-function viewJournal(){
-  return `<div class="view">
-    <div class="pagehead"><div><h1>journal 📓</h1><p>A private page for how prep is actually going.</p></div></div>
-    <div class="card" style="margin-bottom:16px;">
-      <div class="flexrow"><label class="field" style="margin:0;">how's today feeling?</label>
-        <div style="display:flex; gap:6px;">${MOODS.map(m=>`<button class="iconbtn" data-mood="${m}" style="font-size:20px;">${m}</button>`).join('')}</div>
-      </div>
-      <textarea id="jEntry" placeholder="write freely — a win, a worry, a weird sketch idea…" style="margin-top:10px; min-height:100px;"></textarea>
-      <button class="btn" id="jSave" style="margin-top:10px;">save entry</button>
-    </div>
-    ${STATE.journal.length? STATE.journal.slice().reverse().map(j=>`
-      <div class="card tilt-l" style="margin-bottom:12px;">
-        <div class="flexrow"><span class="hand" style="font-size:22px;">${j.mood||'📝'} ${fmtDate(j.date)}</span><button class="iconbtn" data-jdel="${j.id}">✕</button></div>
-        <p style="font-size:14.5px; white-space:pre-wrap; margin-top:6px;">${esc(j.text)}</p>
-      </div>`).join('') : `<div class="empty"><span class="hand">blank page</span>Your first entry starts the streak.</div>`}
-  </div>`;
-}
-let selectedMood = '😊';
-function wireJournal(root){
-  root.querySelectorAll('[data-mood]').forEach(b=> b.addEventListener('click', ()=>{ selectedMood=b.dataset.mood; root.querySelectorAll('[data-mood]').forEach(x=>x.style.background=''); b.style.background='var(--rose-pale)'; }));
-  root.querySelector('#jSave')?.addEventListener('click', async ()=>{
-    const text = root.querySelector('#jEntry').value.trim(); if(!text){toast('write something first'); return;}
-    STATE.journal.push({id:cid(), date:dayKey(), mood:selectedMood, text});
-    const today=dayKey(); STATE.habits.log[today]=STATE.habits.log[today]||{}; STATE.habits.log[today]['__any']=true;
-    await sSet('journal', STATE.journal); await sSet('habits', STATE.habits);
-    toast('entry saved 📓'); renderMain();
-  });
-  root.querySelectorAll('[data-jdel]').forEach(b=> b.addEventListener('click', async ()=>{
-    STATE.journal = STATE.journal.filter(j=>j.id!==b.dataset.jdel); await sSet('journal', STATE.journal); renderMain();
-  }));
-}
-
-/* =====================================================================
-   ROUTER
-===================================================================== */
-const VIEWS = {
-  dashboard:{render:viewDashboard, wire:wireDashboard},
-  subjects:{render:viewSubjects, wire:wireSubjects},
-  roadmap:{render:viewRoadmap, wire:wireRoadmap},
-  planner:{render:viewPlanner, wire:wirePlanner},
-  habits:{render:viewHabits, wire:wireHabits},
-  sketchbook:{render:viewSketchbook, wire:wireSketchbook},
-  pyq:{render:viewPyq, wire:wirePyq},
-  resources:{render:viewResources, wire:wireResources},
-  mocks:{render:viewMocks, wire:wireMocks},
-  revision:{render:viewRevision, wire:()=>{}},
-  journal:{render:viewJournal, wire:wireJournal},
+// 7-day sketch rotation labels
+const ROTATION = ['Object/Product Study','Figure/People Study','Scene/Environment','Memory Drawing','Shading/Rendering or Idea Sketch','Timed Practice','Warm-up & Review'];
+const DAILY_SKETCH = {
+ 1:["A simple box/cube under one light source — focus on straight, confident edges.","A standing figure silhouette, 5-minute pose, basic proportion only.","Your own desk or study corner, drawn from life.","Memory-draw Wednesday's desk scene without looking back at it.","Shade a sphere and a cube side by side — practice gradient control.","Timed 20 min: three simple objects from a reference photo.","10 min of quick thumbnail warm-ups; look back at the week's sketches."],
+ 2:["A cylindrical object — mug, bottle, or thermos.","A seated figure, gesture only, 5-minute pose.","A street or market scene from a reference photo.","Memory-draw Wednesday's street/market scene.","A simple one-point-perspective interior box (room corner).","Timed 20 min: three unrelated everyday objects.","Warm-up + self-rate confidence vs. Week 1 sketches."],
+ 3:["Geometric solids: cube, cylinder, cone (previews upcoming mensuration).","A figure in a simple action pose (walking).","A kitchen or workspace scene.","Memory-draw Wednesday's kitchen/workspace scene.","A two-light-source shading study on one object.","Timed 20 min: three-object mixed set.","Warm-up only — keep it light this week."],
+ 4:["An everyday product with a visible mechanism (kettle, stapler).","A figure holding or using an object.","An outdoor scene (park, street corner).","Memory-draw Saturday's Week 3 timed set.","A two-point-perspective box or room corner.","Timed mixed set: object + figure + scene, 10 min each.","Warm-up + review Month 1's sketches, flag 3 to improve."],
+ 5:["An isometric view of a simple object (box or short staircase).","A figure interacting with a tool — a functional pose.","A room drawn in isometric view.","From memory, draw the unfolded net of a box.","Shadow/projection study: an object plus a light source, predict the shadow.","Timed set: cubes-and-dice style sketches (opposite faces, painted faces).","Warm-up + review."],
+ 6:["An exploded-view sketch of an everyday object showing form vs. function.","A figure using a hand tool, with an ergonomics focus.","A workspace scene highlighting ergonomic fit between user and object.","Memory-draw Tuesday's figure-with-tool sketch.","A classification sketch: draw 4 related objects, one clearly the odd-one-out.","Timed set: three objects analyzed for form vs. function.","Warm-up + review."],
+ 7:["A mechanism sketch with labeled parts (hinge, gear, pulley, or lever).","A figure operating a mechanism (riding a bicycle, opening a door).","A scene showing varied material textures — wood, metal, glass, fabric.","Memory-draw Monday's labeled mechanism sketch.","A shading exercise focused on material rendering — metal shine vs. matte wood.","Timed set: three mechanisms drawn from memory, each labeled.","Warm-up + review."],
+ 8:["A pattern/sequence visual — draw the next shape in a series.","Five 2-minute gesture figures back to back.","A scene depicting a social or environmental design issue (urban mobility, waste).","Memory-draw Tuesday's gesture set.","Light review day — revisit and tidy up your weakest sketch from this week.","Full Part-A-only timed mock happens today — keep sketching to a 10-min warm-up only.","Warm-up + review Month 2's sketches."],
+ 9:["A full standing figure with a proportion grid.","Five 3-minute gesture figures.","A one-point-perspective street scene.","Memory-draw an iconic product from this week's GA reading.","A structured shading and rendering exercise — form plus light/shadow.","Timed 30 min: a full composition combining figure + object + environment.","Warm-up + review."],
+ 10:["Sketch 5 quick concept variations: a chair for small spaces.","Sketch 5 quick concept variations: a bag for daily commuters.","Sketch 5 quick concept variations: a lamp for night reading.","Sketch 5 quick concept variations: a tool for elderly users.","Sketch 5 quick concept variations: a container for street food.","Timed idea sprint: 8 ideas in 30 min for a brand-new prompt.","Review the week's best ideas and fully refine one."],
+ 11:["Panels 1–2 of a fresh 4–6 panel sequential story, plus a one-line rationale each.","Panels 3–4 of the same story.","Panels 5–6, completing the story.","Memory-draw your own panel 1 from Monday, compare accuracy.","Write and sketch a short design-rationale for an object of your choice.","Timed 45 min: a brand-new 4-panel story start to finish.","Review storytelling clarity; finalize your optional-specialisation track choice."],
+ 12:["Spot and sketch the flaws in a given everyday object or scenario.","Optional-track practice, tailored to your chosen track.","Optional-track practice, second prompt.","Optional-track practice, third prompt.","Optional-track practice, fourth prompt — increase time pressure.","Full Part-B-only timed mock happens today.","Warm-up + review Month 3's sketches."],
 };
-function renderMain(){
-  const root = document.getElementById('main');
-  const v = VIEWS[STATE.section];
-  root.innerHTML = v.render();
-  v.wire(root);
+function sketchFor(weekNum,dayIdx){
+  if(DAILY_SKETCH[weekNum]) return DAILY_SKETCH[weekNum][dayIdx];
+  if(weekNum<=16) return "Exam-condition Part B sketch prompt (rotate Drawing / Creativity / Communication / Problem ID / your optional track), timed 30–45 min. Sun: log mistakes into the master checklist.";
+  return "Speed-sketch drill on your current weakest category (20–30 min) + one 'visual shortcut' for the cheat sheet. Sat: mock's drawing section is today's practice. Sun: refine cheat-sheet page.";
 }
 
-/* =====================================================================
-   INIT
-===================================================================== */
-(async function init(){
-  document.getElementById('main').innerHTML = `<div class="view"><div class="empty"><span class="hand">opening your notebook…</span></div></div>`;
-  await loadAll();
-  renderSidebar();
-  renderMain();
-})();
+const SUBJECTS_A = [
+ {icon:'🧩',name:'Visualization & Spatial Ability',topics:["Mental rotation of 2D shapes and 3D solids","Folding/unfolding nets of cubes, boxes, polyhedra","Identifying rotated, mirrored, or pixelated versions of a reference image","Isometric view identification from orthographic views","Orthographic view identification from isometric/3D views","Water reflection and mirror image reasoning","Pattern completion (visual sequences, missing tile/piece)","Cubes and dice problems (painted faces, opposite faces, counting)","Paper folding and cutting (predict the unfolded pattern)","Assembling/disassembling views of 3D objects (exploded view logic)","Shadow and projection reasoning","Counting hidden shapes/lines/triangles in a composite figure"]},
+ {icon:'👀',name:'Observation & Design Sensitivity',topics:["Detecting concealed/non-obvious properties in everyday objects","Form vs. function analysis of products","Classification of objects/images by shared attribute","Odd-one-out reasoning based on visual/functional logic","Analysis, inference & prediction from a visual scenario","Basic principles of design: balance, proportion, rhythm, hierarchy, unity, contrast","Evolution of everyday objects/materials across time","Ergonomics basics — fit between object, user, and context","Aesthetics and technical drawing sensitivity"]},
+ {icon:'⚙️',name:'Practical & Scientific Knowledge',topics:["How everyday mechanisms work: levers, hinges, gears, pulleys, joints","Basic mechanics/physics relevant to product function","Material properties: wood, metal, plastic, glass, textile, composites","Manufacturing basics: molding, casting, joinery, 3D printing","Photography terminology: aperture, exposure, framing","Printing terminology: CMYK vs RGB, DPI, paper types","Audio-video terminology: resolutions, aspect ratios, frame rate","Basic biomechanics (human movement relevant to product/ergonomic design)"]},
+ {icon:'🌍',name:'Environment & Society',topics:["Environmental awareness: sustainability, recycling, circular design","Social and cultural connections to design (regional crafts, vernacular design)","Accessibility and inclusive/universal design principles","Current design-relevant social issues (urban mobility, waste, public health design)","Awareness of major design-for-social-impact projects/initiatives"]},
+ {icon:'🧠',name:'Analytical & Logical Reasoning',topics:["Verbal reasoning: analogy, classification, series completion","Non-verbal reasoning: figure series, matrix completion, pattern logic","Syllogisms and basic deductive reasoning","Blood relations, direction sense, and simple puzzles","Coding-decoding problems","Sequential/step-by-step logic puzzles","Statement-conclusion / statement-assumption reasoning"]},
+ {icon:'🔢',name:'Mathematics / Quantitative Aptitude',topics:["Number systems: factors, multiples, LCM & HCF","Ratio & proportion","Percentages","Profit & loss (basic)","Simple & compound interest (basic awareness)","Averages","Time, speed & distance","Time & work","Permutations & combinations (basic/application)","Basic probability","Mensuration: area & perimeter of 2D shapes","Mensuration: surface area & volume of 3D solids","Geometry basics: angles, triangles, circles, polygons","Estimation problems (real-world quantity estimation)","Simple data interpretation (reading a chart/graph)"]},
+ {icon:'📖',name:'English / Language',topics:["Reading comprehension","Vocabulary: synonyms","Vocabulary: antonyms","Idioms and phrases","One-word substitution","Sentence correction (grammar errors)","Sentence completion / fill in the blank","Para-jumbles","Basic grammar: tenses, articles, prepositions, subject-verb agreement","Analogies (word relationships)"]},
+ {icon:'🏛️',name:'General Awareness / Design & Art Knowledge',topics:["Famous designers (Indian and global) and landmark work","Iconic/innovative products and the design story behind them","Major design movements & periods (Bauhaus, Art Deco, Modernism, Memphis)","Design terminology (typography basics, colour theory, visual hierarchy)","Notable Indian and international design institutions","Current affairs with design relevance (launches, awards, sustainability)","Notable personalities in tech, sports, and fine arts","Awareness of design disciplines: product, visual comm, animation, UX, textile, transportation","Basic art history touchpoints relevant to visual literacy","Contemporary design/tech trends (AI in design, sustainable materials, smart products)"]},
+ {icon:'💡',name:'Creativity & Design Methods',topics:["Divergent/lateral thinking style questions","Basic design process: research → ideation → prototyping → testing","Identifying the 'most creative'/'most unconventional' option","Recognizing design-thinking principles in a described scenario"]},
+];
+const SUBJECTS_B = [
+ {icon:'✏️',name:'Drawing',topics:["Freehand sketching of objects in proportion","Freehand sketching of people/figures (basic proportion & gesture)","Freehand sketching of scenes/environments","Memory drawing (recreate a described scene without reference)","Line quality control (confident, clean linework)","Shading & rendering basics (form, light/shadow)","Composition within a given frame/panel","One-point and two-point perspective"]},
+ {icon:'💡',name:'Creativity',topics:["Idea generation under stated constraints","Generating multiple diverse solutions (not just one polished idea)","Originality/unconventional thinking under time pressure","Adapting an idea across different contexts or user groups"]},
+ {icon:'💬',name:'Communication',topics:["Visual storytelling (4–6 panel sequential narrative)","Explaining a concept through combined sketch + short text","Written design-rationale (justifying 'why')","Clarity/legibility of both sketch and text under time pressure"]},
+ {icon:'🔍',name:'Problem Identification',topics:["Understanding user needs and contextual constraints","Spotting flaws/opportunities in a given scenario or object","Applying appropriate materials/mechanisms to a stated problem","Social-relevance and environmental-sensitivity based problem framing"]},
+ {icon:'🎯',name:'Optional Specialisation Track',topics:["Product Design — physical product ideation, form, mechanism, materials","Animation — sequential/motion thinking, character/story-based prompts","Visual Communication — graphic/typographic problem solving, information design","Interaction Design — screen/system/service flows, user journeys"]},
+];
+
+const MOODS = ['😊','😌','😴','😤','🥲','🤩','😐','😢'];
+const QUOTES = [
+ "One chance, one exam — nothing gets skipped, everything gets a slot.",
+ "Small daily sketches build the hand that draws under pressure.",
+ "Confidence is a checklist, ticked one topic at a time.",
+ "The exam rewards range: keep every subject warm, not just the favourites.",
+ "Today's 20 minutes is tomorrow's calm during the mock.",
+];
+
+/* ===================== STORAGE ===================== */
+const LS = 'ceedjournal_v1_';
+function load(key,fallback){ try{const v=localStorage.getItem(LS+key); return v?JSON.parse(v):fallback;}catch(e){return fallback;} }
+function save(key,val){ localStorage.setItem(LS+key, JSON.stringify(val)); }
+
+let state = {
+  topicChecks: load('topicChecks', {}),      // {"A-Visualization...-3": true}
+  weakTopics: load('weakTopics', {}),         // same keyspace, weak flag
+  weekProgress: load('weekProgress', {}),     // {1: true}
+  sketchDates: load('sketchDates', []),       // ["2026-07-07",...]
+  habits: load('habits', ["Part A topic drill (45 min)","GA / current affairs reading","Design-rationale writing practice"]),
+  habitLog: load('habitLog', {}),             // {"2026-07-07":["habit0","habit1"]}
+  customTasks: load('customTasks', []),
+  taskDone: load('taskDone', {}),
+  sketches: load('sketches', []),             // {img, tag, date}
+  pyq: load('pyq', []),
+  mocks: load('mocks', []),
+  flashcards: load('flashcards', []),
+  resources: load('resources', [
+    {title:'Official CEED website & brochure', link:'https://www.ceed.iitb.ac.in/'},
+    {title:'Bauhaus, Art Deco, Memphis — design movement primers', link:''},
+    {title:'Dieter Rams / Ray & Charles Eames / Charlotte Perriand', link:''},
+  ]),
+  journal: load('journal', []),
+  selectedMood: null,
+};
+
+function persistAll(){
+  save('topicChecks', state.topicChecks);
+  save('weakTopics', state.weakTopics);
+  save('weekProgress', state.weekProgress);
+  save('sketchDates', state.sketchDates);
+  save('habits', state.habits);
+  save('habitLog', state.habitLog);
+  save('customTasks', state.customTasks);
+  save('taskDone', state.taskDone);
+  save('sketches', state.sketches);
+  save('pyq', state.pyq);
+  save('mocks', state.mocks);
+  save('flashcards', state.flashcards);
+  save('resources', state.resources);
+  save('journal', state.journal);
+}
+
+/* ===================== HELPERS ===================== */
+// This journal is anchored to India time (Mumbai) regardless of the device's own
+// clock/timezone setting, so "today" never drifts if a laptop/phone is set to a
+// different zone (this was the cause of the planner showing the wrong weekday).
+function nowIST(){
+  const fmt = new Intl.DateTimeFormat('en-US', {
+    timeZone:'Asia/Kolkata', year:'numeric', month:'2-digit', day:'2-digit',
+    hour:'2-digit', minute:'2-digit', second:'2-digit', hour12:false
+  });
+  const parts = {};
+  fmt.formatToParts(new Date()).forEach(p=>{ parts[p.type]=p.value; });
+  return new Date(`${parts.year}-${parts.month}-${parts.day}T${parts.hour}:${parts.minute}:${parts.second}`);
+}
+function todayISO(){ return nowIST().toISOString().slice(0,10); }
+function daysBetween(a,b){ return Math.round((b-a)/86400000); }
+function currentWeekNum(){
+  const d = daysBetween(EXAM_START, nowIST());
+  let w = Math.floor(d/7)+1;
+  if(w<1) w=1; if(w>20) w=20;
+  return w;
+}
+function dayIdxToday(){ // 0=Mon..6=Sun, always derived fresh from India time
+  const jsday = nowIST().getDay(); // 0 Sun..6 Sat
+  return jsday===0?6:jsday-1;
+}
+function todayLongLabel(){
+  // Always computed live from India time — never hardcoded —
+  // so the weekday shown here always matches the real day in Mumbai.
+  return nowIST().toLocaleDateString('en-US', { weekday:'long', day:'numeric', month:'long', year:'numeric' });
+}
+function greeting(){
+  const h = nowIST().getHours();
+  if(h<12) return 'Good morning, Palak 🌷';
+  if(h<17) return 'Good afternoon, Palak 🌷';
+  return 'Good evening, Palak 🌷';
+}
+
+/* ===================== NAV ===================== */
+const titles = {
+ dashboard:[greeting(), todayLongLabel()],
+ roadmap:['🗓️ The Roadmap','Every week, mapped out'],
+ subjects:['📚 Subjects','Part A + Part B, topic by topic'],
+ planner:['📝 Planner',"This week's board"],
+ habits:['🔥 Habits','Small streaks, big range'],
+ sketchbook:['✏️ Sketchbook','Daily practice, pinned up'],
+ pyq:['📄 PYQs','Past papers, logged by topic'],
+ mocks:['🏆 Mock Tests','Nov weeks 17–20'],
+ revision:['🔁 Revision','Weak topics & cheat sheet'],
+ resources:['📌 Resources','Your corkboard'],
+ journal:['📔 Journal','Just for you'],
+};
+document.querySelectorAll('.tab').forEach(btn=>{
+  btn.addEventListener('click',()=>{
+    document.querySelectorAll('.tab').forEach(b=>b.classList.remove('active'));
+    btn.classList.add('active');
+    const page = btn.dataset.page;
+    document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+    document.getElementById('page-'+page).classList.add('active');
+    document.getElementById('pageTitle').textContent = titles[page][0];
+    document.getElementById('pageSub').textContent = titles[page][1];
+    window.scrollTo(0,0);
+  });
+});
+
+/* ===================== RENDERERS ===================== */
+function renderTopBar(){
+  document.getElementById('streakTop').textContent = sketchStreak();
+}
+
+function sketchStreak(){
+  let streak=0; let d = nowIST();
+  while(true){
+    const iso = d.toISOString().slice(0,10);
+    if(state.sketchDates.includes(iso)){ streak++; d.setDate(d.getDate()-1); } else break;
+  }
+  return streak;
+}
+
+function renderDashboard(){
+  const w = currentWeekNum();
+  const phase = phaseForWeek(w);
+  const weekObj = WEEKS[w-1];
+  const daysLeft = daysBetween(nowIST(), CEED_DATE);
+  document.getElementById('countdownNum').textContent = (daysLeft>0?daysLeft:0)+' days to CEED';
+  document.getElementById('examMeta').textContent = 'CEED 2027 · estimated mid-January sitting · confirm exact date on release of brochure';
+  document.getElementById('dailyQuote').textContent = '"'+QUOTES[w % QUOTES.length]+'"';
+  document.getElementById('statWeek').textContent = 'Wk '+w;
+  document.getElementById('statPhase').textContent = 'Ph '+phase.id;
+  document.getElementById('statSketch').textContent = sketchStreak();
+  const totalTopics = countAllTopics();
+  const doneTopics = countDoneTopics();
+  document.getElementById('statCoverage').textContent = Math.round(100*doneTopics/totalTopics)+'%';
+
+  document.getElementById('todaySlot').innerHTML = `<span class="week-phase-badge sticker ${phase.color}">Phase ${phase.id} · ${phase.name}</span>
+    <p style="margin:10px 0 4px; font-weight:800;">Week ${w} (${weekObj.dates})</p>
+    <p style="color:var(--ink-soft); font-size:0.88rem; line-height:1.5;">${weekObj.topics}</p>`;
+  document.getElementById('weekFocusMini').innerHTML = `<strong>${weekObj.dates}:</strong> ${weekObj.topics.slice(0,120)}${weekObj.topics.length>120?'…':''}`;
+
+  const dIdx = dayIdxToday();
+  const dayNames=['Mon','Tue','Wed','Thu','Fri','Sat','Sun'];
+  document.getElementById('todaySketch').innerHTML = `<span class="sticker sky">${dayNames[dIdx]} · ${ROTATION[dIdx]}</span>
+    <p style="margin-top:10px; font-size:0.9rem; line-height:1.5;">${sketchFor(w,dIdx)}</p>
+    <button class="btn sage sm" style="margin-top:8px;" onclick="markSketchToday()">Mark today's sketch done ✓</button>`;
+
+  // weak subjects
+  const weak = getWeakList();
+  document.getElementById('weakSubjects').innerHTML = weak.length? weak.slice(0,4).map(t=>`<div class="sticker rose" style="margin:3px 4px 0 0;">${t}</div>`).join('') : "<span style='color:var(--ink-faint)'>Mark ⚠️ weak topics in Subjects to see them here.</span>";
+
+  const j = state.journal[state.journal.length-1];
+  document.getElementById('latestJournal').innerHTML = j? `<em>${j.mood}</em> — ${j.text.slice(0,90)}${j.text.length>90?'…':''}` : "No entries yet — write your first in the Journal tab.";
+}
+function markSketchToday(){
+  const iso = todayISO();
+  if(!state.sketchDates.includes(iso)){ state.sketchDates.push(iso); persistAll(); }
+  renderDashboard(); renderHabits();
+}
+
+function countAllTopics(){ return [...SUBJECTS_A,...SUBJECTS_B].reduce((s,c)=>s+c.topics.length,0); }
+function countDoneTopics(){ return Object.values(state.topicChecks).filter(Boolean).length; }
+function getWeakList(){
+  return Object.entries(state.weakTopics).filter(([k,v])=>v).map(([k])=>k.split('|')[1]);
+}
+
+function renderRoadmap(){
+  const total = countAllTopics(); const donePct = Math.round(100*Object.keys(state.weekProgress).length/20);
+  document.getElementById('roadmapOverallBar').style.width = donePct+'%';
+  document.getElementById('roadmapOverallPct').textContent = donePct+'%';
+  const container = document.getElementById('phaseList');
+  container.innerHTML = PHASES.map(ph=>{
+    const weeksHtml = ph.weeks.map(wn=>{
+      const wk = WEEKS[wn-1]; const checked = !!state.weekProgress[wn];
+      return `<div class="checkline ${checked?'done':''}">
+        <input type="checkbox" ${checked?'checked':''} onchange="toggleWeek(${wn})">
+        <label><strong>Wk ${wn}</strong> (${wk.dates}) — ${wk.topics}</label>
+      </div>`;
+    }).join('');
+    return `<div class="card" style="margin-bottom:16px;">
+      <div class="section-title" style="margin-bottom:8px;"><span class="sticker ${ph.color}">Phase ${ph.id}</span><h2 style="font-size:1.15rem;">${ph.name}</h2><span class="count">${ph.range}</span></div>
+      ${weeksHtml}
+    </div>`;
+  }).join('');
+}
+function toggleWeek(n){
+  if(state.weekProgress[n]) delete state.weekProgress[n]; else state.weekProgress[n]=true;
+  persistAll(); renderRoadmap(); renderDashboard();
+}
+
+let currentPart='A';
+function renderSubjects(){
+  document.querySelectorAll('#subjectPartTabs button').forEach(b=>b.classList.toggle('active', b.dataset.part===currentPart));
+  const list = currentPart==='A'?SUBJECTS_A:SUBJECTS_B;
+  document.getElementById('subjectGrid').innerHTML = list.map((s,i)=>{
+    const total = s.topics.length;
+    const done = s.topics.filter((t,ti)=>state.topicChecks[currentPart+'|'+s.name+'|'+ti]).length;
+    return `<div class="card subject-card" onclick="openSubject('${currentPart}',${i})">
+      <div class="icon">${s.icon}</div>
+      <h3 class="serif" style="margin:8px 0 6px; font-size:0.98rem;">${s.name}</h3>
+      <div class="barwrap"><div class="progress-track"><div class="progress-fill" style="width:${Math.round(100*done/total)}%"></div></div>
+      <div style="font-size:0.72rem; color:var(--ink-soft); margin-top:6px;">${done}/${total} topics ticked</div></div>
+    </div>`;
+  }).join('');
+}
+document.querySelectorAll('#subjectPartTabs button').forEach(b=>b.addEventListener('click',()=>{currentPart=b.dataset.part; renderSubjects();}));
+
+function openSubject(part,i){
+  const s = (part==='A'?SUBJECTS_A:SUBJECTS_B)[i];
+  const rows = s.topics.map((t,ti)=>{
+    const key = part+'|'+s.name+'|'+ti;
+    const checked = !!state.topicChecks[key];
+    const weak = !!state.weakTopics[key];
+    return `<div class="checkline ${checked?'done':''}">
+      <input type="checkbox" ${checked?'checked':''} onchange="toggleTopic('${key}')">
+      <label style="flex:1;">${t}</label>
+      <button class="btn sm ${weak?'primary':'ghost'}" style="margin-left:6px;" onclick="toggleWeak('${key.replace(/'/g,"\\'")}','${t.replace(/'/g,"\\'")}')" title="Mark as weak">⚠️</button>
+    </div>`;
+  }).join('');
+  document.getElementById('topicModal').innerHTML = `<button class="btn ghost sm" style="position:absolute; top:16px; right:16px;" onclick="closeModal()">✕</button>
+    <h3 class="hand" style="font-size:1.5rem;">${s.icon} ${s.name}</h3>
+    <p style="color:var(--ink-soft); font-size:0.82rem; margin-top:-4px;">Tick topics you feel solid on. Tap ⚠️ to flag as weak (shows up in Revision).</p>
+    <div class="tape-divider"></div>${rows}`;
+  document.getElementById('topicModalBg').classList.add('open');
+}
+function closeModal(){ document.getElementById('topicModalBg').classList.remove('open'); renderSubjects(); renderDashboard(); renderRevision(); }
+function toggleTopic(key){ state.topicChecks[key]=!state.topicChecks[key]; persistAll(); openSubject(key.split('|')[0], (key.split('|')[0]==='A'?SUBJECTS_A:SUBJECTS_B).findIndex(s=>s.name===key.split('|')[1])); }
+function toggleWeak(key,label){ state.weakTopics[key]= !state.weakTopics[key]; persistAll(); openSubject(key.split('|')[0], (key.split('|')[0]==='A'?SUBJECTS_A:SUBJECTS_B).findIndex(s=>s.name===key.split('|')[1])); }
+document.getElementById('topicModalBg').addEventListener('click',e=>{ if(e.target.id==='topicModalBg') closeModal(); });
+
+function renderPlanner(){
+  const w = currentWeekNum();
+  document.getElementById('plannerWeekLabel').textContent = 'Week '+w+' · '+WEEKS[w-1].dates;
+  const dayNames=['Mon','Tue','Wed','Thu','Fri','Sat','Sun'];
+  const dIdxToday = dayIdxToday();
+  let html='';
+  dayNames.forEach((d,idx)=>{
+    const isToday = idx===dIdxToday;
+    html += `<div style="margin-bottom:14px; ${isToday?'background:var(--paper-alt); border-radius:14px; padding:10px 12px;':''}">
+      <div style="font-weight:800; font-size:0.85rem; margin-bottom:4px;">${d} ${isToday?'· <span style=\"color:var(--rose-deep)\">today</span>':''}</div>
+      <div style="font-size:0.8rem; color:var(--ink-soft); margin-bottom:4px;">Sketch: ${ROTATION[idx]} — ${sketchFor(w,idx)}</div>
+    </div>`;
+  });
+  document.getElementById('weekBoard').innerHTML = html;
+  document.getElementById('customTasks').innerHTML = state.customTasks.map((t,i)=>{
+    const done = !!state.taskDone[i];
+    return `<div class="checkline ${done?'done':''}"><input type="checkbox" ${done?'checked':''} onchange="toggleTaskDone(${i})"><label>${t.day}: ${t.text}</label></div>`;
+  }).join('') || `<p class="empty-note" style="padding:14px;"><span class="hand">Nothing yet</span>Add your first task above.</p>`;
+}
+function addTask(){
+  const val = document.getElementById('taskInput').value.trim();
+  if(!val) return;
+  state.customTasks.push({text:val, day:document.getElementById('taskDay').value});
+  document.getElementById('taskInput').value='';
+  persistAll(); renderPlanner();
+}
+function toggleTaskDone(i){ state.taskDone[i]=!state.taskDone[i]; persistAll(); renderPlanner(); }
+
+function renderHabits(){
+  const today = nowIST();
+  const days=[]; for(let i=6;i>=0;i--){ const d=new Date(today); d.setDate(d.getDate()-i); days.push(d); }
+  document.getElementById('sketchHeatmap').innerHTML = days.map(d=>{
+    const iso = d.toISOString().slice(0,10);
+    const filled = state.sketchDates.includes(iso);
+    const isToday = iso===todayISO();
+    return `<div class="day-pill ${filled?'filled':''} ${isToday?'today':''}" onclick="toggleSketchDate('${iso}')">${d.getDate()}</div>`;
+  }).join('');
+  document.getElementById('sketchStreakNum').textContent = sketchStreak();
+  document.getElementById('habitList').innerHTML = state.habits.map((h,i)=>{
+    const doneToday = (state.habitLog[todayISO()]||[]).includes(i);
+    return `<div class="checkline ${doneToday?'done':''}"><input type="checkbox" ${doneToday?'checked':''} onchange="toggleHabit(${i})"><label>${h}</label></div>`;
+  }).join('');
+}
+function toggleSketchDate(iso){
+  const idx = state.sketchDates.indexOf(iso);
+  if(idx>-1) state.sketchDates.splice(idx,1); else state.sketchDates.push(iso);
+  persistAll(); renderHabits(); renderDashboard(); renderTopBar();
+}
+function toggleHabit(i){
+  const iso = todayISO();
+  if(!state.habitLog[iso]) state.habitLog[iso]=[];
+  const arr = state.habitLog[iso]; const pos = arr.indexOf(i);
+  if(pos>-1) arr.splice(pos,1); else arr.push(i);
+  persistAll(); renderHabits();
+}
+function addHabit(){
+  const v = document.getElementById('newHabit').value.trim();
+  if(!v) return;
+  state.habits.push(v); document.getElementById('newHabit').value='';
+  persistAll(); renderHabits();
+}
+
+function renderSketchbook(){
+  document.getElementById('sketchCount').textContent = state.sketches.length+' sketches';
+  document.getElementById('sketchGallery').innerHTML = state.sketches.slice().reverse().map((s,i)=>{
+    const r = (i%5-2)*1.5;
+    return `<div class="photo" style="--r:${r}deg;"><img src="${s.img}"><div class="cap">${s.tag||'untitled'}<br><span style="color:var(--ink-faint)">${s.date}</span></div></div>`;
+  }).join('') || `<p class="empty-note"><span class="hand">Blank pages!</span>Upload your first sketch photo above.</p>`;
+}
+function addSketch(){
+  const fileInput = document.getElementById('sketchFile');
+  const tag = document.getElementById('sketchTag').value.trim();
+  if(!fileInput.files[0]) return alert('Choose a photo first 💭');
+  const reader = new FileReader();
+  reader.onload = e=>{
+    state.sketches.push({img:e.target.result, tag, date:todayISO()});
+    persistAll(); renderSketchbook();
+    fileInput.value=''; document.getElementById('sketchTag').value='';
+  };
+  reader.readAsDataURL(fileInput.files[0]);
+}
+
+function renderPYQ(){
+  document.getElementById('pyqTable').innerHTML = state.pyq.slice().reverse().map((p,ri)=>{
+    const i = state.pyq.length-1-ri;
+    return `<tr><td>${p.year}</td><td>${p.section}</td><td>${p.score}</td><td>${p.notes||''}</td><td><button class="btn ghost sm" onclick="delItem('pyq',${i})">✕</button></td></tr>`;
+  }).join('') || `<tr><td colspan="5" class="empty-note">No papers logged yet.</td></tr>`;
+}
+function addPYQ(){
+  const year=document.getElementById('pyqYear').value.trim();
+  const section=document.getElementById('pyqSection').value.trim();
+  const score=document.getElementById('pyqScore').value.trim();
+  const notes=document.getElementById('pyqNotes').value.trim();
+  if(!year) return;
+  state.pyq.push({year,section,score,notes});
+  ['pyqYear','pyqSection','pyqScore','pyqNotes'].forEach(id=>document.getElementById(id).value='');
+  persistAll(); renderPYQ();
+}
+function delItem(arrName,i){ state[arrName].splice(i,1); persistAll();
+  if(arrName==='pyq') renderPYQ(); if(arrName==='mocks') renderMocks(); if(arrName==='flashcards') renderRevision(); if(arrName==='resources') renderResources(); if(arrName==='journal') renderJournal();
+}
+
+function renderMocks(){
+  document.getElementById('mockList').innerHTML = state.mocks.slice().reverse().map((m,ri)=>{
+    const i = state.mocks.length-1-ri;
+    return `<div class="card">
+      <div style="display:flex; justify-content:space-between;"><strong>${m.name}</strong><button class="btn ghost sm" onclick="delItem('mocks',${i})">✕</button></div>
+      <div style="font-size:0.78rem; color:var(--ink-soft);">${m.date||''}</div>
+      <div class="sticker gold" style="margin-top:8px;">${m.score}</div>
+      <p style="font-size:0.82rem; margin-top:8px;">Weak area: ${m.weak||'—'}</p>
+    </div>`;
+  }).join('') || `<p class="empty-note"><span class="hand">No mocks yet</span>Weeks 17–20 are mock weeks — log each here.</p>`;
+}
+function addMock(){
+  const name=document.getElementById('mockName').value.trim();
+  const date=document.getElementById('mockDate').value;
+  const score=document.getElementById('mockScore').value.trim();
+  const weak=document.getElementById('mockWeak').value.trim();
+  if(!name) return;
+  state.mocks.push({name,date,score,weak});
+  ['mockName','mockDate','mockScore','mockWeak'].forEach(id=>document.getElementById(id).value='');
+  persistAll(); renderMocks();
+}
+
+function renderRevision(){
+  const weak = Object.entries(state.weakTopics).filter(([k,v])=>v);
+  document.getElementById('weakTopicList').innerHTML = weak.length? weak.map(([k])=>{
+    const [part,subj,topic] = k.split('|');
+    return `<div class="checkline"><label>⚠️ <strong>${subj}</strong> — ${topic}</label></div>`;
+  }).join('') : `<p class="empty-note"><span class="hand">Nothing flagged</span>Weak topics you mark in Subjects show up here.</p>`;
+
+  document.getElementById('flashcardList').innerHTML = state.flashcards.map((c,i)=>`
+    <div class="card" style="cursor:pointer; text-align:center; padding:14px;" onclick="this.querySelector('.back').style.display=this.querySelector('.back').style.display==='block'?'none':'block'">
+      <div class="front" style="font-weight:800;">${c.front}</div>
+      <div class="back" style="display:none; font-size:0.82rem; color:var(--ink-soft); margin-top:6px;">${c.back}</div>
+      <button class="btn ghost sm" style="margin-top:8px;" onclick="event.stopPropagation(); delItem('flashcards',${i})">✕</button>
+    </div>`).join('') || `<p class="empty-note" style="grid-column:1/-1;"><span class="hand">No cards yet</span>Add formulas & GA facts above.</p>`;
+}
+function addFlashcard(){
+  const front=document.getElementById('cardFront').value.trim();
+  const back=document.getElementById('cardBack').value.trim();
+  if(!front) return;
+  state.flashcards.push({front,back});
+  document.getElementById('cardFront').value=''; document.getElementById('cardBack').value='';
+  persistAll(); renderRevision();
+}
+
+function renderResources(){
+  document.getElementById('resourceBoard').innerHTML = state.resources.map((r,i)=>{
+    const rot = (i%3-1)*2;
+    return `<div class="pin-card" style="--r:${rot}deg;">
+      <div style="display:flex; justify-content:space-between;"><strong style="font-size:0.9rem;">${r.title}</strong><button class="btn ghost sm" onclick="delItem('resources',${i})">✕</button></div>
+      ${r.link?`<a href="${r.link}" target="_blank" style="font-size:0.75rem; color:var(--rose-deep); word-break:break-all;">${r.link}</a>`:''}
+    </div>`;
+  }).join('');
+}
+function addResource(){
+  const title=document.getElementById('resTitle').value.trim();
+  const link=document.getElementById('resLink').value.trim();
+  if(!title) return;
+  state.resources.push({title,link});
+  document.getElementById('resTitle').value=''; document.getElementById('resLink').value='';
+  persistAll(); renderResources();
+}
+
+function renderJournal(){
+  document.getElementById('moodPicker').innerHTML = MOODS.map(m=>`<span onclick="pickMood('${m}')" style="cursor:pointer; opacity:${state.selectedMood===m?1:0.4};">${m}</span>`).join('');
+  document.getElementById('journalEntries').innerHTML = state.journal.slice().reverse().map((j,ri)=>{
+    const i = state.journal.length-1-ri;
+    return `<div class="card" style="margin-bottom:10px; padding:14px;">
+      <div style="display:flex; justify-content:space-between;"><span>${j.mood} <strong style="font-size:0.78rem; color:var(--ink-soft);">${j.date}</strong></span><button class="btn ghost sm" onclick="delItem('journal',${i})">✕</button></div>
+      <p style="font-size:0.87rem; margin:6px 0 0;">${j.text}</p>
+    </div>`;
+  }).join('') || `<p class="empty-note"><span class="hand">A blank page</span>Your thoughts, worries, wins — write the first one.</p>`;
+}
+function pickMood(m){ state.selectedMood=m; renderJournal(); }
+function addJournal(){
+  const text=document.getElementById('journalText').value.trim();
+  if(!text) return;
+  state.journal.push({text, mood:state.selectedMood||'📝', date:todayISO()});
+  document.getElementById('journalText').value=''; state.selectedMood=null;
+  persistAll(); renderJournal(); renderDashboard();
+}
+
+/* ===================== INIT ===================== */
+function renderAll(){
+  document.getElementById('pageTitle').textContent = greeting();
+  document.getElementById('pageSub').textContent = todayLongLabel();
+  renderTopBar(); renderDashboard(); renderRoadmap(); renderSubjects(); renderPlanner();
+  renderHabits(); renderSketchbook(); renderPYQ(); renderMocks(); renderRevision(); renderResources(); renderJournal();
+}
+renderAll();
 </script>
 </body>
 </html>
