@@ -347,24 +347,19 @@ tr:last-child td{border-bottom:none;}
           </div>
         </div>
 
-        <div class="grid cols-2">
-          <div class="card curl">
-            <div class="section-title"><h2>📌 Today's slot</h2></div>
-            <div id="todaySlot"></div>
-          </div>
-          <div class="card curl">
-            <div class="section-title"><h2>✏️ Today's sketch prompt</h2></div>
+        <div class="card curl" style="margin-bottom:18px;">
+          <div class="section-title"><h2>✅ Today, do this</h2><span class="count" id="todoProgress">0/0 done</span></div>
+          <div style="background:var(--paper); border-radius:16px; padding:14px 16px; margin-bottom:16px;">
+            <p style="font-weight:800; font-size:0.85rem; margin:0 0 8px;">✏️ Today's sketch prompt</p>
             <div id="todaySketch"></div>
           </div>
+          <p style="font-weight:800; font-size:0.85rem; margin:0 0 8px;">📚 This week's subject to-dos — tick off as you go</p>
+          <div id="weekTodoList"></div>
         </div>
 
         <div class="tape-divider"></div>
 
-        <div class="grid cols-3">
-          <div class="card">
-            <h3 class="serif" style="margin:0 0 10px; font-size:1.05rem;">This week's focus</h3>
-            <div id="weekFocusMini" style="font-size:0.87rem; color:var(--ink-soft);"></div>
-          </div>
+        <div class="grid cols-2">
           <div class="card">
             <h3 class="serif" style="margin:0 0 10px; font-size:1.05rem;">Weakest subjects</h3>
             <div id="weakSubjects" style="font-size:0.87rem;"></div>
@@ -581,6 +576,22 @@ const WEEKS = [
 ];
 function phaseForWeek(w){return PHASES.find(p=>p.weeks.includes(w));}
 
+// Break a week's dense topic string into individual, checkable to-do lines.
+// Most week strings already label clauses like "Maths: ..." or "GA: ..." —
+// this pulls that label out as a subject tag so each line reads as
+// "[Subject] specific thing to do" instead of one long paragraph.
+function splitWeekTopics(str){
+  return str.split(';').map(s=>s.trim()).filter(Boolean);
+}
+function subjectTagFor(clause){
+  const m = clause.match(/^([A-Za-z][A-Za-z &\/'-]{1,28}):\s*/);
+  return m ? m[1].trim() : null;
+}
+function todoLabelFor(clause){
+  const tag = subjectTagFor(clause);
+  return tag ? clause.slice(clause.indexOf(':')+1).trim() : clause;
+}
+
 // 7-day sketch rotation labels
 const ROTATION = ['Object/Product Study','Figure/People Study','Scene/Environment','Memory Drawing','Shading/Rendering or Idea Sketch','Timed Practice','Warm-up & Review'];
 const DAILY_SKETCH = {
@@ -640,6 +651,7 @@ let state = {
   topicChecks: load('topicChecks', {}),      // {"A-Visualization...-3": true}
   weakTopics: load('weakTopics', {}),         // same keyspace, weak flag
   weekProgress: load('weekProgress', {}),     // {1: true}
+  weekTaskDone: load('weekTaskDone', {}),     // {"3-0": true} = week 3, todo item 0
   sketchDates: load('sketchDates', []),       // ["2026-07-07",...]
   habits: load('habits', ["Part A topic drill (45 min)","GA / current affairs reading","Design-rationale writing practice"]),
   habitLog: load('habitLog', {}),             // {"2026-07-07":["habit0","habit1"]}
@@ -662,6 +674,7 @@ function persistAll(){
   save('topicChecks', state.topicChecks);
   save('weakTopics', state.weakTopics);
   save('weekProgress', state.weekProgress);
+  save('weekTaskDone', state.weekTaskDone);
   save('sketchDates', state.sketchDates);
   save('habits', state.habits);
   save('habitLog', state.habitLog);
@@ -768,10 +781,19 @@ function renderDashboard(){
   const doneTopics = countDoneTopics();
   document.getElementById('statCoverage').textContent = Math.round(100*doneTopics/totalTopics)+'%';
 
-  document.getElementById('todaySlot').innerHTML = `<span class="week-phase-badge sticker ${phase.color}">Phase ${phase.id} · ${phase.name}</span>
-    <p style="margin:10px 0 4px; font-weight:800;">Week ${w} (${weekObj.dates})</p>
-    <p style="color:var(--ink-soft); font-size:0.88rem; line-height:1.5;">${weekObj.topics}</p>`;
-  document.getElementById('weekFocusMini').innerHTML = `<strong>${weekObj.dates}:</strong> ${weekObj.topics.slice(0,120)}${weekObj.topics.length>120?'…':''}`;
+  const items = splitWeekTopics(weekObj.topics);
+  const doneCount = items.filter((_,idx)=>state.weekTaskDone[w+'-'+idx]).length;
+  document.getElementById('todoProgress').textContent = doneCount+'/'+items.length+' done';
+  document.getElementById('weekTodoList').innerHTML = items.map((clause,idx)=>{
+    const key = w+'-'+idx;
+    const checked = !!state.weekTaskDone[key];
+    const tag = subjectTagFor(clause);
+    const label = todoLabelFor(clause);
+    return `<div class="checkline ${checked?'done':''}">
+      <input type="checkbox" ${checked?'checked':''} onchange="toggleWeekTodo('${key}')">
+      <label>${tag?`<span class="sticker lav" style="margin-right:6px; font-size:0.62rem;">${tag}</span>`:''}${label}</label>
+    </div>`;
+  }).join('');
 
   const dIdx = dayIdxToday();
   const dayNames=['Mon','Tue','Wed','Thu','Fri','Sat','Sun'];
@@ -786,6 +808,7 @@ function renderDashboard(){
   const j = state.journal[state.journal.length-1];
   document.getElementById('latestJournal').innerHTML = j? `<em>${j.mood}</em> — ${j.text.slice(0,90)}${j.text.length>90?'…':''}` : "No entries yet — write your first in the Journal tab.";
 }
+function toggleWeekTodo(key){ state.weekTaskDone[key]=!state.weekTaskDone[key]; persistAll(); renderDashboard(); }
 function markSketchToday(){
   const iso = todayISO();
   if(!state.sketchDates.includes(iso)){ state.sketchDates.push(iso); persistAll(); }
