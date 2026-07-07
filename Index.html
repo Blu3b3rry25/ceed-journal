@@ -107,10 +107,62 @@ button{font-family:inherit;}
   display:flex; align-items:center; gap:6px; color:#B84A7C;
 }
 .content{padding:28px 34px 90px;}
+
+.grid-hero{grid-template-columns:1.4fr 1fr; margin-bottom:20px;}
+.grid-planner{grid-template-columns:2fr 1fr;}
+
+/* ---------- tablet ---------- */
+@media(max-width:900px){
+  .grid.cols-2,.grid.cols-3,.grid.cols-4{grid-template-columns:1fr;}
+  .grid-hero,.grid-planner{grid-template-columns:1fr;}
+}
+
+/* ---------- mobile / tablet shell ---------- */
 @media(max-width:760px){
-  .spine{width:64px;} .tab{font-size:0.52rem;} .tab .ic{font-size:1.15rem;}
-  .topbar,.content{padding-left:16px; padding-right:16px;}
-  .topbar h1{font-size:1.6rem;}
+  .app{flex-direction:column;}
+  .spine{
+    width:100%; height:auto; position:fixed; left:0; right:0; bottom:0; top:auto;
+    flex-direction:row; align-items:center; overflow-x:auto; overflow-y:hidden;
+    -webkit-overflow-scrolling:touch;
+    padding:8px 6px; gap:2px; justify-content:flex-start;
+    border-right:none; border-top:3px dashed rgba(255,255,255,0.6);
+    box-shadow:0 -6px 18px rgba(236,109,156,0.25);
+    z-index:50;
+  }
+  .spine::-webkit-scrollbar{height:0;}
+  .spine .brand{display:none;}
+  .tab{
+    width:auto; flex:0 0 auto; min-width:60px; margin:0 2px;
+    padding:8px 10px; font-size:0.58rem;
+  }
+  .tab .ic{font-size:1.15rem;}
+  .main{padding-bottom:0;}
+  .topbar{padding:14px 16px; position:sticky;}
+  .topbar h1{font-size:1.35rem;}
+  .topbar .sub{font-size:0.68rem;}
+  .streak-pill{font-size:0.72rem; padding:6px 12px;}
+  .content{padding:16px 14px 96px;}
+  .section-title{flex-wrap:wrap; gap:6px;}
+  .section-title h2{font-size:1.2rem;}
+  .hero-card{padding:20px 18px;}
+  .hero-card h2{font-size:1.45rem;}
+  .card{padding:16px;}
+  .modal{padding:18px; max-width:94vw; border-radius:16px;}
+  table{font-size:0.76rem;}
+  th,td{padding:7px 6px;}
+  .card:has(table){overflow-x:auto; -webkit-overflow-scrolling:touch;}
+  .gallery{grid-template-columns:repeat(auto-fill,minmax(110px,1fr));}
+  .gallery .photo img{height:110px;}
+  .day-pill{width:28px; height:28px; font-size:0.62rem;}
+  .chip-input{flex-wrap:wrap;}
+}
+
+@media(max-width:480px){
+  .topbar{flex-direction:column; align-items:flex-start;}
+  .streak-pill{align-self:flex-start;}
+  .tab{min-width:52px; font-size:0.54rem; padding:7px 7px;}
+  .mini-stat{padding:10px 12px;}
+  .mini-stat .num{font-size:1.4rem;}
 }
 
 .page{display:none; animation:fadeUp .35s ease;}
@@ -280,7 +332,7 @@ tr:last-child td{border-bottom:none;}
 
       <!-- DASHBOARD -->
       <section class="page active" id="page-dashboard">
-        <div class="grid" style="grid-template-columns:1.4fr 1fr; margin-bottom:20px;">
+        <div class="grid grid-hero">
           <div class="hero-card">
             <span class="sticker gold" style="margin-bottom:10px;">Countdown</span>
             <h2 id="countdownNum">— days to CEED</h2>
@@ -350,7 +402,7 @@ tr:last-child td{border-bottom:none;}
       <!-- PLANNER -->
       <section class="page" id="page-planner">
         <div class="section-title"><h2>📝 Daily / Weekly Planner</h2><span class="count" id="plannerWeekLabel"></span></div>
-        <div class="grid" style="grid-template-columns:2fr 1fr;">
+        <div class="grid grid-planner">
           <div class="card">
             <h3 class="serif" style="margin-top:0;">This week's board</h3>
             <div id="weekBoard"></div>
